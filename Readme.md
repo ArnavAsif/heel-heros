@@ -36,17 +36,6 @@
 
 <br/>
 
-## 🖥️ Preview
-
-<table>
-  <tr>
-    <td align="center" valign="top" width="65%">
-      <strong>🖥️ Desktop View</strong><br/><br/>
-      <img src="assets/hero-desktop.png" alt="Desktop Preview" width="100%" />
-    </td>
-  </tr>
-</table>
-
 <br/>
 
 ---
