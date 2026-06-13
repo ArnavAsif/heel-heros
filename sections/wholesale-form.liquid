@@ -1,0 +1,599 @@
+<div id="hh-ws-{{ section.id }}" class="hh-ws-section">
+  <div class="hh-ws-container">
+    
+    <!-- Background Pattern Overlay -->
+    <div class="hh-ws-pattern" 
+         {% if section.settings.bg_pattern %}
+           style="background-image: url('{{ section.settings.bg_pattern | image_url: width: 1000 }}');"
+         {% endif %}>
+    </div>
+
+    <!-- Radial Gradient Overlay -->
+    <div class="hh-ws-radial-overlay"></div>
+
+    <!-- Header Area -->
+    <div class="hh-ws-header hh-ws-animate">
+      {% if section.settings.kicker != blank %}
+        <h6 class="hh-ws-kicker">{{ section.settings.kicker }}</h6>
+      {% endif %}
+      
+      {% if section.settings.heading != blank %}
+        <h2 class="hh-ws-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.text != blank %}
+        <div class="hh-ws-desc">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Wholesale Contact Form Area -->
+    <div class="hh-ws-form-wrapper hh-ws-animate" style="transition-delay: 200ms;">
+      {%- form 'contact', id: 'WholesaleForm' -%}
+        
+        {%- if form.posted_successfully? -%}
+          <div class="hh-ws-form-success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <p>Thank you for applying! Your application has been submitted successfully. Our team will contact you soon.</p>
+          </div>
+        {%- elsif form.errors -%}
+          <div class="hh-ws-form-error">
+            <p>Please adjust the following fields:</p>
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="hh-ws-form-grid">
+          
+          <!-- Row 1 -->
+          <div class="hh-ws-field">
+            <label for="ContactForm-BusinessName">Business Name <span>*</span></label>
+            <input type="text" id="ContactForm-BusinessName" name="contact[Business Name]" required placeholder="Your Business Name">
+          </div>
+          <div class="hh-ws-field">
+            <label for="ContactForm-RegNumber">Business Registration Number</label>
+            <input type="text" id="ContactForm-RegNumber" name="contact[Business Registration Number]" placeholder="Your Business Registration Number">
+          </div>
+
+          <!-- Row 2 -->
+          <div class="hh-ws-field">
+            <label for="ContactForm-ContactPerson">Contact Person's Name</label>
+            <input type="text" id="ContactForm-ContactPerson" name="contact[Contact Person Name]" placeholder="Contact Person's Name">
+          </div>
+          <div class="hh-ws-field">
+            <label for="ContactForm-email">Email Address <span>*</span></label>
+            <input type="email" id="ContactForm-email" name="contact[email]" spellcheck="false" autocapitalize="off" required placeholder="Email Address">
+          </div>
+
+          <!-- Row 3 -->
+          <div class="hh-ws-field">
+            <label for="ContactForm-Phone">Owner's Contact Number <span>*</span></label>
+            <input type="tel" id="ContactForm-Phone" name="contact[Phone Number]" required placeholder="Owner's Contact Number">
+          </div>
+          <div class="hh-ws-field">
+            <label for="ContactForm-Website">Website or Instagram <span>*</span></label>
+            <input type="text" id="ContactForm-Website" name="contact[Website or Instagram URL]" required placeholder="Website or Instagram URL">
+          </div>
+
+        </div>
+
+        <!-- Full Width Row -->
+        <div class="hh-ws-field hh-ws-field-full">
+          <label for="ContactForm-body">Message/Notes</label>
+          <textarea id="ContactForm-body" name="contact[body]" rows="5" placeholder="Message/Notes"></textarea>
+        </div>
+
+        <div class="hh-ws-submit-area">
+          <button type="submit" class="hh-ws-submit-btn">
+            {{ section.settings.btn_label | default: 'Send Your Information' }}
+          </button>
+        </div>
+
+      {%- endform -%}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* CSS Variables with fallbacks */
+  #hh-ws-{{ section.id }} {
+    --hh-ws-bg: {{ section.settings.section_bg | default: '#FDF4EE' }};
+    --hh-ws-accent: {{ section.settings.brand_color | default: '#F36633' }};
+    --hh-ws-heading-color: {{ section.settings.heading_color | default: '#8B7E76' }};
+    --hh-ws-text-color: {{ section.settings.text_color | default: '#7A7A7A' }};
+    --hh-ws-pattern-opacity: {{ section.settings.pattern_opacity | divided_by: 100.0 | default: 0.1 }};
+
+    --padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
+    --padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --desc-size-desktop: {{ section.settings.desc_size_desktop }}px;
+
+    --padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --desc-size-mobile: {{ section.settings.desc_size_mobile }}px;
+  }
+
+  /* Base Container Styles (Kept from original) */
+  #hh-ws-{{ section.id }}.hh-ws-section {
+    width: 100%;
+    padding: 80px 20px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-container {
+    max-width: {{ section.settings.max_width }}px;
+    width: 100%;
+    background-color: var(--hh-ws-bg);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    padding: var(--padding-top-desktop) 60px var(--padding-bottom-desktop);
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(120, 90, 80, 0.12), 0 4px 12px rgba(120, 90, 80, 0.08);
+  }
+
+  /* Backgrounds */
+  #hh-ws-{{ section.id }} .hh-ws-pattern {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+    opacity: var(--hh-ws-pattern-opacity);
+    pointer-events: none;
+    {% if section.settings.bg_pattern == blank %}
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    {% endif %}
+    background-repeat: repeat;
+    background-position: center;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-radial-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    background-image: radial-gradient(at center center, #FEFBFB2B 50%, #FFEEE9 100%);
+  }
+
+  /* Header Styles */
+  #hh-ws-{{ section.id }} .hh-ws-header {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-kicker {
+    color: var(--hh-ws-accent);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-heading {
+    color: var(--hh-ws-heading-color);
+    font-size: var(--heading-size-desktop);
+    line-height: 1.2;
+    font-weight: 600;
+    font-family: var(--font-heading-family), serif;
+    margin: 0 0 15px 0;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-desc {
+    color: var(--hh-ws-text-color);
+    font-size: var(--desc-size-desktop);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Form Styles (New) */
+  #hh-ws-{{ section.id }} .hh-ws-form-wrapper {
+    position: relative;
+    z-index: 3;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+    margin-bottom: 20px;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-field {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-field-full {
+    margin-bottom: 25px;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-field label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--hh-ws-accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-field label span {
+    color: #d93025; /* Red asterisk for required */
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-field input,
+  #hh-ws-{{ section.id }} .hh-ws-field textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #333333;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-field input::placeholder,
+  #hh-ws-{{ section.id }} .hh-ws-field textarea::placeholder {
+    color: #a0a0a0;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-field input:focus,
+  #hh-ws-{{ section.id }} .hh-ws-field textarea:focus {
+    outline: none;
+    border-color: var(--hh-ws-accent);
+    box-shadow: 0 0 0 3px rgba(243, 102, 51, 0.1);
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-submit-area {
+    text-align: left;
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-submit-btn {
+    display: inline-block;
+    padding: 14px 30px;
+    background-color: var(--hh-ws-accent);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(243, 102, 51, 0.2);
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-submit-btn:hover {
+    filter: brightness(0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(243, 102, 51, 0.3);
+  }
+
+  /* Form Status Messages */
+  #hh-ws-{{ section.id }} .hh-ws-form-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  #hh-ws-{{ section.id }} .hh-ws-form-success svg { width: 24px; height: 24px; color: #28a745; flex-shrink: 0; }
+  #hh-ws-{{ section.id }} .hh-ws-form-success p { margin: 0; }
+
+  #hh-ws-{{ section.id }} .hh-ws-form-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    font-size: 14px;
+  }
+  #hh-ws-{{ section.id }} .hh-ws-form-error ul { margin: 10px 0 0 20px; padding: 0; }
+
+  /* Smooth Entrance Animation */
+  #hh-ws-{{ section.id }} .hh-ws-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #hh-ws-{{ section.id }} .hh-ws-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Tablet & Mobile Adjustments */
+  @media (max-width: 991px) {
+    #hh-ws-{{ section.id }} .hh-ws-form-grid { gap: 20px 20px; }
+  }
+
+  @media (max-width: 767px) {
+    #hh-ws-{{ section.id }}.hh-ws-section { padding: 40px 15px 0; }
+    
+    #hh-ws-{{ section.id }} .hh-ws-container { 
+      padding: var(--padding-top-mobile) 20px var(--padding-bottom-mobile); 
+      border-radius: 20px; 
+    }
+    
+    #hh-ws-{{ section.id }} .hh-ws-header { margin-bottom: 35px; }
+    #hh-ws-{{ section.id }} .hh-ws-kicker { font-size: 12px; margin-bottom: 10px; }
+    
+    #hh-ws-{{ section.id }} .hh-ws-heading { 
+      font-size: var(--heading-size-mobile); 
+      margin-bottom: 15px; 
+    }
+    
+    #hh-ws-{{ section.id }} .hh-ws-desc { font-size: var(--desc-size-mobile); }
+    
+    /* Stack form grid on mobile */
+    #hh-ws-{{ section.id }} .hh-ws-form-grid { 
+      grid-template-columns: 1fr; 
+      gap: 15px;
+    }
+    
+    #hh-ws-{{ section.id }} .hh-ws-submit-btn { width: 100%; padding: 15px; }
+  }
+</style>
+
+<script>
+  (function() {
+    function initHhWs_{{ section.id | replace: '-', '_' }}() {
+      const section = document.getElementById('hh-ws-{{ section.id }}');
+      if (!section) return;
+
+      const animatedElements = section.querySelectorAll('.hh-ws-animate');
+
+      // Prevent Animation Bug in Shopify Theme Editor
+      if (window.Shopify && Shopify.designMode) {
+        animatedElements.forEach(el => {
+          el.style.transition = 'none';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          el.classList.add('is-visible');
+        });
+        return;
+      }
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -10% 0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      animatedElements.forEach(el => observer.observe(el));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHhWs_{{ section.id | replace: '-', '_' }});
+    } else {
+      initHhWs_{{ section.id | replace: '-', '_' }}();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === '{{ section.id }}') {
+        initHhWs_{{ section.id | replace: '-', '_' }}();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Wholesale Form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desc_size_desktop",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "desc_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum Container Width",
+      "default": 1600
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#FDF4EE"
+    },
+    {
+      "type": "header",
+      "content": "Background Pattern"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_pattern",
+      "label": "Pattern Image (Optional)",
+      "info": "Upload a seamless pattern. If empty, a default subtle pattern is used."
+    },
+    {
+      "type": "range",
+      "id": "pattern_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Pattern Opacity",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Header Text"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "OUR WHOLESALE PROGRAM"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Apply for Wholesale Access"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description",
+      "default": "<p>Complete the application form below. Our team will review your submission and contact you within 1-2 business days.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Submit Button Label",
+      "default": "Send Your Information"
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Color (Labels & Button)",
+      "default": "#ea5a41"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#8B7E76"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#7A7A7A"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Form",
+      "category": "Contact"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1316 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  Heel Heroes – Hero Section                                  ║
+  ║  Includes: Social Topbar · Sticky Nav · Hero Slider · Cards  ║
+  ║  File: sections/hh-hero-section.liquid                       ║
+  ╚══════════════════════════════════════════════════════════════╝
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CSS VARIABLES & RESET
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hh-root {
+  --hh-orange:        #E8591A;
+  --hh-orange-dark:   #C94E16;
+  --hh-orange-glow:   rgba(232, 89, 26, 0.48);
+  --hh-orange-soft:   rgba(232, 89, 26, 0.10);
+  --hh-dark-card:     #252018;
+  --hh-light-card:    #F8F2ED;
+  --hh-white:         #FFFFFF;
+  --hh-text:          #231E1B;
+  --hh-muted:         #7C7069;
+  --hh-border:        rgba(232, 89, 26, 0.13);
+  --hh-nav-h:         86px;
+  --hh-ease:          cubic-bezier(0.4, 0, 0.2, 1);
+  --hh-spring:        cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+.hh-root *, .hh-root *::before, .hh-root *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.hh-root a  { text-decoration: none; color: inherit; }
+.hh-root button { cursor: pointer; font-family: inherit; border: none; background: none; }
+.hh-root img { display: block; max-width: 100%; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SOCIAL TOPBAR
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hh-topbar {
+  background: var(--hh-white);
+  border-bottom: 1px solid var(--hh-border);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 7px 52px;
+}
+.hh-topbar__socials {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.hh-social {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hh-orange);
+  border-radius: 50%;
+  transition: color 0.2s var(--hh-ease), transform 0.25s var(--hh-spring), background 0.2s;
+}
+.hh-social:hover {
+  color: var(--hh-orange-dark);
+  background: var(--hh-orange-soft);
+  transform: translateY(-2px) scale(1.1);
+}
+.hh-social svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NAVIGATION
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hh-nav {
+  background: var(--hh-white);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.35s var(--hh-ease);
+}
+.hh-nav.is-scrolled {
+  box-shadow: 0 4px 36px rgba(0, 0, 0, 0.13);
+}
+.hh-nav__row {
+  max-width: 1480px;
+  margin: 0 auto;
+  height: var(--hh-nav-h);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 52px;
+  gap: 12px;
+}
+
+/* Nav links */
+.hh-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.hh-nav__links--right {
+  justify-content: flex-end;
+}
+.hh-navlink {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--hh-orange);
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.2s var(--hh-ease);
+}
+.hh-navlink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--hh-orange);
+  border-radius: 1px;
+  transition: width 0.32s var(--hh-ease);
+}
+.hh-navlink:hover,
+.hh-navlink.is-active {
+  color: var(--hh-orange-dark);
+}
+.hh-navlink:hover::after,
+.hh-navlink.is-active::after {
+  width: 100%;
+}
+
+/* Logo */
+.hh-nav__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s var(--hh-spring);
+}
+.hh-nav__logo:hover {
+  transform: scale(1.04);
+}
+.hh-nav__logo img {
+  height: 66px;
+  width: auto;
+  object-fit: contain;
+}
+.hh-logo-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.hh-logo-fallback__name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--hh-orange);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.hh-logo-fallback__sub {
+  font-size: 8.5px;
+  letter-spacing: 0.2em;
+  color: var(--hh-muted);
+  text-transform: uppercase;
+}
+
+/* Right side of nav */
+.hh-nav__end {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Cart button */
+.hh-nav__cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: var(--hh-orange);
+  border-radius: 10px;
+  color: var(--hh-white);
+  transition: background 0.2s, transform 0.25s var(--hh-spring), box-shadow 0.25s;
+}
+.hh-nav__cart:hover {
+  background: var(--hh-orange-dark);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 28px var(--hh-orange-glow);
+}
+.hh-nav__cart svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hh-cart-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 18px;
+  height: 18px;
+  background: var(--hh-orange-dark);
+  border: 2.5px solid var(--hh-white);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--hh-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0 3px;
+  transition: transform 0.2s var(--hh-spring);
+}
+
+/* Login / Account button */
+.hh-nav__login {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 42px;
+  padding: 0 20px;
+  border: 2px solid var(--hh-orange);
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--hh-orange);
+  white-space: nowrap;
+  transition: all 0.25s var(--hh-ease);
+}
+.hh-nav__login:hover {
+  background: var(--hh-orange);
+  color: var(--hh-white);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--hh-orange-glow);
+}
+.hh-nav__login svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Hamburger */
+.hh-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.hh-burger:hover {
+  background: var(--hh-orange-soft);
+}
+.hh-burger span {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  background: var(--hh-orange);
+  border-radius: 2px;
+  transition: transform 0.38s var(--hh-ease), opacity 0.22s;
+}
+.hh-burger.is-open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.hh-burger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hh-burger.is-open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* Mobile Drawer */
+.hh-drawer {
+  max-height: 0;
+  overflow: hidden;
+  background: var(--hh-white);
+  border-top: 1px solid var(--hh-border);
+  transition: max-height 0.42s var(--hh-ease);
+}
+.hh-drawer.is-open {
+  max-height: 440px;
+}
+.hh-drawer__inner {
+  padding: 12px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hh-drawer__link {
+  display: block;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hh-orange);
+  border-radius: 8px;
+  transition: background 0.18s;
+}
+.hh-drawer__link:hover {
+  background: var(--hh-orange-soft);
+}
+.hh-drawer__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hh-border);
+}
+.hh-drawer__btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  border: 2px solid var(--hh-orange);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hh-orange);
+  transition: all 0.2s;
+}
+.hh-drawer__btn:hover { background: var(--hh-orange); color: var(--hh-white); }
+.hh-drawer__btn--solid { background: var(--hh-orange); color: var(--hh-white); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO SLIDER
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hh-hero {
+  position: relative;
+  height: 690px;
+  overflow: hidden;
+  background: #241810;
+}
+
+/* Slides */
+.hh-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 1.1s var(--hh-ease);
+  will-change: opacity;
+}
+.hh-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+.hh-slide__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.07);
+  transition: transform 8.5s ease-out;
+  will-change: transform;
+}
+.hh-slide.is-active .hh-slide__img {
+  transform: scale(1.0);
+}
+
+/* Overlay gradient */
+.hh-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    106deg,
+    rgba(15, 7, 3, 0.78) 0%,
+    rgba(15, 7, 3, 0.44) 48%,
+    rgba(15, 7, 3, 0.07) 100%
+  );
+  pointer-events: none;
+}
+
+/* Hero text content */
+.hh-hero__content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 80px;
+  max-width: 720px;
+}
+.hh-hero__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #F5894A;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: hhFadeUp 0.7s 0.15s var(--hh-ease) forwards;
+}
+.hh-hero__heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 62px);
+  font-weight: 800;
+  color: var(--hh-white);
+  line-height: 1.13;
+  margin-bottom: 22px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: hhFadeUp 0.78s 0.3s var(--hh-ease) forwards;
+}
+.hh-hero__body {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.7;
+  margin-bottom: 38px;
+  max-width: 530px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hhFadeUp 0.72s 0.48s var(--hh-ease) forwards;
+}
+.hh-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+  padding: 15px 40px;
+  border-radius: 999px;
+  background: var(--hh-orange);
+  color: var(--hh-white);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 36px var(--hh-orange-glow);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s, transform 0.3s var(--hh-spring), box-shadow 0.3s;
+  opacity: 0;
+  animation: hhFadeUp 0.7s 0.64s var(--hh-ease) forwards;
+}
+.hh-hero__cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateX(-115%) skewX(-18deg);
+  transition: transform 0.58s var(--hh-ease);
+}
+.hh-hero__cta:hover::before {
+  transform: translateX(120%) skewX(-18deg);
+}
+.hh-hero__cta:hover {
+  background: var(--hh-orange-dark);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 48px var(--hh-orange-glow);
+}
+.hh-hero__cta svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.25s var(--hh-ease);
+}
+.hh-hero__cta:hover svg {
+  transform: translateX(3px);
+}
+
+/* Dots */
+.hh-hero__dots {
+  position: absolute;
+  bottom: 32px;
+  left: 80px;
+  z-index: 4;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hh-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 0;
+  transition: width 0.38s var(--hh-ease), background 0.3s, border-radius 0.38s var(--hh-ease);
+}
+.hh-dot.is-active {
+  width: 30px;
+  background: var(--hh-orange);
+}
+.hh-dot:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FEATURE CARDS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hh-features {
+  position: relative;
+  z-index: 5;
+  padding: 0 52px 68px;
+  margin-top: -46px;
+}
+.hh-features__grid {
+  max-width: 1480px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+}
+.hh-card {
+  padding: 52px 34px 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.38s var(--hh-ease);
+}
+/* Bottom accent bar */
+.hh-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--hh-orange);
+  transform: scaleX(0);
+  transition: transform 0.38s var(--hh-ease);
+  transform-origin: center;
+}
+.hh-card:hover {
+  transform: translateY(-6px);
+  z-index: 2;
+}
+.hh-card:hover::after {
+  transform: scaleX(1);
+}
+
+/* Dark first card */
+.hh-card--dark {
+  background: var(--hh-dark-card);
+}
+.hh-card--dark:hover {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+/* Light cards */
+.hh-card--light {
+  background: var(--hh-light-card);
+  border-left: 1px solid rgba(0, 0, 0, 0.055);
+}
+.hh-card--light:hover {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.11);
+}
+
+/* Icon wrapper */
+.hh-card__icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hh-orange);
+  transition: transform 0.38s var(--hh-spring), color 0.2s;
+  margin-bottom: 4px;
+}
+.hh-card:hover .hh-card__icon {
+  transform: scale(1.15) rotate(-6deg);
+  color: var(--hh-orange-dark);
+}
+.hh-card__icon svg {
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Card text */
+.hh-card__title {
+  font-size: 16.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.hh-card--dark .hh-card__title  { color: var(--hh-white); }
+.hh-card--light .hh-card__title { color: var(--hh-text); }
+
+.hh-card__desc {
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.hh-card--dark .hh-card__desc  { color: rgba(255, 255, 255, 0.58); }
+.hh-card--light .hh-card__desc { color: var(--hh-muted); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   KEYFRAMES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@keyframes hhFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE — TABLET (≤1100px)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 1100px) {
+  .hh-topbar        { padding: 7px 28px; }
+  .hh-nav__row      { padding: 0 28px; }
+  .hh-features      { padding: 0 28px 52px; }
+  .hh-nav__links    { gap: 22px; }
+  .hh-hero__content { padding: 0 52px; }
+  .hh-hero__dots    { left: 52px; }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE — TABLET/MOBILE (≤920px)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 920px) {
+  .hh-nav__links  { display: none; }
+  .hh-nav__login  { display: none; }
+  .hh-burger      { display: flex; }
+  .hh-nav__row    { grid-template-columns: auto 1fr auto; padding: 0 20px; }
+  .hh-nav__end    { gap: 6px; }
+  .hh-hero        { height: 580px; }
+  .hh-features__grid { grid-template-columns: repeat(2, 1fr); }
+  .hh-card--light { border-left: none; }
+  .hh-features__grid .hh-card:nth-child(n+3) {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .hh-features__grid .hh-card:nth-child(2) {
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .hh-features__grid .hh-card:nth-child(4) {
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE — MOBILE (≤600px)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 600px) {
+  .hh-topbar { display: none; }
+  .hh-nav__row { padding: 0 14px; }
+  .hh-hero { height: 520px; }
+  .hh-hero__content {
+    padding: 0 22px;
+    max-width: 100%;
+  }
+  .hh-hero__dots  { left: 22px; bottom: 24px; }
+  .hh-features {
+    padding: 0 14px 44px;
+    margin-top: -28px;
+  }
+  .hh-features__grid {
+    grid-template-columns: 1fr;
+    border-radius: 14px;
+  }
+  .hh-features__grid .hh-card {
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    border-left: none !important;
+  }
+  .hh-features__grid .hh-card:first-child {
+    border-top: none;
+  }
+  .hh-card { padding: 36px 24px 30px; }
+}
+</style>
+
+<div class="hh-root" id="hh-root-{{ section.id }}">
+
+  {%- comment -%} ═══════════ SOCIAL TOPBAR ═══════════ {%- endcomment -%}
+  {%- if section.settings.fb_url != blank
+    or section.settings.tw_url != blank
+    or section.settings.yt_url != blank -%}
+  <div class="hh-topbar">
+    <div class="hh-topbar__socials">
+      {%- if section.settings.fb_url != blank -%}
+        <a href="{{ section.settings.fb_url }}" target="_blank" rel="noopener noreferrer" class="hh-social" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.tw_url != blank -%}
+        <a href="{{ section.settings.tw_url }}" target="_blank" rel="noopener noreferrer" class="hh-social" aria-label="X / Twitter">
+          <svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.7 5.5 4.3 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.yt_url != blank -%}
+        <a href="{{ section.settings.yt_url }}" target="_blank" rel="noopener noreferrer" class="hh-social" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75,15.02 15.5,12 9.75,8.98" fill="white" stroke="none"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- comment -%} ═══════════ NAVIGATION ═══════════ {%- endcomment -%}
+  <nav class="hh-nav" id="hh-nav-{{ section.id }}" role="navigation" aria-label="Main navigation">
+    <div class="hh-nav__row">
+
+      {%- comment -%} LEFT: first half of menu links {%- endcomment -%}
+      <div class="hh-nav__links">
+        {%- if section.settings.nav_menu != blank -%}
+          {%- assign nav_items = linklists[section.settings.nav_menu].links -%}
+          {%- assign half = nav_items.size | divided_by: 2 -%}
+          {%- for item in nav_items limit: half -%}
+            <a href="{{ item.url }}" class="hh-navlink{% if item.active %} is-active{% endif %}">
+              {{- item.title -}}
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} CENTER: Logo {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="hh-nav__logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          {{- section.settings.logo | image_url: width: 220 | image_tag: loading: 'eager', alt: shop.name, width: 220, height: 68 -}}
+        {%- else -%}
+          <div class="hh-logo-fallback">
+            <svg width="50" height="38" viewBox="0 0 50 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="22" cy="30" rx="14" ry="7.5" fill="#E8591A" opacity=".14"/>
+              <path d="M10 30 C10 23.5 15.5 17 22 15 L29 12 L34 6 L38.5 8.5 L31 18 C35 20.5 36.5 26 34.5 31 C32 37 27 38.5 21 37.5 C15 36.5 10 34 10 30Z" fill="#E8591A"/>
+              <path d="M30 12.5 L39.5 5 L43 9.5 L33.5 17Z" fill="#C44A12"/>
+              <circle cx="18.5" cy="27.5" r="2" fill="rgba(255,255,255,0.5)"/>
+            </svg>
+            <span class="hh-logo-fallback__name">Heel Heroes</span>
+            <span class="hh-logo-fallback__sub">Foot Care</span>
+          </div>
+        {%- endif -%}
+      </a>
+
+      {%- comment -%} RIGHT: second half of links + cart + login {%- endcomment -%}
+      <div class="hh-nav__end">
+        <div class="hh-nav__links hh-nav__links--right">
+          {%- if section.settings.nav_menu != blank -%}
+            {%- assign nav_items = linklists[section.settings.nav_menu].links -%}
+            {%- assign half = nav_items.size | divided_by: 2 -%}
+            {%- for item in nav_items offset: half -%}
+              <a href="{{ item.url }}" class="hh-navlink{% if item.active %} is-active{% endif %}">
+                {{- item.title -}}
+              </a>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Cart {%- endcomment -%}
+        <a href="{{ routes.cart_url }}" class="hh-nav__cart" aria-label="Cart ({{ cart.item_count }} items)">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          {%- if cart.item_count > 0 -%}
+            <span class="hh-cart-badge" aria-hidden="true">{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+
+        {%- comment -%} Account / Login {%- endcomment -%}
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}" class="hh-nav__login">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            {{- customer.first_name -}}
+          </a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}" class="hh-nav__login">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Login
+          </a>
+        {%- endif -%}
+
+        {%- comment -%} Hamburger {%- endcomment -%}
+        <button
+          class="hh-burger"
+          id="hh-burger-{{ section.id }}"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="hh-drawer-{{ section.id }}"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    {%- comment -%} Mobile Drawer {%- endcomment -%}
+    <div class="hh-drawer" id="hh-drawer-{{ section.id }}" aria-hidden="true">
+      <div class="hh-drawer__inner">
+        {%- if section.settings.nav_menu != blank -%}
+          {%- for item in linklists[section.settings.nav_menu].links -%}
+            <a href="{{ item.url }}" class="hh-drawer__link{% if item.active %} is-active{% endif %}">
+              {{- item.title -}}
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
+        <div class="hh-drawer__actions">
+          <a href="{{ routes.cart_url }}" class="hh-drawer__btn">
+            Cart
+            {%- if cart.item_count > 0 -%}&nbsp;({{ cart.item_count }}){%- endif -%}
+          </a>
+          {%- if customer -%}
+            <a href="{{ routes.account_url }}" class="hh-drawer__btn hh-drawer__btn--solid">
+              My Account
+            </a>
+          {%- else -%}
+            <a href="{{ routes.account_login_url }}" class="hh-drawer__btn hh-drawer__btn--solid">
+              Login
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {%- comment -%} ═══════════ HERO SLIDER ═══════════ {%- endcomment -%}
+  {%- assign slide_blocks = section.blocks | where: "type", "slide" -%}
+  {%- assign slide_count = 0 -%}
+  {%- for b in slide_blocks -%}
+    {%- if b.settings.image != blank -%}
+      {%- assign slide_count = slide_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if slide_count > 0 -%}
+  <div
+    class="hh-hero"
+    id="hh-hero-{{ section.id }}"
+    role="region"
+    aria-label="Hero slideshow"
+    data-interval="{{ section.settings.slide_interval | default: 5 }}"
+  >
+    {%- assign s_index = 0 -%}
+    {%- for block in slide_blocks -%}
+      {%- if block.settings.image != blank -%}
+        <div
+          class="hh-slide{% if s_index == 0 %} is-active{% endif %}"
+          aria-hidden="{% if s_index == 0 %}false{% else %}true{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {%- if s_index == 0 -%}
+            {{ block.settings.image
+              | image_url: width: 1920
+              | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  class: 'hh-slide__img',
+                  sizes: '100vw',
+                  widths: '800, 1200, 1600, 1920',
+                  alt: block.settings.image.alt | default: shop.name | escape }}
+          {%- else -%}
+            {{ block.settings.image
+              | image_url: width: 1920
+              | image_tag:
+                  loading: 'lazy',
+                  class: 'hh-slide__img',
+                  sizes: '100vw',
+                  widths: '800, 1200, 1600, 1920',
+                  alt: block.settings.image.alt | default: shop.name | escape }}
+          {%- endif -%}
+        </div>
+        {%- assign s_index = s_index | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    <div class="hh-hero__overlay" aria-hidden="true"></div>
+
+    <div class="hh-hero__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hh-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hh-hero__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body_text != blank -%}
+        <p class="hh-hero__body">{{ section.settings.body_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a
+          href="{{ section.settings.cta_url | default: routes.collections_url }}"
+          class="hh-hero__cta"
+        >
+          {{- section.settings.cta_label -}}
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if slide_count > 1 -%}
+    <div class="hh-hero__dots" id="hh-dots-{{ section.id }}" role="tablist" aria-label="Slide navigation">
+      {%- assign d_index = 0 -%}
+      {%- for block in slide_blocks -%}
+        {%- if block.settings.image != blank -%}
+          <button
+            class="hh-dot{% if d_index == 0 %} is-active{% endif %}"
+            role="tab"
+            data-target="{{ d_index }}"
+            aria-label="Go to slide {{ d_index | plus: 1 }}"
+            aria-selected="{% if d_index == 0 %}true{% else %}false{% endif %}"
+          ></button>
+          {%- assign d_index = d_index | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- comment -%} ═══════════ FEATURE CARDS ═══════════ {%- endcomment -%}
+  {%- assign card_blocks = section.blocks | where: "type", "feature_card" -%}
+  {%- if card_blocks.size > 0 -%}
+  <div class="hh-features">
+    <div class="hh-features__grid">
+      {%- for block in card_blocks -%}
+        <div
+          class="hh-card{% if block.settings.is_dark %} hh-card--dark{% else %} hh-card--light{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="hh-card__icon" aria-hidden="true">
+            {%- case block.settings.icon -%}
+              {%- when 'grid' -%}
+                {%- comment -%} Shop / store icon {%- endcomment -%}
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 9l1.5-6h15L21 9"/>
+                  <path d="M2 9h20v1a3 3 0 01-3 3h0a3 3 0 01-3-3 3 3 0 01-3 3 3 3 0 01-3-3 3 3 0 01-3 3h0a3 3 0 01-3-3V9z"/>
+                  <path d="M5 21V13h4v4h6v-4h4v8"/>
+                  <line x1="1" y1="21" x2="23" y2="21"/>
+                </svg>
+              {%- when 'flower' -%}
+                {%- comment -%} Botanical flower icon {%- endcomment -%}
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="2.5"/>
+                  <ellipse cx="12" cy="5.5" rx="2" ry="3.5"/>
+                  <ellipse cx="12" cy="18.5" rx="2" ry="3.5"/>
+                  <ellipse cx="5.5" cy="12" rx="3.5" ry="2"/>
+                  <ellipse cx="18.5" cy="12" rx="3.5" ry="2"/>
+                  <ellipse cx="7.4" cy="7.4" rx="2" ry="3" transform="rotate(-45 7.4 7.4)"/>
+                  <ellipse cx="16.6" cy="16.6" rx="2" ry="3" transform="rotate(-45 16.6 16.6)"/>
+                  <ellipse cx="16.6" cy="7.4" rx="2" ry="3" transform="rotate(45 16.6 7.4)"/>
+                  <ellipse cx="7.4" cy="16.6" rx="2" ry="3" transform="rotate(45 7.4 16.6)"/>
+                </svg>
+              {%- when 'tools' -%}
+                {%- comment -%} Wrench + spanner crossed {%- endcomment -%}
+                <svg viewBox="0 0 24 24">
+                  <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                </svg>
+              {%- when 'diamond' -%}
+                {%- comment -%} Gem / diamond icon {%- endcomment -%}
+                <svg viewBox="0 0 24 24">
+                  <polygon points="6,3 18,3 22,9 12,22 2,9"/>
+                  <line x1="2" y1="9" x2="22" y2="9"/>
+                  <line x1="6" y1="3" x2="2" y2="9"/>
+                  <line x1="18" y1="3" x2="22" y2="9"/>
+                  <line x1="6" y1="3" x2="12" y2="9"/>
+                  <line x1="18" y1="3" x2="12" y2="9"/>
+                  <line x1="6" y1="9" x2="12" y2="22"/>
+                  <line x1="18" y1="9" x2="12" y2="22"/>
+                </svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            {%- endcase -%}
+          </div>
+          <h3 class="hh-card__title">{{ block.settings.title }}</h3>
+          {%- if block.settings.description != blank -%}
+            <p class="hh-card__desc">{{ block.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+</div><!-- /.hh-root -->
+
+<script>
+(function (sid) {
+  'use strict';
+
+  /* ── Scrolled nav shadow ── */
+  var nav = document.getElementById('hh-nav-' + sid);
+  if (nav) {
+    function onScroll() {
+      nav.classList.toggle('is-scrolled', window.scrollY > 12);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ── Mobile hamburger ── */
+  var burger  = document.getElementById('hh-burger-' + sid);
+  var drawer  = document.getElementById('hh-drawer-' + sid);
+  if (burger && drawer) {
+    burger.addEventListener('click', function () {
+      var open = drawer.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      drawer.setAttribute('aria-hidden',   String(!open));
+    });
+    /* Close drawer on link click */
+    drawer.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        drawer.classList.remove('is-open');
+        burger.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+        drawer.setAttribute('aria-hidden', 'true');
+      });
+    });
+  }
+
+  /* ── Hero Slider ── */
+  var hero = document.getElementById('hh-hero-' + sid);
+  if (!hero) return;
+
+  var slides   = Array.from(hero.querySelectorAll('.hh-slide'));
+  var dots     = Array.from(hero.querySelectorAll('.hh-dot'));
+  var total    = slides.length;
+  if (total < 2) return;
+
+  var intervalSec = parseInt(hero.getAttribute('data-interval'), 10) || 5;
+  var current  = 0;
+  var timer    = null;
+  var busy     = false;
+  var DURATION = 1100; /* match CSS transition */
+
+  function goTo(next) {
+    next = ((next % total) + total) % total;
+    if (busy || next === current) return;
+    busy = true;
+
+    /* Deactivate current */
+    slides[current].classList.remove('is-active');
+    slides[current].setAttribute('aria-hidden', 'true');
+    if (dots[current]) {
+      dots[current].classList.remove('is-active');
+      dots[current].setAttribute('aria-selected', 'false');
+    }
+
+    current = next;
+
+    /* Activate next */
+    slides[current].classList.add('is-active');
+    slides[current].setAttribute('aria-hidden', 'false');
+    if (dots[current]) {
+      dots[current].classList.add('is-active');
+      dots[current].setAttribute('aria-selected', 'true');
+    }
+
+    setTimeout(function () { busy = false; }, DURATION);
+  }
+
+  function startTimer() {
+    stopTimer();
+    timer = setInterval(function () { goTo(current + 1); }, intervalSec * 1000);
+  }
+  function stopTimer() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  /* Dot clicks */
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () {
+      stopTimer();
+      goTo(i);
+      startTimer();
+    });
+  });
+
+  /* Pause on hover */
+  hero.addEventListener('mouseenter', stopTimer);
+  hero.addEventListener('mouseleave', startTimer);
+
+  /* Touch swipe */
+  var touchX = 0;
+  hero.addEventListener('touchstart', function (e) {
+    touchX = e.touches[0].clientX;
+    stopTimer();
+  }, { passive: true });
+  hero.addEventListener('touchend', function (e) {
+    var dx = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 48) goTo(dx > 0 ? current + 1 : current - 1);
+    startTimer();
+  }, { passive: true });
+
+  /* Keyboard accessibility */
+  hero.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { stopTimer(); goTo(current + 1); startTimer(); }
+    if (e.key === 'ArrowLeft')  { stopTimer(); goTo(current - 1); startTimer(); }
+  });
+
+  startTimer();
+
+}('{{ section.id }}'));
+</script>
+
+{% schema %}
+{
+  "name": "HH Hero Section",
+  "tag": "section",
+  "class": "hh-section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🖼 Branding"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image",
+      "info": "Recommended height: 66px. PNG with transparent background."
+    },
+    {
+      "type": "header",
+      "content": "🔗 Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "nav_menu",
+      "label": "Navigation Menu",
+      "default": "main-menu",
+      "info": "The menu is split in half — left links go left of logo, right links go right."
+    },
+    {
+      "type": "header",
+      "content": "📱 Social Links"
+    },
+    {
+      "type": "text",
+      "id": "fb_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "text",
+      "id": "tw_url",
+      "label": "X / Twitter URL"
+    },
+    {
+      "type": "text",
+      "id": "yt_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "header",
+      "content": "🦸 Hero Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "WELCOME TO HEEL HEROES",
+      "info": "Small uppercase text above the heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Luxury Foot Care Your Heels Have Always Deserved"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Description",
+      "default": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness—without greasy residue."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "⏱ Slider Settings"
+    },
+    {
+      "type": "range",
+      "id": "slide_interval",
+      "label": "Auto-slide interval",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "sec",
+      "default": 5,
+      "info": "Time between automatic slide transitions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Banner Slide",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide Image",
+          "info": "Recommended: 1920×690px, warm tones work best"
+        }
+      ]
+    },
+    {
+      "type": "feature_card",
+      "name": "Feature Card",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "grid",
+          "options": [
+            { "value": "grid",    "label": "🏪  Shop / Store"       },
+            { "value": "flower",  "label": "🌸  Flower / Botanical" },
+            { "value": "tools",   "label": "🔧  Tools / Crafted"    },
+            { "value": "diamond", "label": "💎  Diamond / Premium"  }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "is_dark",
+          "label": "Dark card background",
+          "default": false,
+          "info": "Enable for the featured/first card"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "A short description of this product feature or benefit."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH Hero Section",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "grid",
+            "is_dark": true,
+            "title": "Deep Heel Repair",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "flower",
+            "is_dark": false,
+            "title": "Non-Greasy Formula",
+            "description": "Fast-absorbing texture with long-lasting softness."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "tools",
+            "is_dark": false,
+            "title": "Clean Ingredients",
+            "description": "Thoughtfully formulated to nourish and protect the skin barrier."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "diamond",
+            "is_dark": false,
+            "title": "Professional Grade",
+            "description": "Developed by salon experts for real, lasting results."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

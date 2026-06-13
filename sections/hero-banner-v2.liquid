@@ -1,0 +1,685 @@
+{%- comment -%} heel-heroes-hero.liquid {%- endcomment -%}
+{%- assign sid = section.id -%}
+
+<div class="hhH" id="hhH-{{ sid }}" style="background: {{ section.settings.section_bg }}; padding: 30px 20px 50px; box-sizing: border-box; overflow: hidden;">
+  <div style="max-width: {{ section.settings.max_width }}px; margin: 0 auto; position: relative;">
+
+    {%- comment -%} ── Hero Slider ─────────────────────────────── {%- endcomment -%}
+    <div class="hhH__wrapper">
+      <div class="hhH__slider" id="hhHSlider-{{ sid }}" data-speed="{{ section.settings.autoplay_speed | times: 1000 }}">
+
+        {% assign slide_blocks = section.blocks | where: 'type', 'slide' %}
+        {% for block in slide_blocks %}
+          <div class="hhH__slide {% if forloop.first %}is-active{% endif %}" {{ block.shopify_attributes }}>
+
+            {%- comment -%} Background image + overlay {%- endcomment -%}
+            <div class="hhH__slide-bg">
+              {% if block.settings.image %}
+                <img src="{{ block.settings.image | image_url: width: 2000 }}"
+                     alt="{{ block.settings.heading | escape }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     width="2000" height="1000">
+              {% else %}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'hhH__placeholder' }}
+              {% endif %}
+              <div class="hhH__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+            </div>
+
+            {%- comment -%} Slide content — animates from right {%- endcomment -%}
+            <div class="hhH__content-wrap">
+              <div class="hhH__content">
+                {% if block.settings.subtitle != blank %}
+                  <p class="hhH__subtitle">{{ block.settings.subtitle }}</p>
+                {% endif %}
+                {% if block.settings.heading != blank %}
+                  <h1 class="hhH__heading">{{ block.settings.heading }}</h1>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <p class="hhH__text">{{ block.settings.text }}</p>
+                {% endif %}
+                {% if block.settings.btn_label != blank %}
+                  <a href="{{ block.settings.btn_link }}" class="hhH__btn">{{ block.settings.btn_label }}</a>
+                {% endif %}
+              </div>
+            </div>
+
+          </div>
+        {% endfor %}
+
+      </div>
+
+      {%- comment -%} Dot controls {%- endcomment -%}
+      {% if slide_blocks.size > 1 %}
+        <div class="hhH__dots">
+          {% for block in slide_blocks %}
+            <button class="hhH__dot {% if forloop.first %}is-active{% endif %}"
+                    data-index="{{ forloop.index0 }}"
+                    aria-label="Go to slide {{ forloop.index }}"></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+    {%- comment -%} ── Feature Cards ───────────────────────────── {%- endcomment -%}
+    <div class="hhH__cards-outer">
+      <div class="hhH__cards-grid">
+        {% assign card_blocks = section.blocks | where: 'type', 'feature_card' %}
+        {% for block in card_blocks %}
+          <div class="hhH__card {% if block.settings.highlight %}is-highlight{% endif %} js-hhH-card"
+               {{ block.shopify_attributes }}
+               style="--card-delay: {{ forloop.index0 | times: 110 }}ms">
+
+            <div class="hhH__card-icon">
+              {% if block.settings.custom_icon != blank %}
+                <img src="{{ block.settings.custom_icon | image_url: width: 100 }}"
+                     alt="{{ block.settings.title }}"
+                     loading="lazy" width="50" height="50">
+              {% else %}
+                {{ block.settings.icon_svg }}
+              {% endif %}
+            </div>
+
+            <h3 class="hhH__card-title">{{ block.settings.title }}</h3>
+            <p class="hhH__card-desc">{{ block.settings.description }}</p>
+
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ── CSS vars — reuse from nav section if present, else define own ── */
+  #hhH-{{ sid }} {
+    --hhH-brand:      var(--hhN-brand,      {{ section.settings.brand_color }});
+    --hhH-brand-dk:   var(--hhN-brand-dk,   {{ section.settings.brand_color | color_darken: 10 }});
+    --hhH-dark-card:  var(--hhN-dark-card,  {{ section.settings.dark_card_color }});
+    --hhH-light-card: var(--hhN-light-card, {{ section.settings.light_card_color }});
+    --hhH-ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* ── Hero wrapper ── */
+  .hhH__wrapper {
+    position: relative;
+    height: 880px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #111;
+  }
+
+  /* ── Slider ── */
+  .hhH__slider {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .hhH__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s;
+    z-index: 1;
+  }
+  .hhH__slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+  }
+
+  /* Background image */
+  .hhH__slide-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .hhH__slide-bg img,
+  .hhH__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.08);
+    transition: transform 7s var(--hhH-ease);
+  }
+  .hhH__slide.is-active .hhH__slide-bg img,
+  .hhH__slide.is-active .hhH__placeholder {
+    transform: scale(1);
+  }
+
+  /* Dark overlay */
+  .hhH__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0,0.85) 0%,
+      rgba(0,0,0,0.35) 55%,
+      rgba(0,0,0,0.05) 100%
+    );
+  }
+
+  /* ── Content area ── */
+  .hhH__content-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 80px;
+    box-sizing: border-box;
+  }
+
+  .hhH__content {
+    max-width: 680px;
+    margin-top: 70px; /* offset for floating navbar */
+  }
+
+  /* ── FROM-RIGHT animation for slide content ── */
+  .hhH__content > * {
+    opacity: 0;
+    transform: translateX(70px);
+  }
+
+  .hhH__slide.is-active .hhH__content > * {
+    animation: hhHFromRight 0.85s var(--hhH-ease) forwards;
+  }
+
+  .hhH__slide.is-active .hhH__subtitle { animation-delay: 0.10s; }
+  .hhH__slide.is-active .hhH__heading  { animation-delay: 0.28s; }
+  .hhH__slide.is-active .hhH__text     { animation-delay: 0.44s; }
+  .hhH__slide.is-active .hhH__btn      { animation-delay: 0.58s; }
+
+  @keyframes hhHFromRight {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hhH__subtitle {
+    color: var(--hhH-brand);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 700;
+    margin: 0 0 14px;
+  }
+
+  .hhH__heading {
+    color: #fff;
+    font-size: 72px;
+    line-height: 1.05;
+    margin: 0 0 20px;
+    font-weight: 800;
+  }
+
+  .hhH__text {
+    color: rgba(255,255,255,0.88);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0 0 34px;
+  }
+
+  .hhH__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--hhH-brand);
+    color: #fff;
+    text-decoration: none;
+    padding: 16px 36px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .hhH__btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    transition: left 0.55s ease;
+  }
+  .hhH__btn:hover {
+    background: var(--hhH-brand-dk);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+  }
+  .hhH__btn:hover::after { left: 100%; }
+
+  /* ── Dot controls ── */
+  .hhH__dots {
+    position: absolute;
+    bottom: 155px;
+    left: 80px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    display: none;
+  }
+
+  .hhH__dot {
+    width: 28px;
+    height: 3px;
+    background: rgba(255,255,255,0.28);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 3px;
+    transition: background 0.35s, width 0.35s var(--hhH-ease);
+  }
+  .hhH__dot.is-active {
+    background: var(--hhH-brand);
+    width: 42px;
+  }
+
+  /* ── Feature Cards ── */
+  .hhH__cards-outer {
+    position: relative;
+    z-index: 20;
+    margin-top: -110px;
+    padding: 0 75px;
+  }
+
+  .hhH__cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  /* Base card */
+  .hhH__card {
+    background: var(--hhH-light-card);
+    border-radius: 14px;
+    padding: 38px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.07);
+    /* Hover transitions */
+    transition:
+      background      0.4s var(--hhH-ease),
+      transform       0.4s var(--hhH-ease),
+      box-shadow      0.4s var(--hhH-ease);
+  }
+
+  /* ── FROM-BOTTOM scroll animation ── */
+  .hhH__card {
+    opacity: 0;
+    transform: translateY(52px);
+  }
+  .hhH__card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity          0.65s var(--hhH-ease) var(--card-delay),
+      transform        0.65s var(--hhH-ease) var(--card-delay),
+      background       0.4s  var(--hhH-ease),
+      box-shadow       0.4s  var(--hhH-ease);
+  }
+
+  /* Override transform on hover after visible */
+  .hhH__card.is-visible:hover {
+    transform: translateY(-10px) !important;
+  }
+
+  /* ── Hover → Dark mode (light cards only) ── */
+  .hhH__card:not(.is-highlight):hover {
+    background: var(--hhH-dark-card);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.18);
+  }
+  .hhH__card:not(.is-highlight):hover .hhH__card-title {
+    color: #fff;
+  }
+  .hhH__card:not(.is-highlight):hover .hhH__card-desc {
+    color: rgba(255,255,255,0.72);
+  }
+  .hhH__card:not(.is-highlight):hover .hhH__card-icon {
+    color: var(--hhH-brand);
+    transform: scale(1.12);
+  }
+
+  /* Card icon */
+  .hhH__card-icon {
+    color: var(--hhH-brand);
+    margin-bottom: 18px;
+    transition: transform 0.35s var(--hhH-ease), color 0.35s;
+  }
+  .hhH__card-icon svg {
+    width: 46px;
+    height: 46px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .hhH__card-icon img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+
+  /* Card text */
+  .hhH__card-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 10px;
+    transition: color 0.35s;
+  }
+  .hhH__card-desc {
+    font-size: 16px;
+    color: #888;
+    line-height: 1.55;
+    margin: 0;
+    transition: color 0.35s;
+  }
+  
+
+  /* ── Highlighted card (always dark) ── */
+  .hhH__card.is-highlight {
+    background: var(--hhH-dark-card);
+  }
+  .hhH__card.is-highlight .hhH__card-title { color: #fff; }
+  .hhH__card.is-highlight .hhH__card-desc  { color: rgba(255,255,255,0.72); }
+
+  /* ── Responsive ── */
+  @media (max-width: 1200px) {
+    .hhH__heading { font-size: 52px; }
+    .hhH__content-wrap { padding: 0 52px; }
+    .hhH__dots { left: 52px; }
+  }
+
+  @media (max-width: 992px) {
+    .hhH__wrapper { height: 750px; }
+    .hhH__cards-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .hhH__cards-outer { margin-top: -60px; padding: 0 20px; }
+    .hhH__dots { bottom: 90px; }
+  }
+
+  @media (max-width: 768px) {
+     .hhH__card-title {font-size: 20px}
+     .hhH__card-desc {font-size: 14px}
+    .hhH__wrapper { height: 780px; border-radius: 18px; }
+
+    .hhH__content-wrap { padding: 0 26px; justify-content: center; text-align: center; }
+    .hhH__content { max-width: 100%; margin-top: 60px; }
+
+    .hhH__overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.92) 0%,
+        rgba(0,0,0,0.45) 45%,
+        rgba(0,0,0,0.15) 100%
+      );
+    }
+
+    .hhH__heading { font-size: 36px; }
+    .hhH__text    { font-size: 15px; margin-bottom: 24px; }
+
+    .hhH__dots {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 185px;
+    }
+
+    .hhH__cards-outer { margin-top: -40px; padding: 0 10px; }
+    .hhH__cards-grid  { grid-template-columns: 1fr; gap: 12px; }
+    .hhH__card        { padding: 28px 22px; }
+  }
+</style>
+
+<script>
+(function () {
+  'use strict';
+  const sid    = '{{ section.id }}';
+  const root   = document.getElementById(`hhH-${sid}`);
+  if (!root) return;
+
+  /* ── Slider ── */
+  const sliderEl = document.getElementById(`hhHSlider-${sid}`);
+  if (sliderEl) {
+    const slides  = sliderEl.querySelectorAll('.hhH__slide');
+    const dots    = root.querySelectorAll('.hhH__dot');
+    const speed   = parseInt(sliderEl.dataset.speed, 10) || 6000;
+    let   current = 0;
+    let   timer;
+
+    function goTo(idx) {
+      slides[current].classList.remove('is-active');
+      if (dots[current]) dots[current].classList.remove('is-active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('is-active');
+      if (dots[current]) dots[current].classList.add('is-active');
+    }
+
+    function next() { goTo(current + 1); }
+
+    function start() {
+      if (slides.length > 1) timer = setInterval(next, speed);
+    }
+    function reset() { clearInterval(timer); start(); }
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { goTo(i); reset(); }));
+    start();
+  }
+
+  /* ── Feature cards — scroll-triggered FROM-BOTTOM ── */
+  const cards = root.querySelectorAll('.js-hhH-card');
+  if (cards.length) {
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      cards.forEach(c => obs.observe(c));
+    } else {
+      /* Fallback for old browsers */
+      cards.forEach(c => c.classList.add('is-visible'));
+    }
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "HH – Hero Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1600
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#f4ede6"
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Color (match Nav section)",
+      "default": "#F36633"
+    },
+    {
+      "type": "color",
+      "id": "dark_card_color",
+      "label": "Dark Card / Hover Color",
+      "default": "#54463F"
+    },
+    {
+      "type": "color",
+      "id": "light_card_color",
+      "label": "Normal Card Background",
+      "default": "#FAF8F5"
+    },
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "sec",
+      "label": "Autoplay Speed",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Image Overlay Opacity",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Hero Slide",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / Eyebrow",
+          "default": "Welcome to Heel Heroes"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Luxury Foot Care Your Heels Have Always Deserved"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness."
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button Label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button Link"
+        }
+      ]
+    },
+    {
+      "type": "feature_card",
+      "name": "Feature Card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card (stays dark always)",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom Icon Image (optional)"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "SVG Icon Code",
+          "default": "<svg viewBox='0 0 24 24'><path d='M12 2L2 22h20L12 2z'/></svg>"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Deep Heel Repair"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Targets dry, cracked, and calloused heels for visible improvement."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH – Hero Section v2",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        {
+          "type": "feature_card",
+          "settings": {
+            "highlight": true,
+            "title": "Deep Heel Repair",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z'/></svg>"
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "title": "Non-Greasy Formula",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='M12 16v-4M12 8h.01'/></svg>"
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "title": "Clean Ingredients",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6'/></svg>"
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "title": "Professional Grade",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

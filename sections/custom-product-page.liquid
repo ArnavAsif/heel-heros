@@ -1,0 +1,621 @@
+{%- style -%}
+.elementor-element p img{width: 20%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    background-color: {{ section.settings.section_bg }};
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    }
+  }
+
+  :root {
+    --brand-color: {{ section.settings.brand_color }};
+    --text-main: {{ section.settings.text_color }};
+    --text-heading: {{ section.settings.heading_color }};
+    --border-color: #eaeaea;
+  }
+{%- endstyle -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+
+<div class="premium-product-wrapper section-{{ section.id }}-padding" id="ProductSection-{{ section.id }}">
+  <div class="product-container" style="max-width: {{ section.settings.max_width }}px; margin: 0 auto;">
+    
+    <div class="product-gallery">
+      <div class="main-image-wrapper">
+        <img id="MainProductImage-{{ section.id }}" src="{{ featured_image | img_url: '1000x' }}" alt="{{ featured_image.alt | escape }}" class="main-image">
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="thumbnail-list">
+          {% for image in product.images %}
+            <div class="thumbnail-item {% if forloop.first %}active{% endif %}" data-image-url="{{ image.src | img_url: '1000x' }}">
+              <img src="{{ image.src | img_url: '200x' }}" alt="{{ image.alt | escape }}">
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="product-info">
+      {% if product.compare_at_price > product.price %}
+        <span class="sale-badge">SALE!</span>
+      {% endif %}
+
+      <h1 class="product-title" style="font-size: {{ section.settings.heading_size_desktop }}px;">{{ product.title }}</h1>
+      
+      <div class="product-reviews">
+        <span class="stars">★★★★★</span>
+        <span class="review-text">(1 customer review)</span>
+      </div>
+
+      <div class="product-price-wrapper">
+        {% if product.compare_at_price > product.price %}
+          <span class="compare-price">{{ current_variant.compare_at_price | money }}</span>
+        {% endif %}
+        <span class="current-price">{{ current_variant.price | money }}</span>
+      </div>
+
+      <div class="product-short-description" style="font-size: {{ section.settings.desc_size_desktop }}px;">
+        {{ product.metafields.custom.short_description | default: "Heel Heroes celebrates the feet that carry us through life. Honest. Inclusive. Proudly real. Through Heel the World and Show Your Soles, the brand invites everyone to care louder and stand taller, together." }}
+      </div>
+
+      {% form 'product', product, class: 'product-form' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        
+        <div class="form-action-wrapper">
+          <div class="quantity-selector">
+            <input type="number" id="Quantity-{{ section.id }}" name="quantity" value="1" min="1" class="qty-input">
+          </div>
+          <button type="submit" name="add" class="add-to-cart-btn" {% unless current_variant.available %}disabled="disabled"{% endunless %}>
+            <span id="AddToCartText-{{ section.id }}">
+              {% if current_variant.available %}Add to cart{% else %}Sold Out{% endif %}
+            </span>
+          </button>
+        </div>
+      {% endform %}
+
+      <div class="product-meta">
+        <span class="meta-label">Category:</span>
+        <span class="meta-value">{{ product.type | default: 'Uncategorized' }}</span>
+      </div>
+
+      {% if section.settings.show_social_share %}
+        <div class="social-share">
+          <a href="#" class="share-btn facebook"><i>f</i> Facebook</a>
+          <a href="#" class="share-btn twitter"><i>𝕏</i> Twitter</a>
+          <a href="#" class="share-btn linkedin"><i>in</i> LinkedIn</a>
+          <a href="#" class="share-btn email"><i>✉</i> Email</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="product-tabs-section" style="max-width: {{ section.settings.max_width }}px; margin: 0 auto;">
+    <div class="tabs-header">
+      <button class="tab-btn active" data-target="tab-description-{{ section.id }}">Description</button>
+      <button class="tab-btn" data-target="tab-reviews-{{ section.id }}">Reviews (1)</button>
+    </div>
+    
+    <div class="tabs-content">
+      <div id="tab-description-{{ section.id }}" class="tab-pane active">
+        <div class="description-content">
+          {{ product.description }}
+        </div>
+      </div>
+      <div id="tab-reviews-{{ section.id }}" class="tab-pane">
+        <p>Customer reviews will appear here.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Base & Layout */
+  .premium-product-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    box-sizing: border-box;
+  }
+
+  .product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin-bottom: 60px;
+    padding: 11em 1.3em 0;
+  }
+
+  .product-gallery {
+    flex: 1 1 50%;
+    min-width: 320px;
+  }
+
+  .product-info {
+    flex: 1 1 calc(50% - 50px);
+    min-width: 320px;
+  }
+
+  /* Gallery Styling */
+  .main-image-wrapper {
+    margin-bottom: 15px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .main-image {
+    width: 90%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+
+  .thumbnail-list {
+    display: flex;
+    gap: 12px;
+  }
+
+  .thumbnail-item {
+    width: 90px;
+    height: 90px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumbnail-item.active, .thumbnail-item:hover {
+    opacity: 1;
+    border-color: var(--text-heading);
+  }
+
+  /* Info Styling */
+  .sale-badge {
+    background-color: #c97e70;
+    color: #fff;
+    padding: 4px 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+    letter-spacing: 1.5px;
+  }
+
+  .product-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    margin: 0 0 15px;
+    color: var(--text-heading);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .product-reviews {
+    margin-bottom: 25px;
+    font-size: 12px;
+    color: #999;
+  }
+
+  .stars {
+    color: var(--text-heading);
+    letter-spacing: 2px;
+    margin-right: 5px;
+  }
+
+  .product-price-wrapper {
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 25px;
+    display: flex;
+    align-items: center;
+  }
+
+  .compare-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 18px;
+    margin-right: 15px;
+  }
+
+  .current-price {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+
+  .product-short-description {
+    line-height: 1.7;
+    margin-bottom: 35px;
+    color: var(--text-main);
+  }
+
+  /* Form & Buttons */
+  .form-action-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 35px;
+  }
+
+  .qty-input {
+    width: 60px;
+    height: 48px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-main);
+  }
+
+  .add-to-cart-btn {
+    background-color: var(--brand-color);
+    color: #fff;
+    border: none;
+    padding: 0 35px;
+    height: 48px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: #c4321d;
+  }
+
+  .add-to-cart-btn:active {
+    transform: scale(0.98);
+  }
+
+  .product-meta {
+    font-size: 12px;
+    margin-bottom: 20px;
+    color: #888;
+  }
+
+  .meta-label {
+    font-weight: 600;
+    color: var(--text-main);
+    margin-right: 5px;
+  }
+
+  .meta-value {
+    color: var(--brand-color);
+  }
+
+  /* Social Share */
+  .social-share {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--brand-color);
+    color: #fff;
+    text-decoration: none;
+    font-size: 11px;
+    padding: 8px 14px;
+    border-radius: 3px;
+    transition: opacity 0.3s;
+    text-transform: capitalize;
+  }
+
+  .share-btn:hover {
+    opacity: 0.85;
+  }
+
+  /* Tabs Section */
+  .product-tabs-section {
+    padding: 0 20px;
+    margin-top: 40px;
+  }
+
+  .tabs-header {
+    display: flex;
+    gap: 30px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 30px;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #888;
+    padding: 15px 0;
+    cursor: pointer;
+    position: relative;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .tab-btn.active {
+    color: var(--brand-color);
+  }
+
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--brand-color);
+  }
+
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  .description-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+  }
+
+  .description-content h2, 
+  .description-content h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--text-heading);
+    font-weight: 400;
+    margin-top: 0;
+  }
+
+  .description-content h2 { font-size: 32px; margin-bottom: 10px; }
+  .description-content h3 { font-size: 22px; margin-bottom: 25px; color: var(--text-main); }
+  
+  .description-content p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-main);
+    margin-bottom: 20px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .product-container {
+      flex-direction: column;
+      gap: 30px;
+    }
+    .product-gallery, .product-info {
+      flex: 1 1 100%;
+    }
+    .product-title {
+      font-size: {{ section.settings.heading_size_mobile }}px !important;
+    }
+    .product-short-description {
+      font-size: {{ section.settings.desc_size_mobile }}px !important;
+    }
+    .description-content {
+      padding: 20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sectionId = '{{ section.id }}';
+    
+    // Gallery Logic
+    const mainImage = document.getElementById(`MainProductImage-${sectionId}`);
+    const thumbnails = document.querySelectorAll(`#ProductSection-${sectionId} .thumbnail-item`);
+
+    if(mainImage && thumbnails.length > 0) {
+      thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+          const newSrc = this.getAttribute('data-image-url');
+          mainImage.style.opacity = 0;
+          
+          setTimeout(() => {
+            mainImage.src = newSrc;
+            mainImage.style.opacity = 1;
+          }, 200);
+
+          thumbnails.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    }
+
+    // Tabs Logic
+    const tabBtns = document.querySelectorAll(`#ProductSection-${sectionId} .tab-btn`);
+    const tabPanes = document.querySelectorAll(`#ProductSection-${sectionId} .tab-pane`);
+
+    if(tabBtns.length > 0) {
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-target');
+
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabPanes.forEach(p => p.classList.remove('active'));
+
+          this.classList.add('active');
+          document.getElementById(targetId).classList.add('active');
+        });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Custom Product Template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Title Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "desc_size_desktop",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Short Desc Size",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 20,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Title Size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "desc_size_mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Short Desc Size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1900,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum Container Width",
+      "default": 1200
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Primary Color (Buttons)",
+      "default": "#d83d28"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#8f857d"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Elements"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_share",
+      "label": "Show Social Share Buttons",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Template"
+    }
+  ]
+}
+{% endschema %}

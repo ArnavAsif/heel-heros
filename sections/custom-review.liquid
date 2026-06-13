@@ -1,0 +1,737 @@
+<div id="ts-section-{{ section.id }}" class="ts-wrapper">
+  <div class="ts-container">
+
+    <!-- ── PARALLAX HERO ── -->
+    <div class="ts-hero"
+         {% if section.settings.bg_image %}
+           style="background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');"
+         {% endif %}>
+
+      <div class="ts-overlay"></div>
+
+      <div class="ts-hero-content">
+        {% if section.settings.eyebrow != blank %}
+          <p class="ts-eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+
+        {% if section.settings.brand_name != blank %}
+          <div class="ts-brand">{{ section.settings.brand_name }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="ts-heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.featured_quote != blank %}
+          <p class="ts-featured-quote">{{ section.settings.featured_quote }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- ── CAROUSEL ── -->
+    <div class="ts-cards-section">
+      <button class="ts-nav-btn ts-nav-left" id="ts-prev-{{ section.id }}" aria-label="Previous reviews">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="ts-carousel-container" id="ts-container-{{ section.id }}">
+        <div class="ts-cards-track" id="ts-track-{{ section.id }}">
+
+          {% for block in section.blocks %}
+            {% if block.type == 'review' %}
+              <div class="ts-card" {{ block.shopify_attributes }}>
+                <p class="ts-card-quote">"{{ block.settings.quote }}"</p>
+                <div class="ts-card-author">
+                  <div class="ts-avatar">
+                    {% if block.settings.avatar %}
+                      <img src="{{ block.settings.avatar | image_url: width: 100 }}"
+                           alt="{{ block.settings.name | escape }}"
+                           width="52" height="52" loading="lazy">
+                    {% else %}
+                      <div class="ts-avatar-placeholder">{{ block.settings.name | slice: 0 }}</div>
+                    {% endif %}
+                  </div>
+                  <div class="ts-author-info">
+                    <span class="ts-author-name">{{ block.settings.name }}</span>
+                    <span class="ts-author-role">— {{ block.settings.role }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+          {% if section.blocks.size == 0 %}
+            {% assign placeholder_reviews = "I started recommending Heel Heroes to my clients, and they are thrilled with the results. It's perfect for after pedicures, and my clients have noticed a real difference. It's a salon-quality product that works at home!,I've tried so many foot creams before, but Heel Heroes is by far the best. My cracked heels are healed, and they stay soft all day. I'm definitely subscribing for regular deliveries!,Heel Heroes has transformed my feet! After just a few days of using the cream, my heels felt soft and smooth again. It's non-greasy, and I love how it absorbs quickly. It's now a must-have in my skincare routine!,Finally a foot cream that delivers! I've been dealing with calluses for years, and after one week my heels are baby soft.,As a nurse, I'm on my feet all day. Heel Heroes is the only thing that keeps my heels from cracking.,Love the non-greasy formula! I apply before bed and wake up with smooth heels." | split: "," %}
+            {% assign placeholder_names = "David T.,Emily L.,Jessica M.,Rebecca S.,Michael C.,Amanda K." | split: "," %}
+            {% assign placeholder_roles = "Salon Owner,First-time User,Verified Customer,Loyal Customer,Registered Nurse,Skincare Enthusiast" | split: "," %}
+            {% for review in placeholder_reviews %}
+              <div class="ts-card">
+                <p class="ts-card-quote">"{{ review }}"</p>
+                <div class="ts-card-author">
+                  <div class="ts-avatar">
+                    <div class="ts-avatar-placeholder">{{ placeholder_names[forloop.index0] | slice: 0 }}</div>
+                  </div>
+                  <div class="ts-author-info">
+                    <span class="ts-author-name">{{ placeholder_names[forloop.index0] }}</span>
+                    <span class="ts-author-role">— {{ placeholder_roles[forloop.index0] }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+        </div>
+      </div>
+
+      <button class="ts-nav-btn ts-nav-right" id="ts-next-{{ section.id }}" aria-label="Next reviews">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ts-dots" id="ts-dots-{{ section.id }}"></div>
+
+  </div>
+</div>
+
+<style>
+  #ts-section-{{ section.id }} {
+    --ts-accent:      {{ section.settings.accent_color }};
+    --ts-overlay-1:   {{ section.settings.gradient_color_1 }};
+    --ts-overlay-2:   {{ section.settings.gradient_color_2 }};
+    --ts-opacity:     {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --ts-section-bg:  {{ section.settings.section_bg }};
+    --ts-card-bg:     #ffffff;
+    --ts-text-dark:   #3a2f2a;
+    --ts-text-mid:    #6b5a53;
+    --ts-ease:        cubic-bezier(0.25, 1, 0.5, 1);
+    --ts-gap:         20px;
+    --ts-nav-width:   44px;
+  }
+
+  /* ── WRAPPER ── */
+  #ts-section-{{ section.id }}.ts-wrapper {
+    width: 100%;
+    background: var(--ts-section-bg);
+    padding: 0 20px 80px;
+    box-sizing: border-box;
+    overflow-x: clip;
+  }
+
+  #ts-section-{{ section.id }} .ts-container {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── HERO ── */
+  #ts-section-{{ section.id }} .ts-hero {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #c87a60;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  #ts-section-{{ section.id }} .ts-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--ts-overlay-1) 0%, var(--ts-overlay-2) 100%);
+    opacity: var(--ts-opacity);
+    pointer-events: none;
+  }
+
+  #ts-section-{{ section.id }} .ts-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #ts-section-{{ section.id }} .ts-eyebrow {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    opacity: 0.95;
+  }
+
+  #ts-section-{{ section.id }} .ts-brand {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--ts-accent);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+
+  #ts-section-{{ section.id }} .ts-heading {
+    margin: 4px 0 0;
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  #ts-section-{{ section.id }} .ts-featured-quote {
+    margin: 8px 0 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    max-width: 600px;
+  }
+
+  /* ── CARDS SECTION ── */
+  #ts-section-{{ section.id }} .ts-cards-section {
+    position: relative;
+    z-index: 10;
+    margin-top: -100px;
+    padding: 0 0 20px;
+    display: flex;
+    align-items: center;
+    gap: var(--ts-gap);
+  }
+
+  /* ── CAROUSEL CONTAINER ── */
+  #ts-section-{{ section.id }} .ts-carousel-container {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    /* NO scroll-snap on container — JS handles snapping */
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  #ts-section-{{ section.id }} .ts-carousel-container.is-dragging {
+    cursor: grabbing;
+  }
+
+  /* ── TRACK ── */
+  #ts-section-{{ section.id }} .ts-cards-track {
+    display: flex;
+    gap: var(--ts-gap);
+    padding: 16px 0 28px 0;
+    /* width is set by JS */
+    will-change: transform;
+    transition: transform 0.4s var(--ts-ease);
+  }
+
+  #ts-section-{{ section.id }} .ts-cards-track.no-transition {
+    transition: none;
+  }
+
+  /* ── CARD ── */
+  #ts-section-{{ section.id }} .ts-card {
+    /* width set by JS via --ts-card-width custom property */
+    width: var(--ts-card-width, 320px);
+    flex-shrink: 0;
+    background: var(--ts-card-bg);
+    border-radius: 4px;
+    padding: 32px 28px 24px;
+    {% comment %} box-shadow: 0 4px 24px rgba(0,0,0,0.07); {% endcomment %}
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    transition: transform 0.35s var(--ts-ease), box-shadow 0.35s var(--ts-ease);
+  }
+
+  #ts-section-{{ section.id }} .ts-card:nth-child(2) {
+    {% comment %} transform: translateY(-8px); {% endcomment %}
+    {% comment %} box-shadow: 0 12px 48px rgba(0,0,0,0.10); {% endcomment %}
+  }
+
+  #ts-section-{{ section.id }} .ts-card:hover {
+    transform: translateY(-6px);
+    {% comment %} box-shadow: 0 16px 50px rgba(0,0,0,0.12); {% endcomment %}
+  }
+
+  #ts-section-{{ section.id }} .ts-card:nth-child(2):hover {
+    transform: translateY(-12px);
+  }
+
+  /* ── QUOTE ── */
+  #ts-section-{{ section.id }} .ts-card-quote {
+    margin: 0;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ts-text-dark);
+    text-align: center;
+    flex: 1;
+  }
+
+  /* ── AUTHOR ── */
+  #ts-section-{{ section.id }} .ts-card-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.07);
+  }
+
+  #ts-section-{{ section.id }} .ts-avatar {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(0,0,0,0.06);
+  }
+
+  #ts-section-{{ section.id }} .ts-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #ts-section-{{ section.id }} .ts-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--ts-overlay-1), var(--ts-overlay-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  #ts-section-{{ section.id }} .ts-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  #ts-section-{{ section.id }} .ts-author-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ts-text-dark);
+  }
+
+  #ts-section-{{ section.id }} .ts-author-role {
+    font-size: 12px;
+    color: var(--ts-text-mid);
+  }
+
+  /* ── NAV BUTTONS ── */
+  #ts-section-{{ section.id }} .ts-nav-btn {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+    width: var(--ts-nav-width);
+    height: var(--ts-nav-width);
+    border-radius: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    {% comment %} box-shadow: 0 4px 12px rgba(0,0,0,0.05); {% endcomment %}
+    flex-shrink: 0;
+    color: var(--ts-text-dark);
+    z-index: 12;
+  }
+
+  #ts-section-{{ section.id }} .ts-nav-btn:hover {
+    background: var(--ts-accent);
+    color: white;
+    border-color: var(--ts-accent);
+    transform: scale(1.05);
+  }
+
+  #ts-section-{{ section.id }} .ts-nav-btn:active {
+    transform: scale(0.96);
+  }
+
+  #ts-section-{{ section.id }} .ts-nav-btn:disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  /* ── DOTS ── */
+  #ts-section-{{ section.id }} .ts-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  #ts-section-{{ section.id }} .ts-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #d0c4bf;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    padding: 0;
+  }
+
+  #ts-section-{{ section.id }} .ts-dot.active {
+    background: var(--ts-accent);
+    transform: scale(1.3);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1100px) {
+    #ts-section-{{ section.id }} .ts-heading { font-size: 42px; }
+    #ts-section-{{ section.id }} .ts-brand   { font-size: 30px; }
+    #ts-section-{{ section.id }} .ts-hero    { height: 420px; }
+  }
+
+  @media (max-width: 768px) {
+    #ts-section-{{ section.id }}.ts-wrapper {
+      padding: 0 12px 60px;
+    }
+    #ts-section-{{ section.id }} .ts-hero {
+      height: 340px;
+      border-radius: 16px;
+      background-attachment: scroll;
+    }
+    #ts-section-{{ section.id }} .ts-heading        { font-size: 28px; }
+    #ts-section-{{ section.id }} .ts-brand          { font-size: 22px; }
+    #ts-section-{{ section.id }} .ts-featured-quote { font-size: 13px; }
+    #ts-section-{{ section.id }} .ts-cards-section  {
+      margin-top: -70px;
+      gap: 10px;
+    }
+    #ts-section-{{ section.id }} .ts-nav-btn {
+      width: 36px;
+      height: 36px;
+    }
+    #ts-section-{{ section.id }} .ts-card:nth-child(2) {
+      transform: none;
+      {% comment %} box-shadow: 0 4px 24px rgba(0,0,0,0.07); {% endcomment %}
+    }
+    #ts-section-{{ section.id }} .ts-card:nth-child(2):hover {
+      transform: translateY(-6px);
+    }
+  }
+</style>
+
+<script>
+(function () {
+  function initCarousel(sectionEl) {
+    const track       = sectionEl.querySelector('.ts-cards-track');
+    const container   = sectionEl.querySelector('.ts-carousel-container');
+    const prevBtn     = sectionEl.querySelector('.ts-nav-left');
+    const nextBtn     = sectionEl.querySelector('.ts-nav-right');
+    const dotsWrap    = sectionEl.querySelector('.ts-dots');
+
+    if (!track || !container || !prevBtn || !nextBtn || !dotsWrap) return;
+
+    const GAP = 20; // must match --ts-gap
+    let cards        = [];
+    let visibleCount = 3;
+    let activeIndex  = 0;
+    let currentX     = 0;   // current translateX (negative)
+    let targetX      = 0;
+
+    /* ── SIZE CARDS ── */
+    function sizeCards() {
+      cards = Array.from(track.querySelectorAll('.ts-card'));
+      if (!cards.length) return;
+
+      const containerW = container.clientWidth;
+
+      if (containerW >= 900) {
+        visibleCount = 3;
+      } else if (containerW >= 520) {
+        visibleCount = 2;
+      } else {
+        visibleCount = 1;
+      }
+
+      // card width fills container exactly for visibleCount cards
+      const cardW = (containerW - GAP * (visibleCount - 1)) / visibleCount;
+
+      cards.forEach(c => {
+        c.style.width = cardW + 'px';
+        c.style.minWidth = cardW + 'px';
+      });
+
+      // clamp activeIndex
+      const maxIndex = Math.max(0, cards.length - visibleCount);
+      if (activeIndex > maxIndex) activeIndex = maxIndex;
+
+      buildDots();
+      goTo(activeIndex, false);
+    }
+
+    /* ── TRANSLATE ── */
+    function getOffsetForIndex(idx) {
+      if (!cards.length) return 0;
+      const cardW = cards[0].offsetWidth;
+      const step  = cardW + GAP;
+      const maxIndex = Math.max(0, cards.length - visibleCount);
+      const safeIdx  = Math.min(Math.max(0, idx), maxIndex);
+      return -(safeIdx * step);
+    }
+
+    function goTo(idx, animate) {
+      const maxIndex = Math.max(0, cards.length - visibleCount);
+      activeIndex = Math.min(Math.max(0, idx), maxIndex);
+      targetX = getOffsetForIndex(activeIndex);
+      currentX = targetX;
+
+      if (!animate) {
+        track.classList.add('no-transition');
+        track.style.transform = `translateX(${currentX}px)`;
+        // force reflow then re-enable
+        void track.offsetWidth;
+        track.classList.remove('no-transition');
+      } else {
+        track.classList.remove('no-transition');
+        track.style.transform = `translateX(${currentX}px)`;
+      }
+
+      updateUI();
+    }
+
+    /* ── UI ── */
+    function updateUI() {
+      const maxIndex = Math.max(0, cards.length - visibleCount);
+      prevBtn.disabled = activeIndex <= 0;
+      nextBtn.disabled = activeIndex >= maxIndex;
+
+      dotsWrap.querySelectorAll('.ts-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === activeIndex);
+      });
+    }
+
+    function buildDots() {
+      const total = Math.max(1, cards.length - visibleCount + 1);
+      dotsWrap.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'ts-dot' + (i === activeIndex ? ' active' : '');
+        btn.addEventListener('click', () => goTo(i, true));
+        dotsWrap.appendChild(btn);
+      }
+    }
+
+    /* ── NAV BUTTONS ── */
+    prevBtn.addEventListener('click', () => goTo(activeIndex - 1, true));
+    nextBtn.addEventListener('click', () => goTo(activeIndex + 1, true));
+
+    /* ── DRAG / SWIPE ── */
+    let dragStartX  = 0;
+    let dragStartOffset = 0;
+    let dragging    = false;
+    let dragMoved   = false;
+
+    function onDragStart(x) {
+      dragging        = true;
+      dragMoved       = false;
+      dragStartX      = x;
+      dragStartOffset = currentX;
+      track.classList.add('no-transition');
+      container.classList.add('is-dragging');
+    }
+
+    function onDragMove(x) {
+      if (!dragging) return;
+      const delta = x - dragStartX;
+      if (Math.abs(delta) > 4) dragMoved = true;
+      const liveX = dragStartOffset + delta;
+
+      // soft resistance at edges
+      const minX = getOffsetForIndex(Math.max(0, cards.length - visibleCount));
+      const maxX = 0;
+      let clampedX = liveX;
+      if (liveX > maxX) clampedX = maxX + (liveX - maxX) * 0.25;
+      if (liveX < minX) clampedX = minX + (liveX - minX) * 0.25;
+
+      currentX = clampedX;
+      track.style.transform = `translateX(${currentX}px)`;
+    }
+
+    function onDragEnd() {
+      if (!dragging) return;
+      dragging = false;
+      container.classList.remove('is-dragging');
+      track.classList.remove('no-transition');
+
+      if (!dragMoved) return;
+
+      // Snap to nearest slide
+      const cardW  = cards[0]?.offsetWidth || 300;
+      const step   = cardW + GAP;
+      const rawIdx = -currentX / step;
+      const snapped = Math.round(rawIdx);
+      goTo(snapped, true);
+    }
+
+    // Mouse
+    container.addEventListener('mousedown', e => {
+      e.preventDefault();
+      onDragStart(e.clientX);
+    });
+    window.addEventListener('mousemove', e => onDragMove(e.clientX));
+    window.addEventListener('mouseup',   () => onDragEnd());
+
+    // Touch
+    container.addEventListener('touchstart', e => {
+      onDragStart(e.touches[0].clientX);
+    }, { passive: true });
+
+    container.addEventListener('touchmove', e => {
+      onDragMove(e.touches[0].clientX);
+    }, { passive: true });
+
+    container.addEventListener('touchend', () => onDragEnd());
+
+    /* ── RESIZE ── */
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(sizeCards, 120);
+    });
+
+    /* ── INIT ── */
+    sizeCards();
+  }
+
+  function boot() {
+    document.querySelectorAll('.ts-wrapper').forEach(sec => {
+      initCarousel(sec);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  // Shopify theme editor live reload
+  document.addEventListener('shopify:section:load', e => {
+    const sec = e.target.querySelector('.ts-wrapper');
+    if (sec) initCarousel(sec);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonial Section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "range", "id": "max_width",
+      "min": 1000, "max": 1800, "step": 50, "unit": "px",
+      "label": "Max Width", "default": 1400
+    },
+    {
+      "type": "color", "id": "section_bg",
+      "label": "Section Background", "default": "#ffffff"
+    },
+    { "type": "header", "content": "Hero Banner" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background Image" },
+    {
+      "type": "color", "id": "gradient_color_1",
+      "label": "Overlay Gradient Start", "default": "#f7d8ce"
+    },
+    {
+      "type": "color", "id": "gradient_color_2",
+      "label": "Overlay Gradient End", "default": "#ea8676"
+    },
+    {
+      "type": "range", "id": "overlay_opacity",
+      "min": 0, "max": 100, "step": 5, "unit": "%",
+      "label": "Overlay Opacity", "default": 55
+    },
+    {
+      "type": "text", "id": "eyebrow",
+      "label": "Eyebrow Label", "default": "Testimonial"
+    },
+    {
+      "type": "text", "id": "brand_name",
+      "label": "Brand Name (styled)", "default": "Heel Heroes"
+    },
+    {
+      "type": "textarea", "id": "heading",
+      "label": "Section Heading", "default": "What Our Customers Are Saying"
+    },
+    {
+      "type": "text", "id": "featured_quote",
+      "label": "Featured Quote (below heading)",
+      "default": "My heels have never felt this smooth. It actually works without feeling heavy or greasy."
+    },
+    { "type": "header", "content": "Colors" },
+    {
+      "type": "color", "id": "accent_color",
+      "label": "Accent Color", "default": "#db4a35"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review Card",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Review Text" },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar Photo" },
+        { "type": "text", "id": "name", "label": "Reviewer Name", "default": "Jane D." },
+        { "type": "text", "id": "role", "label": "Role / Label", "default": "Verified Customer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial Section",
+      "category": "Social proof",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "quote": "I started recommending Heel Heroes to my clients, and they are thrilled with the results. It's perfect for after pedicures, and my clients have noticed a real difference. It's a salon-quality product that works at home!",
+            "name": "David T.",
+            "role": "Salon Owner"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "I've tried so many foot creams before, but Heel Heroes is by far the best. My cracked heels are healed, and they stay soft all day. I'm definitely subscribing for regular deliveries!",
+            "name": "Emily L.",
+            "role": "First-time User"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Heel Heroes has transformed my feet! After just a few days of using the cream, my heels felt soft and smooth again. It's non-greasy, and I love how it absorbs quickly. It's now a must-have in my skincare routine!",
+            "name": "Jessica M.",
+            "role": "Verified Customer"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

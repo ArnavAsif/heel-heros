@@ -1,0 +1,733 @@
+{%- style -%}
+  /* Dynamic Variables Configuration */
+  #LuxuryContact-{{ section.id }} {
+    --accent-color: {{ section.settings.accent_color }};
+    --text-color: {{ section.settings.text_color }};
+    --heading-color: {{ section.settings.heading_color }};
+    --input-bg: {{ section.settings.input_bg_color }};
+    --input-text: {{ section.settings.input_text_color }};
+    --form-bg: {{ section.settings.form_bg_color }};
+  }
+
+  /* Section Base Container & Global Box Model Fix */
+  .luxury-contact-section {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    background-color: transparent;
+  }
+
+  @media screen and (min-width: 750px) {
+    .luxury-contact-section {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .luxury-contact__wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    align-items: stretch; /* Set stretch to make both cards equal height on desktop if needed */
+    box-sizing: border-box;
+    
+    /* Dynamic Layout Max-Width Selector */
+    {%- if section.settings.section_width == '1170px' -%}
+      max-width: 1170px;
+    {%- elsif section.settings.section_width == '1470px' -%}
+      max-width: 1470px;
+    {%- elsif section.settings.section_width == '1570px' -%}
+      max-width: 1570px;
+    {%- elsif section.settings.section_width == '1770px' -%}
+      max-width: 1770px;
+    {%- else -%}
+      max-width: 100%;
+    {%- endif -%}
+    
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* Desktop Two-Column Split (Map Card 40% | Form Card 60%) */
+  @media screen and (min-width: 990px) {
+    .luxury-contact__wrapper {
+      grid-template-columns: 4fr 6fr;
+      gap: 40px;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
+  /* Left Column: Integrated Container Design with Soft Shadow and Border */
+  .luxury-contact__info-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .luxury-contact__map {
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+  }
+
+  .luxury-contact__map iframe {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    border: 0;
+  }
+
+  .luxury-contact__details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .luxury-contact__info-heading {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: var(--heading-color);
+    letter-spacing: -0.02em;
+  }
+
+  .luxury-contact__info-heading.style-social {
+    margin-top: 35px;
+  }
+
+  .luxury-contact__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .luxury-contact__list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-color);
+    font-size: 15px;
+  }
+
+  .luxury-contact__list li a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .luxury-contact__list li a:hover {
+    color: var(--accent-color);
+  }
+
+  .luxury-contact__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    flex-shrink: 0;
+  }
+
+  .luxury-contact__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .luxury-contact__socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s ease;
+  }
+
+  .luxury-contact__socials a:hover {
+    color: var(--accent-color);
+  }
+
+  /* Right Column: Dynamic Form Container with Soft Shadow and Border */
+  .luxury-contact__form-card {
+    background-color: var(--form-bg);
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 30px 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+    box-sizing: border-box;
+  }
+
+  @media screen and (min-width: 750px) {
+    .luxury-contact__form-card {
+      padding: 50px 55px;
+    }
+  }
+
+  .luxury-contact__form-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .luxury-contact__subheading {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .luxury-contact__main-heading {
+    font-size: 38px;
+    font-weight: 500;
+    margin: 0 0 12px 0;
+    color: var(--heading-color);
+    letter-spacing: -0.01em;
+  }
+
+  .luxury-contact__description {
+    font-size: 16px;
+    color: var(--text-color);
+    margin: 0;
+  }
+
+  /* Form Fields Responsive Dual-Column Matrix */
+  .luxury-contact__fields-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  @media screen and (min-width: 640px) {
+    .luxury-contact__fields-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .luxury-contact__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .luxury-contact__field.field-fullwidth {
+    margin-bottom: 24px;
+  }
+
+  .luxury-contact__field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-color);
+  }
+
+  .luxury-contact__field input,
+  .luxury-contact__field textarea {
+    width: 100%;
+    background-color: var(--input-bg);
+    color: #333333;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.22s ease, background-color 0.22s ease;
+  }
+
+  .luxury-contact__field input:focus,
+  .luxury-contact__field textarea:focus {
+    border-color: var(--accent-color);
+    background-color: #ffffff;
+  }
+
+  .luxury-contact__field input::placeholder,
+  .luxury-contact__field textarea::placeholder {
+    color: var(--input-text);
+    opacity: 0.85;
+  }
+
+  /* Submission Primary Action Button Styling */
+  .luxury-contact__submit-btn {
+    width: 100%;
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    margin-top: 8px;
+  }
+
+  .luxury-contact__submit-btn:hover {
+    opacity: 0.92;
+  }
+  
+  .luxury-contact__submit-btn:active {
+    transform: scale(0.995);
+  }
+
+  /* Form Submission Alert Messaging UI */
+  .form-status {
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .form-status-success {
+    background-color: #e6f4ea;
+    color: #137333;
+    border: 1px solid #dadce0;
+  }
+  .form-status-error {
+    background-color: #fce8e6;
+    color: #c5221f;
+    border: 1px solid #dadce0;
+  }
+{%- endstyle -%}
+
+<div id="LuxuryContact-{{ section.id }}" class="luxury-contact-section">
+  <div class="luxury-contact__wrapper">
+    
+    <div class="luxury-contact__info-card">
+      {%- if section.settings.map_embed_code != blank -%}
+        <div class="luxury-contact__map">
+          {{ section.settings.map_embed_code }}
+        </div>
+      {%- endif -%}
+
+      <div class="luxury-contact__details">
+        <h2 class="luxury-contact__info-heading">{{ section.settings.hq_heading }}</h2>
+        
+        <ul class="luxury-contact__list">
+          {%- if section.settings.location_text != blank -%}
+            <li>
+              <span class="luxury-contact__icon">
+                <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 0C3.13 0 0 3.13 0 7C0 12.25 7 18 7 18C7 18 14 12.25 14 7C14 3.13 10.87 0 7 0ZM7 9.5C5.62 9.5 4.5 8.38 4.5 7C4.5 5.62 5.62 4.5 7 4.5C8.38 4.5 9.5 5.62 9.5 7C9.5 8.38 8.38 9.5 7 9.5Z" fill="currentColor"/></svg>
+              </span>
+              <span>{{ section.settings.location_text }}</span>
+            </li>
+          {%- endif -%}
+
+          {%- if section.settings.email_text != blank -%}
+            <li>
+              <span class="luxury-contact__icon">
+                <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 0H2C0.9 0 0 0.9 0 2V12C0 13.1 0.9 14 2 14H14C15.1 14 16 13.1 16 12V2C16 0.9 15.1 0 14 0ZM14 4L8 8L2 4V2L8 6L14 2V4Z" fill="currentColor"/></svg>
+              </span>
+              <a href="mailto:{{ section.settings.email_text }}">{{ section.settings.email_text }}</a>
+            </li>
+          {%- endif -%}
+
+          {%- if section.settings.phone_text != blank -%}
+            <li>
+              <span class="luxury-contact__icon">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.01 9.91C12.02 9.91 11.07 9.75 10.18 9.46C9.9 9.37 9.58 9.44 9.36 9.66L8.1 11.21C5.86 10.13 3.89 8.17 2.82 5.92L4.36 4.65C4.58 4.43 4.64 4.12 4.56 3.83C4.26 2.93 4.11 1.98 4.11 0.99C4.11 0.45 3.66 0 3.12 0H0.99C0.45 0 0 0.45 0 0.99C0 8.17 5.83 14 13.01 14C13.55 14 14 13.55 14 13.01V10.89C14 10.35 13.55 9.91 13.01 9.91Z" fill="currentColor"/></svg>
+              </span>
+              <a href="tel:{{ section.settings.phone_text }}">{{ section.settings.phone_text }}</a>
+            </li>
+          {%- endif -%}
+        </ul>
+
+        <h2 class="luxury-contact__info-heading style-social">{{ section.settings.social_heading }}</h2>
+        <div class="luxury-contact__socials">
+          {%- if section.settings.instagram_link != blank -%}
+            <a href="{{ section.settings.instagram_link }}" target="_blank">
+              <span class="luxury-contact__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </span> 
+              {{ section.settings.instagram_handle }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.facebook_link != blank -%}
+            <a href="{{ section.settings.facebook_link }}" target="_blank">
+              <span class="luxury-contact__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </span> 
+              {{ section.settings.facebook_handle }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="luxury-contact__form-column">
+      <div class="luxury-contact__form-card">
+        <div class="luxury-contact__form-header">
+          <span class="luxury-contact__subheading">{{ section.settings.form_subheading }}</span>
+          <h2 class="luxury-contact__main-heading">{{ section.settings.form_heading }}</h2>
+          <p class="luxury-contact__description">{{ section.settings.form_description }}</p>
+        </div>
+
+        {%- form 'contact', id: 'LuxuryContactForm' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="form-status form-status-success" tabindex="-1" autofocus>
+              Thanks for contacting us. We'll get back to you as soon as possible.
+            </p>
+          {%- elsif form.errors -%}
+            <div class="form-status form-status-error">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="luxury-contact__fields-row">
+            <div class="luxury-contact__field">
+              <label for="ContactForm-FirstName">{{ section.settings.label_first_name }} *</label>
+              <input
+                type="text"
+                id="ContactForm-FirstName"
+                name="contact[first_name]"
+                placeholder="{{ section.settings.placeholder_first_name }}"
+                required
+              >
+            </div>
+            <div class="luxury-contact__field">
+              <label for="ContactForm-LastName">{{ section.settings.label_last_name }}</label>
+              <input
+                type="text"
+                id="ContactForm-LastName"
+                name="contact[last_name]"
+                placeholder="{{ section.settings.placeholder_last_name }}"
+              >
+            </div>
+          </div>
+
+          <div class="luxury-contact__fields-row">
+            <div class="luxury-contact__field">
+              <label for="ContactForm-Email">{{ section.settings.label_email }} *</label>
+              <input
+                type="email"
+                id="ContactForm-Email"
+                name="contact[email]"
+                placeholder="{{ section.settings.placeholder_email }}"
+                autocomplete="email"
+                required
+              >
+            </div>
+            <div class="luxury-contact__field">
+              <label for="ContactForm-Phone">{{ section.settings.label_phone }} *</label>
+              <input
+                type="tel"
+                id="ContactForm-Phone"
+                name="contact[phone]"
+                placeholder="{{ section.settings.placeholder_phone }}"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="luxury-contact__field field-fullwidth">
+            <label for="ContactForm-Message">{{ section.settings.label_message }}</label>
+            <textarea
+              rows="5"
+              id="ContactForm-Message"
+              name="contact[body]"
+              placeholder="{{ section.settings.placeholder_message }}"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="luxury-contact__submit-btn">
+            {{ section.settings.submit_button_text }}
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Contact Form",
+  "class": "shopify-section-luxury-contact",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Maximum Width",
+      "options": [
+        { "value": "1170px", "label": "1170px" },
+        { "value": "1470px", "label": "1470px" },
+        { "value": "1570px", "label": "1570px" },
+        { "value": "1770px", "label": "1770px (Default)" },
+        { "value": "full", "label": "Full Width" }
+      ],
+      "default": "1770px"
+    },
+    {
+      "type": "header",
+      "content": "Color Customization"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Labels / Buttons)",
+      "default": "#FF5522"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#5A4E48"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Details Text Color",
+      "default": "#777777"
+    },
+    {
+      "type": "color",
+      "id": "form_bg_color",
+      "label": "Form Card Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Input Fields Background",
+      "default": "#FBF6F3"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input Value/Placeholder Color",
+      "default": "#A09590"
+    },
+    {
+      "type": "header",
+      "content": "Left Block Content: Map & Info"
+    },
+    {
+      "type": "textarea",
+      "id": "map_embed_code",
+      "label": "Google Maps Embed Code (iframe)",
+      "default": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14142.11523423!2d-106.33!3d38.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v123456789\" width=\"100%\" height=\"320\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "type": "text",
+      "id": "hq_heading",
+      "label": "Office Block Title",
+      "default": "Headquarter"
+    },
+    {
+      "type": "text",
+      "id": "location_text",
+      "label": "Location Label",
+      "default": "Location"
+    },
+    {
+      "type": "text",
+      "id": "email_text",
+      "label": "Email Address",
+      "default": "Support@yourdomain.ltd"
+    },
+    {
+      "type": "text",
+      "id": "phone_text",
+      "label": "Phone Number",
+      "default": "123456789"
+    },
+    {
+      "type": "text",
+      "id": "social_heading",
+      "label": "Social Media Block Title",
+      "default": "Social Media"
+    },
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "label": "Instagram Display Text",
+      "default": "heelheroes"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link",
+      "label": "Instagram Link"
+    },
+    {
+      "type": "text",
+      "id": "facebook_handle",
+      "label": "Facebook Display Text",
+      "default": "heelheroes"
+    },
+    {
+      "type": "url",
+      "id": "facebook_link",
+      "label": "Facebook Link"
+    },
+    {
+      "type": "header",
+      "content": "Right Block Content: Form Titles"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Top Mini Subtitle",
+      "default": "FEEDBACK"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Main Form Title",
+      "default": "Send Us Message"
+    },
+    {
+      "type": "text",
+      "id": "form_description",
+      "label": "Form Subtext Description",
+      "default": "Talk with our customer service"
+    },
+    {
+      "type": "header",
+      "content": "Form Labels & Placeholders"
+    },
+    {
+      "type": "text",
+      "id": "label_first_name",
+      "label": "First Name Label",
+      "default": "First name"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_first_name",
+      "label": "First Name Placeholder",
+      "default": "First name"
+    },
+    {
+      "type": "text",
+      "id": "label_last_name",
+      "label": "Last Name Label",
+      "default": "Last name"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_last_name",
+      "label": "Last Name Placeholder",
+      "default": "Last Name"
+    },
+    {
+      "type": "text",
+      "id": "label_email",
+      "label": "Email Label",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_email",
+      "label": "Email Placeholder",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "label_phone",
+      "label": "Phone Label",
+      "default": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_phone",
+      "label": "Phone Placeholder",
+      "default": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "label_message",
+      "label": "Message Label",
+      "default": "Message"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_message",
+      "label": "Message Placeholder",
+      "default": "Message"
+    },
+    {
+      "type": "text",
+      "id": "submit_button_text",
+      "label": "Submit Button Text",
+      "default": "Send"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Mobile Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding (Mobile)",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Dynamic Contact Section"
+    }
+  ]
+}
+{% endschema %}

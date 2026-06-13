@@ -1,0 +1,249 @@
+{{ 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js' | script_tag }}
+
+<div class="heel-section-container standard-theme-{{ section.id }}">
+  <div class="heel-section-wrapper" 
+       style="{% if section.settings.bg_image != blank %}background-image: url('{{ section.settings.bg_image | img_url: '1800x' }}');{% endif %}">
+    
+    <div class="heel-background-overlay"></div>
+    
+    <div class="heel-lottie-absolute-wrap">
+      <div id="LottiePlayer-{{ section.id }}" class="e-lottie__animation"></div>
+    </div>
+
+    <div class="heel-container">
+      <div class="heel-column-100">
+        <h1 class="heel-heading-h1">{{ section.settings.heading_title }}</h1>
+        <h4 class="heel-heading-h4">{{ section.settings.subtitle_title }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+  .heel-section-container {
+    width: 100%;
+    max-width: {{ section.settings.section_width }}px; 
+    margin: 200px auto 40px; 
+    padding: 0 20px; 
+    box-sizing: border-box;
+  }
+
+  .heel-section-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 320px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #ff5e3a;
+    background-size: cover;
+    background-position: center;     
+    background-repeat: no-repeat;    
+    background-attachment: fixed;   
+    padding: 60px 40px;
+    box-sizing: border-box;
+    border-radius: 15px; 
+    cursor: pointer; 
+  }
+
+  .heel-section-wrapper .heel-background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 94, 58, 0.45) 0%, rgba(255, 94, 58, 0.85) 50%, rgba(255, 94, 58, 0.98) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .heel-lottie-absolute-wrap {
+    position: absolute;
+    bottom: -15px;
+    right: 4%;
+    width: 100%;
+    max-width: 420px; 
+    height: auto;
+    z-index: 2; 
+    opacity: 0.85; 
+    pointer-events: none;
+  }
+
+  .heel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1770px;
+    margin: 0 auto;
+    z-index: 3;
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    animation: fadeInheel 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation-delay: 200ms;
+  }
+
+  .heel-column-100 {
+    width: auto;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: revert;
+    text-align: right;
+    gap: 12px;
+    padding-right: 5%;
+  }
+
+  .heel-heading-h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 400; 
+    letter-spacing: 3px;
+    margin: 0;
+    color: {{ section.settings.text_color }};
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .heel-heading-h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 400;
+    font-style: italic; 
+    letter-spacing: 0.5px;
+    margin: 0;
+    color: {{ section.settings.text_color }};
+    line-height: 1.2;
+    opacity: 0.95;
+  }
+
+  @keyframes fadeInheel {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive Landscape Fix for Mobile Devices */
+  @media (max-width: 767px) {
+    .heel-section-container {
+      width: 100%;
+      max-width: {{ section.settings.section_width }}px; 
+      margin: 100px auto 40px; 
+      padding: 0 15px; 
+      box-sizing: border-box;
+    }
+
+    .heel-section-wrapper {
+      /* Forces clean landscape proportions regardless of screen width */
+      aspect-ratio: 16 / 9;
+      min-height: auto;
+      padding: 20px 25px;
+      /* Fixed attachment behaves erratically on iOS safari; scroll switches it to standard mobile handling smoothly */
+      background-attachment: scroll; 
+    }
+
+    .heel-section-wrapper .heel-background-overlay {
+      background: linear-gradient(to right, rgba(255, 94, 58, 0.55) 0%, rgba(255, 94, 58, 0.88) 60%, rgba(255, 94, 58, 0.98) 100%);
+    }
+
+    .heel-lottie-absolute-wrap {
+      max-width: 180px;
+      bottom: -10px;
+      right: 2%;
+    }
+
+    .heel-column-100 {
+      max-width: 80%;
+      padding-right: 0;
+      gap: 6px;
+    }
+
+    .heel-heading-h1 {
+      font-size: clamp(2rem, 6vw, 2.8rem);
+    }
+
+    .heel-heading-h4 {
+      font-size: clamp(0.95rem, 3vw, 1.15rem);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const sectionWrapper = document.querySelector('.standard-theme-{{ section.id }} .heel-section-wrapper');
+    const lottieContainer = document.getElementById('LottiePlayer-{{ section.id }}');
+    
+    if (lottieContainer && sectionWrapper) {
+      const animation = lottie.loadAnimation({
+        container: lottieContainer,
+        renderer: 'svg',
+        loop: false,      
+        autoplay: false, 
+        path: 'https://assets9.lottiefiles.com/packages/lf20_k7jyykm9.json'
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animation.goToAndPlay(0, true); 
+          } else {
+            animation.goToAndStop(0, true); 
+          }
+        });
+      }, { threshold: 0.15 });
+
+      observer.observe(lottieContainer);
+
+      sectionWrapper.addEventListener('mouseenter', function() {
+        animation.goToAndPlay(0, true); 
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Heel Contact Hero",
+  "settings": [
+    {
+      "type": "range",
+      "id": "section_width",
+      "min": 800,
+      "max": 2000,
+      "step": 20,
+      "unit": "px",
+      "label": "Section Maximum Width",
+      "default": 1200
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading_title",
+      "label": "Heading Title",
+      "default": "CONTACT"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_title",
+      "label": "Subtitle Title",
+      "default": "We would love to hear from you."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heel Contact Hero"
+    }
+  ]
+}
+{% endschema %}

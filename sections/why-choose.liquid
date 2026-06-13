@@ -1,0 +1,676 @@
+<div id="hh-wc-{{ section.id }}" class="hh-wc-section">
+  <div class="hh-wc-container">
+    
+    <!-- Background Pattern Overlay -->
+    <div class="hh-wc-pattern" 
+         {% if section.settings.bg_pattern %}
+           style="background-image: url('{{ section.settings.bg_pattern | image_url: width: 1000 }}');"
+         {% endif %}>
+    </div>
+
+    <!-- Radial Gradient Overlay -->
+    <div class="hh-wc-radial-overlay"></div>
+
+    <!-- Header Area -->
+    <div class="hh-wc-header hh-wc-animate">
+      {% if section.settings.kicker != blank %}
+        <h6 class="hh-wc-kicker">{{ section.settings.kicker }}</h6>
+      {% endif %}
+      
+      {% if section.settings.heading != blank %}
+        <h2 class="hh-wc-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.text != blank %}
+        <div class="hh-wc-desc">{{ section.settings.text }}</div>
+      {% endif %}
+
+      {% if section.settings.btn_label != blank and section.settings.btn_link != blank %}
+        <a href="{{ section.settings.btn_link }}" class="hh-wc-btn">
+          {{ section.settings.btn_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Features Grid -->
+    <div class="hh-wc-grid">
+      {% for block in section.blocks %}
+        <!-- Animation Wrapper -->
+        <div class="hh-wc-animate-wrapper hh-wc-animate" style="transition-delay: {{ forloop.index0 | times: 200 }}ms" {{ block.shopify_attributes }}>
+          
+          <!-- Actual Card -->
+          <div class="hh-wc-card">
+            <div class="hh-wc-icon">
+              {% if block.settings.icon_img != blank %}
+                <img src="{{ block.settings.icon_img | image_url: width: 100 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="45" height="45">
+              {% else %}
+                {{ block.settings.icon_svg }}
+              {% endif %}
+            </div>
+            
+            <h5 class="hh-wc-card-title">{{ block.settings.title }}</h5>
+            <p class="hh-wc-card-desc">{{ block.settings.description }}</p>
+
+            {% if block.settings.card_btn_label != blank and block.settings.card_btn_link != blank %}
+              <a href="{{ block.settings.card_btn_link }}" class="hh-wc-btn hh-wc-card-btn">
+                {{ block.settings.card_btn_label }}
+              </a>
+            {% endif %}
+          </div>
+          
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* CSS Variables with fallbacks to prevent black screen issue in theme editor */
+  #hh-wc-{{ section.id }} {
+    /* Colors */
+    --hh-wc-bg: {{ section.settings.section_bg | default: '#FDF4EE' }};
+    --hh-wc-card-bg: {{ section.settings.card_bg | default: '#F8F4F2' }};
+    --hh-wc-accent: {{ section.settings.brand_color | default: '#F36633' }};
+    --hh-wc-heading-color: {{ section.settings.heading_color | default: '#8B7E76' }};
+    --hh-wc-text-color: {{ section.settings.text_color | default: '#7A7A7A' }};
+    --hh-wc-pattern-opacity: {{ section.settings.pattern_opacity | divided_by: 100.0 | default: 0.1 }};
+
+    /* Desktop Spacing & Typography */
+    --padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
+    --padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --desc-size-desktop: {{ section.settings.desc_size_desktop }}px;
+    --card-title-size-desktop: {{ section.settings.card_title_size_desktop }}px;
+
+    /* Mobile Spacing & Typography */
+    --padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --desc-size-mobile: {{ section.settings.desc_size_mobile }}px;
+    --card-title-size-mobile: {{ section.settings.card_title_size_mobile }}px;
+  }
+
+  /* Base Styles */
+  #hh-wc-{{ section.id }}.hh-wc-section {
+    width: 100%;
+    padding: 80px 20px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-container {
+    max-width: {{ section.settings.max_width }}px;
+    width: 100%;
+    {% comment %} background-color: var(--hh-wc-bg); {% endcomment %}
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    padding: var(--padding-top-desktop) 60px var(--padding-bottom-desktop);
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(120, 90, 80, 0.12), 0 4px 12px rgba(120, 90, 80, 0.08);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: var(--hh-wc-pattern-opacity);
+    pointer-events: none;
+    {% if section.settings.bg_pattern == blank %}
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    {% endif %}
+    background-repeat: repeat;
+    background-position: center;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-radial-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    background-color: transparent;
+    background-image: radial-gradient(at center center, rgba(254, 251, 251, 0.17) 16%, var(--hh-wc-bg) 80%);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-header {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    margin: 0 auto 70px auto;
+    text-align: center;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-kicker {
+    color: var(--hh-wc-accent);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-heading {
+    color: var(--hh-wc-heading-color);
+    font-size: var(--heading-size-desktop);
+    line-height: 1.2;
+    font-weight: 800;
+    margin: 0 0 20px 0;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-desc {
+    color: var(--hh-wc-text-color);
+    font-size: var(--desc-size-desktop);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: var(--hh-wc-accent);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-btn:hover {
+    filter: brightness(0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-grid {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-animate-wrapper {
+    display: block;
+    height: 100%;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-card {
+    background: var(--hh-wc-card-bg);
+    border-radius: 16px;
+    padding: 50px 40px;
+    text-align: center;
+    height: 100%;
+    box-sizing: border-box;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    color: var(--hh-wc-accent);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-icon svg {
+    width: 48px;
+    height: 48px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-icon img {
+    max-width: 48px;
+    height: auto;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-card-title {
+    color: var(--hh-wc-heading-color);
+    font-size: var(--card-title-size-desktop);
+    font-weight: 600;
+    margin: 0 0 15px 0;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-card-desc {
+    color: var(--hh-wc-text-color);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Smooth Entrance Animation */
+  #hh-wc-{{ section.id }} .hh-wc-animate {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Tablet Adjustments */
+  @media (max-width: 991px) {
+    #hh-wc-{{ section.id }} .hh-wc-grid { gap: 25px; }
+    #hh-wc-{{ section.id }} .hh-wc-card { padding: 40px 30px; }
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 767px) {
+    #hh-wc-{{ section.id }}.hh-wc-section { padding: 40px 15px 0; }
+    #hh-wc-{{ section.id }} .hh-wc-container { 
+      padding: var(--padding-top-mobile) 20px var(--padding-bottom-mobile); 
+      border-radius: 20px; 
+    }
+    
+    #hh-wc-{{ section.id }} .hh-wc-header { margin-bottom: 45px; }
+    #hh-wc-{{ section.id }} .hh-wc-kicker { font-size: 12px; margin-bottom: 10px; }
+    
+    #hh-wc-{{ section.id }} .hh-wc-heading { 
+      font-size: var(--heading-size-mobile); 
+      margin-bottom: 15px; 
+    }
+    
+    #hh-wc-{{ section.id }} .hh-wc-desc { 
+      font-size: var(--desc-size-mobile); 
+    }
+    
+    #hh-wc-{{ section.id }} .hh-wc-btn { margin-top: 25px; padding: 13px 28px; font-size: 14px; }
+    
+    #hh-wc-{{ section.id }} .hh-wc-grid { 
+      grid-template-columns: 1fr; 
+      gap: 20px; 
+    }
+    
+    #hh-wc-{{ section.id }} .hh-wc-card {
+      padding: 35px 25px;
+    }
+    
+    #hh-wc-{{ section.id }} .hh-wc-card-title { 
+      font-size: var(--card-title-size-mobile); 
+      margin-bottom: 10px; 
+    }
+    
+    #hh-wc-{{ section.id }} .hh-wc-card-desc { font-size: 15px; }
+    #hh-wc-{{ section.id }} .hh-wc-icon { margin-bottom: 20px; }
+    #hh-wc-{{ section.id }} .hh-wc-icon svg, #hh-wc-{{ section.id }} .hh-wc-icon img { width: 40px; max-width: 40px; }
+
+    /* Remove staggered delay on mobile for a cleaner look */
+    #hh-wc-{{ section.id }} .hh-wc-animate-wrapper {
+      transition-delay: 0ms !important;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    function initHhWc_{{ section.id | replace: '-', '_' }}() {
+      const section = document.getElementById('hh-wc-{{ section.id }}');
+      if (!section) return;
+
+      const animatedElements = section.querySelectorAll('.hh-wc-animate');
+
+      // Prevent "Black/Hidden Section" bug in Shopify Theme Editor
+      if (window.Shopify && Shopify.designMode) {
+        animatedElements.forEach(el => {
+          el.style.transition = 'none';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          el.classList.add('is-visible');
+        });
+        return;
+      }
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -15% 0px',
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      animatedElements.forEach(el => observer.observe(el));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHhWc_{{ section.id | replace: '-', '_' }});
+    } else {
+      initHhWc_{{ section.id | replace: '-', '_' }}();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === '{{ section.id }}') {
+        initHhWc_{{ section.id | replace: '-', '_' }}();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Why Choose Heel Heroes",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desc_size_desktop",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "card_title_size_desktop",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Title Font Size",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "desc_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_title_size_mobile",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Title Font Size",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum Container Width",
+      "default": 1900
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#FDF4EE"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#F8F4F2"
+    },
+    {
+      "type": "header",
+      "content": "Background Pattern"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_pattern",
+      "label": "Pattern Image (Optional)",
+      "info": "Upload a seamless pattern. If empty, a default subtle pattern is used."
+    },
+    {
+      "type": "range",
+      "id": "pattern_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Pattern Opacity",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Header Text"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "WHY CHOOSE HEEL HEROES"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Professional Care. Thoughtful Formulation. Real Results."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description",
+      "default": "<p>Every detail of Heel Heroes is designed to deliver visible results while feeling luxurious, simple, and effective.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Header Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link",
+      "info": "Button will only show if both label and link are filled."
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Color (Icons & Kicker)",
+      "default": "#F36633"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#8B7E76"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#7A7A7A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Card",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_img",
+          "label": "Icon Image (Overrides SVG)"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG Code",
+          "info": "Paste SVG code here.",
+          "default": "<svg viewBox='0 0 24 24'><polygon points='12 2 22 8.5 12 15 2 8.5 12 2'/><polygon points='12 22 22 15.5 12 9 2 15.5 12 22'/></svg>"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Premium Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Add details about why this feature matters to your customers."
+        },
+        {
+          "type": "header",
+          "content": "Card Button"
+        },
+        {
+          "type": "text",
+          "id": "card_btn_label",
+          "label": "Button Label",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "card_btn_link",
+          "label": "Button Link",
+          "info": "Button will only show if both label and link are filled."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Heel Heroes",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Premium Ingredients",
+            "description": "Carefully selected to support deep hydration and repair.",
+            "icon_svg": "<svg viewBox='0 0 24 24' stroke='currentColor' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M6 3h12l4 6-10 12L2 9l4-6z'/><path d='M12 21V9'/><path d='M2 9h20'/><path d='M6 3l6 6 6-6'/></svg>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Expert Formulated",
+            "description": "Developed with professional salon experience in mind.",
+            "icon_svg": "<svg viewBox='0 0 24 24' stroke='currentColor' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1l2.1-2.1M17 7l2.1-2.1'/><path d='M12 5a7 7 0 017 7c0 3.8-3.2 7-7 7s-7-3.2-7-7a7 7 0 017-7z'/></svg>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Everyday Friendly",
+            "description": "Easy to use, suitable for all skin types, and gender-neutral.",
+            "icon_svg": "<svg viewBox='0 0 24 24' stroke='currentColor' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M3 18v-6a9 9 0 0118 0v6'/><path d='M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z'/><path d='M15 16v3M12 21v-4'/></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

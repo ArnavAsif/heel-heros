@@ -1,0 +1,889 @@
+
+<div id="hh-wc-{{ section.id }}" class="hh-wc-section">
+
+  {%- liquid
+    assign max_w = section.settings.max_width
+    if max_w == 'full'
+      assign container_style = 'max-width: 100%;'
+    elsif max_w == '1770'
+      assign container_style = 'max-width: 1770px;'
+    elsif max_w == '1570'
+      assign container_style = 'max-width: 1570px;'
+    elsif max_w == '1470'
+      assign container_style = 'max-width: 1470px;'
+    else
+      assign container_style = 'max-width: 1170px;'
+    endif
+  -%}
+
+  <!-- ═══════════════════════════════════════
+       PART 1: FULL-WIDTH BACKGROUND BANNER
+       ═══════════════════════════════════════ -->
+  <div class="hh-wc-banner-bg"
+    {% if section.settings.hero_bg_image != blank %}
+      style="background-image: url('{{ section.settings.hero_bg_image | image_url: width: 2000 }}');"
+    {% endif %}>
+    <div class="hh-wc-banner-overlay"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN CONTAINER (width controlled)
+       ═══════════════════════════════════════ -->
+  <div class="hh-wc-container">
+
+    <!-- ─────────────────────────────────────
+         PART 2: OUR STORY — SPLIT CARD
+         ───────────────────────────────────── -->
+    <div class="hh-wc-split-card">
+
+      <!-- LEFT: Image + Quote Overlay -->
+      <div class="hh-wc-split-left hh-wc-anim hh-wc-anim--left">
+        {% if section.settings.story_product_image != blank %}
+          <img
+            class="hh-wc-split-img"
+            src="{{ section.settings.story_product_image | image_url: width: 1000 }}"
+            alt="{{ section.settings.story_title | escape }}"
+            loading="lazy">
+        {% else %}
+          <div class="hh-wc-placeholder-img"></div>
+        {% endif %}
+
+        {% if section.settings.story_quote != blank %}
+          <div class="hh-wc-quote-overlay">
+            <span class="hh-wc-quote-icon">
+           <svg viewBox="0 0 45 30" width="54" height="36" fill="currentColor" aria-hidden="true">
+  <path d="M15,0 L15,13 C15,23 10,29 -1,30 L-3,25 C4,23 7,18 7,13 L0,13 L0,0 Z"/>
+  <path d="M37,0 L37,13 C37,23 32,29 21,30 L19,25 C26,23 29,18 29,13 L22,13 L22,0 Z"/>
+</svg>
+            </span>
+            <h3 class="hh-wc-quote-text">{{ section.settings.story_quote }}</h3>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- RIGHT: Text Content -->
+      <div class="hh-wc-split-right hh-wc-anim hh-wc-anim--right">
+        {% if section.settings.story_kicker != blank %}
+          <span class="hh-wc-split-kicker">{{ section.settings.story_kicker }}</span>
+        {% endif %}
+        {% if section.settings.story_title != blank %}
+          <h2 class="hh-wc-split-title">{{ section.settings.story_title }}</h2>
+        {% endif %}
+        {% if section.settings.story_richtext != blank %}
+          <div class="hh-wc-split-body">{{ section.settings.story_richtext }}</div>
+        {% endif %}
+        {% if section.settings.story_btn_label != blank and section.settings.story_btn_link != blank %}
+          <a href="{{ section.settings.story_btn_link }}" class="hh-wc-btn hh-wc-story-btn">
+            {{ section.settings.story_btn_label }}
+          </a>
+        {% endif %}
+      </div>
+
+    </div>
+    <!-- /split-card -->
+
+    <!-- ─────────────────────────────────────
+         PART 3: WHY CHOOSE — FEATURES GRID
+         ───────────────────────────────────── -->
+    <div class="hh-wc-features-wrap">
+
+      <!-- Decorative repeating background pattern -->
+      <div class="hh-wc-pattern"
+        {% if section.settings.bg_pattern != blank %}
+          style="background-image: url('{{ section.settings.bg_pattern | image_url: width: 200 }}');"
+        {% endif %}>
+      </div>
+      <div class="hh-wc-radial-overlay"></div>
+
+      <!-- Section Header -->
+      <div class="hh-wc-header hh-wc-anim hh-wc-anim--up">
+        {% if section.settings.kicker != blank %}
+          <h6 class="hh-wc-kicker">{{ section.settings.kicker }}</h6>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="hh-wc-heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.text != blank %}
+          <div class="hh-wc-desc">{{ section.settings.text }}</div>
+        {% endif %}
+        {% if section.settings.btn_label != blank and section.settings.btn_link != blank %}
+          <a href="{{ section.settings.btn_link }}" class="hh-wc-btn" style="margin-top:30px;display:inline-block;">
+            {{ section.settings.btn_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Feature Cards Grid -->
+      <div class="hh-wc-grid">
+        {% for block in section.blocks %}
+          <div class="hh-wc-card hh-wc-anim hh-wc-anim--up"
+               style="transition-delay: {{ forloop.index0 | times: 160 }}ms"
+               {{ block.shopify_attributes }}>
+
+            <div class="hh-wc-icon">
+              {% if block.settings.icon_img != blank %}
+                <img
+                  src="{{ block.settings.icon_img | image_url: width: 80 }}"
+                  alt="{{ block.settings.title | escape }}"
+                  loading="lazy" width="40" height="40">
+              {% elsif block.settings.icon_svg != blank %}
+                {{ block.settings.icon_svg }}
+              {% else %}
+                <!-- Default decorative SVG -->
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              {% endif %}
+            </div>
+
+            <h5 class="hh-wc-card-title">{{ block.settings.title }}</h5>
+            <p class="hh-wc-card-desc">{{ block.settings.description }}</p>
+
+            {% if block.settings.card_btn_label != blank and block.settings.card_btn_link != blank %}
+              <a href="{{ block.settings.card_btn_link }}" class="hh-wc-btn hh-wc-card-btn">
+                {{ block.settings.card_btn_label }}
+              </a>
+            {% endif %}
+
+          </div>
+        {% endfor %}
+      </div>
+      <!-- /grid -->
+
+    </div>
+    <!-- /features-wrap -->
+
+  </div>
+  <!-- /container -->
+
+</div>
+<!-- /hh-wc-section -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     STYLES
+     ══════════════════════════════════════════════════════════ -->
+<style>
+  /* ── CSS Variables ─────────────────────────────────────── */
+  #hh-wc-{{ section.id }} {
+    --hh-accent:           {{ section.settings.brand_color }};
+    --hh-bg:               {{ section.settings.section_bg }};
+    --hh-card-bg:          {{ section.settings.card_bg }};
+    --hh-heading:          {{ section.settings.heading_color }};
+    --hh-text:             {{ section.settings.text_color }};
+    --hh-overlay-color:    {{ section.settings.banner_overlay_color }};
+    --hh-overlay-opacity:  {{ section.settings.banner_overlay_opacity | divided_by: 100.0 }};
+    --hh-pattern-opacity:  {{ section.settings.pattern_opacity | divided_by: 100.0 }};
+    --hh-banner-height:    {{ section.settings.banner_height }}px;
+  }
+
+  /* ── Outer wrapper — full page width, bg color only ───── */
+  .hh-wc-outer-{{ section.id }} {
+    width: 100%;
+    background-color: var(--hh-bg);
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── Section Shell — width-controlled, everything inside ─ */
+  #hh-wc-{{ section.id }}.hh-wc-section {
+    position: relative;
+    width: 100%;
+    {%- if section.settings.max_width == 'full' -%}
+    max-width: 100%;
+    {%- elsif section.settings.max_width == '1770' -%}
+    max-width: 1770px;
+    {%- elsif section.settings.max_width == '1570' -%}
+    max-width: 1570px;
+    {%- elsif section.settings.max_width == '1470' -%}
+    max-width: 1470px;
+    {%- else -%}
+    max-width: 1170px;
+    {%- endif -%}
+    margin: 0 auto;
+    background-color: var(--hh-bg);
+    padding-bottom: 120px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  /* ── Banner Background — clipped inside section width ──── */
+  #hh-wc-{{ section.id }} .hh-wc-banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--hh-banner-height);
+    background-color: #c0602a;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--hh-overlay-color);
+    opacity: var(--hh-overlay-opacity);
+    z-index: 1;
+  }
+
+  /* ── Container — inner padding only, no max-width here ── */
+  #hh-wc-{{ section.id }} .hh-wc-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 60px;
+    box-sizing: border-box;
+    padding-top: calc(var(--hh-banner-height) * 0.22);
+  }
+
+  /* ── SPLIT CARD ────────────────────────────────────────── */
+  #hh-wc-{{ section.id }} .hh-wc-split-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.06);
+    margin-bottom: 90px;
+  }
+
+  /* LEFT — image panel */
+  #hh-wc-{{ section.id }} .hh-wc-split-left {
+    position: relative;
+    min-height: 520px;
+    background: #e3d9d2;
+    overflow: hidden;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-split-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-split-card:hover .hh-wc-split-img {
+    transform: scale(1.04);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-placeholder-img {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(140deg, #d9ccc5 0%, #b8a49b 100%);
+  }
+
+  /* Quote Overlay */
+  #hh-wc-{{ section.id }} .hh-wc-quote-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.42);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 48px;
+    box-sizing: border-box;
+    z-index: 2;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-quote-icon {
+    color: var(--hh-accent);
+    margin-bottom: 18px;
+    display: block;
+    line-height: 0;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-quote-text {
+    font-family: "Marcellus", Georgia, serif;
+    font-size: 35px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    color: #ffffff;
+    max-width: 82%;
+    text-align: center;
+  }
+
+  /* RIGHT — text panel */
+  #hh-wc-{{ section.id }} .hh-wc-split-right {
+    padding: 70px 65px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-split-kicker {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--hh-accent);
+    margin-bottom: 16px;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-split-title {
+    font-family: "Marcellus", Georgia, serif;
+    font-size: 44px;
+    line-height: 1.3;
+    font-weight: 500;
+    color: var(--hh-heading);
+    margin: 0 0 24px;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-split-body {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--hh-text);
+  }
+  #hh-wc-{{ section.id }} .hh-wc-split-body p { margin: 0 0 16px; }
+  #hh-wc-{{ section.id }} .hh-wc-split-body p:last-child { margin-bottom: 0; }
+
+  #hh-wc-{{ section.id }} .hh-wc-story-btn {
+    margin-top: 32px;
+    align-self: flex-start;
+  }
+
+  /* ── FEATURES WRAP ─────────────────────────────────────── */
+  #hh-wc-{{ section.id }} .hh-wc-features-wrap {
+    position: relative;
+    padding-top: 10px;
+  }
+
+  /* Repeating pattern behind features */
+  #hh-wc-{{ section.id }} .hh-wc-pattern {
+    position: absolute;
+    top: -60px; left: -8%;
+    width: 116%; height: 130%;
+    z-index: 0;
+    opacity: var(--hh-pattern-opacity);
+    pointer-events: none;
+    background-repeat: repeat;
+    background-size: 100px 100px;
+  }
+
+  /* Radial fade-out so pattern doesn't clash at edges */
+  #hh-wc-{{ section.id }} .hh-wc-radial-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 20%, var(--hh-bg) 85%);
+  }
+
+  /* Features Header */
+  #hh-wc-{{ section.id }} .hh-wc-header {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto 65px;
+    text-align: center;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-kicker {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--hh-accent);
+    margin: 0 0 18px;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-heading {
+    font-family: "Marcellus", Georgia, serif;
+    font-size: 44px;
+    line-height: 1.25;
+    font-weight: 400;
+    color: var(--hh-heading);
+    margin: 0 0 20px;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-desc {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--hh-text);
+  }
+
+  /* Feature Cards Grid */
+  #hh-wc-{{ section.id }} .hh-wc-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-card {
+    background: var(--hh-card-bg);
+    border-radius: 10px;
+    padding: 52px 38px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+    color: var(--hh-accent);
+  }
+  #hh-wc-{{ section.id }} .hh-wc-icon svg { width: 36px; height: 36px; }
+  #hh-wc-{{ section.id }} .hh-wc-icon img { max-width: 36px; height: auto; object-fit: contain; }
+
+  #hh-wc-{{ section.id }} .hh-wc-card-title {
+    font-family: "Marcellus", Georgia, serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--hh-heading);
+    margin: 0 0 12px;
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-card-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--hh-text);
+    margin: 0;
+  }
+
+  /* ── CTA Button ────────────────────────────────────────── */
+  #hh-wc-{{ section.id }} .hh-wc-btn {
+    display: inline-block;
+    background-color: var(--hh-accent);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 14px 32px;
+    border-radius: 4px;
+    transition: background-color 0.25s ease, transform 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+  #hh-wc-{{ section.id }} .hh-wc-btn:hover {
+    background-color: #c95a28;
+    transform: translateY(-2px);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-card-btn {
+    margin-top: 24px;
+    font-size: 11px;
+    padding: 10px 22px;
+  }
+
+  /* ══════════════════════════════════════════
+     SCROLL-TRIGGERED ANIMATIONS
+     ══════════════════════════════════════════ */
+  #hh-wc-{{ section.id }} .hh-wc-anim {
+    opacity: 0;
+    will-change: opacity, transform;
+    transition:
+      opacity  2.2s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  #hh-wc-{{ section.id }} .hh-wc-anim--up    { transform: translateY(50px); }
+  #hh-wc-{{ section.id }} .hh-wc-anim--left  { transform: translateX(-60px); }
+  #hh-wc-{{ section.id }} .hh-wc-anim--right { transform: translateX(60px); }
+
+  #hh-wc-{{ section.id }} .hh-wc-anim.is-visible {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE BREAKPOINTS
+     ══════════════════════════════════════════ */
+
+  /* 1280px */
+  @media (max-width: 1280px) {
+    #hh-wc-{{ section.id }} .hh-wc-split-right { padding: 55px 45px; }
+    #hh-wc-{{ section.id }} .hh-wc-split-title { font-size: 28px; }
+    #hh-wc-{{ section.id }} .hh-wc-heading { font-size: 34px; }
+  }
+
+  /* 1024px */
+  @media (max-width: 1024px) {
+    #hh-wc-{{ section.id }} .hh-wc-grid { grid-template-columns: 1fr 1fr; }
+    #hh-wc-{{ section.id }} .hh-wc-split-right { padding: 45px 35px; }
+    #hh-wc-{{ section.id }} .hh-wc-heading { font-size: 30px; }
+  }
+
+  /* 768px */
+  @media (max-width: 768px) {
+    #hh-wc-{{ section.id }}.hh-wc-section { padding-bottom: 70px; }
+
+    #hh-wc-{{ section.id }} .hh-wc-container {
+      padding: 0 20px;
+      padding-top: calc(var(--hh-banner-height) * 0.15);
+    }
+    #hh-wc-{{ section.id }} .hh-wc-split-card {
+      grid-template-columns: 1fr;
+      margin-bottom: 60px;
+    }
+    #hh-wc-{{ section.id }} .hh-wc-split-left { min-height: 360px; }
+    #hh-wc-{{ section.id }} .hh-wc-split-right { padding: 40px 28px; }
+    #hh-wc-{{ section.id }} .hh-wc-split-title { font-size: 24px; }
+
+    #hh-wc-{{ section.id }} .hh-wc-heading { font-size: 26px; }
+    #hh-wc-{{ section.id }} .hh-wc-header { margin-bottom: 40px; }
+    #hh-wc-{{ section.id }} .hh-wc-grid { grid-template-columns: 1fr; gap: 16px; }
+    #hh-wc-{{ section.id }} .hh-wc-card { padding: 38px 24px; }
+
+    /* On mobile, disable left/right slide animations — just fade up */
+    #hh-wc-{{ section.id }} .hh-wc-anim--left,
+    #hh-wc-{{ section.id }} .hh-wc-anim--right { transform: translateY(30px); }
+  }
+
+  /* 480px */
+  @media (max-width: 480px) {
+    #hh-wc-{{ section.id }} .hh-wc-split-left { min-height: 280px; }
+    #hh-wc-{{ section.id }} .hh-wc-quote-overlay { padding: 30px; }
+    #hh-wc-{{ section.id }} .hh-wc-quote-text { font-size: 17px; }
+    #hh-wc-{{ section.id }} .hh-wc-split-title { font-size: 21px; }
+    #hh-wc-{{ section.id }} .hh-wc-heading { font-size: 22px; }
+  }
+
+
+  .elementor-section-container {
+    width: 100%;
+    max-width: 1800px;
+    margin: 200px auto 40px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+.elementor-section-container {
+    margin: 100px  auto 20px;
+    padding: 0 15px;
+}
+}
+</style>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT — IntersectionObserver scroll animations
+     ══════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  function initSection() {
+    var section = document.getElementById('hh-wc-{{ section.id }}');
+    if (!section) return;
+
+    var elements = section.querySelectorAll('.hh-wc-anim');
+
+    /* If IntersectionObserver isn't supported, just show everything */
+    if (!('IntersectionObserver' in window)) {
+      elements.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -7% 0px',
+      threshold: 0.01
+    });
+
+    elements.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* Init on DOMContentLoaded or immediately if already loaded */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSection);
+  } else {
+    initSection();
+  }
+
+  /* Shopify theme editor live reload support */
+  document.addEventListener('shopify:section:load', function (e) {
+    if (e.target && e.target.querySelector('#hh-wc-{{ section.id }}')) {
+      initSection();
+    }
+  });
+})();
+</script>
+
+
+{% schema %}
+{
+  "name": "About Story + Why Choose",
+  "tag": "section",
+  "class": "hh-about-section",
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "⚙️ Layout & Width"
+    },
+    {
+      "type": "select",
+      "id": "max_width",
+      "label": "Section Content Width",
+      "options": [
+        { "value": "1170", "label": "1170px" },
+        { "value": "1470", "label": "1470px" },
+        { "value": "1570", "label": "1570px" },
+        { "value": "1770", "label": "1770px (Default)" },
+        { "value": "full", "label": "Full Width" }
+      ],
+      "default": "1770"
+    },
+
+    {
+      "type": "header",
+      "content": "🖼️ Top Banner Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bg_image",
+      "label": "Banner Background Image"
+    },
+    {
+      "type": "range",
+      "id": "banner_height",
+      "min": 300,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "label": "Banner Height",
+      "default": 480
+    },
+    {
+      "type": "color",
+      "id": "banner_overlay_color",
+      "label": "Banner Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "banner_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Banner Overlay Opacity",
+      "default": 20
+    },
+
+    {
+      "type": "header",
+      "content": "📖 Our Story — Split Card"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_product_image",
+      "label": "Left Panel Image"
+    },
+    {
+      "type": "text",
+      "id": "story_quote",
+      "label": "Quote Overlay Text (Left Panel)",
+      "default": "Take a memory home with an Intensive Foot Cream"
+    },
+    {
+      "type": "text",
+      "id": "story_kicker",
+      "label": "Kicker / Eyebrow Text",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "story_title",
+      "label": "Main Heading",
+      "default": "Heel Heroes was born long before it ever had a name."
+    },
+    {
+      "type": "richtext",
+      "id": "story_richtext",
+      "label": "Body Content",
+      "default": "<p>My sister and I started doing nails at just 13 years old—learning the craft from the ground up, working long days, building clients one foot at a time.</p>"
+    },
+    {
+      "type": "text",
+      "id": "story_btn_label",
+      "label": "CTA Button Label (optional)"
+    },
+    {
+      "type": "url",
+      "id": "story_btn_link",
+      "label": "CTA Button Link (optional)"
+    },
+
+    {
+      "type": "header",
+      "content": "✨ Why Choose — Features Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_pattern",
+      "label": "Repeating Background Pattern Image"
+    },
+    {
+      "type": "range",
+      "id": "pattern_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Pattern Opacity",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker / Eyebrow Text",
+      "default": "WHY CHOOSE HEEL HEROES"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Professional Care. Thoughtful Formulation. Real Results."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Section Description",
+      "default": "<p>Every detail of Heel Heroes is designed to deliver visible results while feeling luxurious, simple, and effective.</p>"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Section CTA Button Label (optional)"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Section CTA Button Link (optional)"
+    },
+
+    {
+      "type": "header",
+      "content": "🎨 Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Feature Card Background",
+      "default": "#F9F6F4"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Accent Color",
+      "default": "#E26937"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#5A4B43"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#70625A"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Card",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_img",
+          "label": "Icon Image (overrides SVG)"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG Code"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Heading",
+          "default": "Premium Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "Add details about why this feature matters to your customers."
+        },
+        {
+          "type": "text",
+          "id": "card_btn_label",
+          "label": "Card Button Label (optional)"
+        },
+        {
+          "type": "url",
+          "id": "card_btn_link",
+          "label": "Card Button Link (optional)"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "HH Story & Why Choose",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Premium Ingredients",
+            "description": "Carefully selected to support deep hydration and repair."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Expert Formulated",
+            "description": "Developed with professional salon experience in mind."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Everyday Friendly",
+            "description": "Easy to use, suitable for all skin types, and gender-neutral."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

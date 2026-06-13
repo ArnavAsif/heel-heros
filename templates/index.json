@@ -1,0 +1,549 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_banner_v2_dfqaWm": {
+      "type": "hero-banner-v2",
+      "blocks": {
+        "slide_7abbHk": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89_ff523e53-dca7-4873-ab1e-9d45d5931602.png",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        },
+        "slide_DGabXG": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/2C66160E-361E-4F77-A6FF-63CD6A438438_e10ccb9b-174d-496b-af02-997dcc977949.jpg",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        },
+        "feature_card_cGxCmq": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": true,
+            "custom_icon": "shopify://shop_images/store.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z\"></path></svg>",
+            "title": "Deep Heel Repair",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_UwDAzB": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/ornament.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 16v-4M12 8h.01\"></path></svg>",
+            "title": "Non-Greasy Formula",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_84rNpk": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/customer-support.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6\"></path></svg>",
+            "title": "Clean Ingredients",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_cnbErc": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/value.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"></polygon></svg>",
+            "title": "Professional Grade",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        }
+      },
+      "block_order": [
+        "slide_7abbHk",
+        "slide_DGabXG",
+        "feature_card_cGxCmq",
+        "feature_card_UwDAzB",
+        "feature_card_84rNpk",
+        "feature_card_cnbErc"
+      ],
+      "name": "HH – Hero Section v2",
+      "settings": {
+        "max_width": 1900,
+        "section_bg": "#ffffff",
+        "brand_color": "#f36633",
+        "dark_card_color": "#54463f",
+        "light_card_color": "#faf8f5",
+        "autoplay_speed": 6,
+        "overlay_opacity": 40
+      }
+    },
+    "custom_hero_eUFG4L": {
+      "type": "custom-hero",
+      "blocks": {
+        "slide_b6zU9H": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/2C6BCD29-33BA-4C1C-B5E3-6D1C430E7980_2.png",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        },
+        "slide_AxWBDd": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/2C66160E-361E-4F77-A6FF-63CD6A438438.jpg",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        },
+        "feature_card_pHHQMt": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": true,
+            "custom_icon": "shopify://shop_images/store_1.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z\"></path></svg>",
+            "title": "Deep Heel Repair",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_jgtWAP": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/ornament.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 16v-4\"></path><path d=\"M12 8h.01\"></path></svg>",
+            "title": "Non-Greasy Formula",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_Vjnt3b": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/customer-support.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6\"></path></svg>",
+            "title": "Clean Ingredients",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_YArEgY": {
+          "type": "feature_card",
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/value.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"></polygon></svg>",
+            "title": "Professional Grade",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        }
+      },
+      "block_order": [
+        "slide_b6zU9H",
+        "slide_AxWBDd",
+        "feature_card_pHHQMt",
+        "feature_card_jgtWAP",
+        "feature_card_Vjnt3b",
+        "feature_card_YArEgY"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "img,picture,video,canvas,svg {display: block; max-width: none;}"
+      ],
+      "name": "Heel Heroes Hero Section",
+      "settings": {
+        "max_width": 1900,
+        "section_bg": "#ffffff",
+        "logo": "shopify://shop_images/heelLogo-e1768902149924.webp",
+        "logo_width": 230,
+        "menu": "main-menu",
+        "brand_color": "#f36633",
+        "dark_card_color": "#54463f",
+        "light_card_color": "#faf8f5",
+        "autoplay_speed": 10,
+        "overlay_opacity": 40
+      }
+    },
+    "floting_card_xaYQqF": {
+      "type": "floting-card",
+      "name": "Image with Floating Card",
+      "settings": {
+        "max_width": 1770,
+        "section_bg": "#ffffff",
+        "pt_desk": 110,
+        "pb_desk": 110,
+        "px_desk": 20,
+        "pt_mob": 50,
+        "pb_mob": 50,
+        "px_mob": 15,
+        "kicker": "WHO WE ARE",
+        "heading": "Born From the Salon. Perfected for Everyday Care.",
+        "text": "<p>Heel Heroes was created by lifelong salon professionals who saw the same problem again and again—clients leaving pedicures without a true aftercare solution.</p><p>After years in the industry, we developed a foot cream that delivers professional results at home, helping heels stay smooth, healthy, and comfortable between treatments.</p>",
+        "button_label": "Discover more",
+        "button_link": "",
+        "fs_kicker_desk": 14,
+        "fs_heading_desk": 54,
+        "fs_text_desk": 16,
+        "fs_kicker_mob": 12,
+        "fs_heading_mob": 34,
+        "fs_text_mob": 14,
+        "image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89.png",
+        "show_floating_card": true,
+        "card_bg": "#ffffff",
+        "card_icon_image": "shopify://shop_images/diamond.png",
+        "card_icon_svg": "<svg viewbox=\"0 0 24 24\"><circle cx=\"9\" cy=\"12\" r=\"4\"></circle><circle cx=\"15\" cy=\"12\" r=\"4\"></circle><path d=\"M7 9l-1-1m9 1l1-1\" stroke-linecap=\"round\"></path></svg>",
+        "card_title": "Salon-Approved Foot Care",
+        "card_text": "Heel Heroes is a premium foot cream developed by salon professionals to repair and hydrate dry, cracked heels. Designed to keep your feet smooth and comfortable between treatments.",
+        "fs_card_title_desk": 22,
+        "fs_card_text_desk": 16,
+        "fs_card_title_mob": 16,
+        "fs_card_text_mob": 14,
+        "brand_color": "#f36633",
+        "heading_color": "#928480",
+        "text_color": "#928480"
+      }
+    },
+    "parallax_hero_rbFFTg": {
+      "type": "parallax-hero",
+      "name": "Parallax Hero + Products",
+      "settings": {
+        "max_width": 1800,
+        "section_bg": "#ffffff",
+        "bg_image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89_ff523e53-dca7-4873-ab1e-9d45d5931602.png",
+        "gradient_color_1": "#f7d8ce",
+        "gradient_color_2": "#ea8676",
+        "overlay_opacity": 60,
+        "heading": "Our Hero Product",
+        "text": "<p>A next-generation foot cream designed to rescue dry, cracked heels and restore lasting softness.</p>",
+        "btn_label": "",
+        "btn_link": "",
+        "collection_heading": "Featured Product",
+        "collection": "frontpage",
+        "product_limit": 4,
+        "accent_color": "#db4a35"
+      }
+    },
+    "why_choose_CAFYMi": {
+      "type": "why-choose",
+      "blocks": {
+        "feature_fecBiY": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/value.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Premium Ingredients",
+            "description": "Carefully selected to support deep hydration and repair.",
+            "card_btn_label": "Learn More",
+            "card_btn_link": ""
+          }
+        },
+        "feature_E4UxyP": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/ornament.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"3\"></circle><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1l2.1-2.1M17 7l2.1-2.1\"></path><path d=\"M12 5a7 7 0 017 7c0 3.8-3.2 7-7 7s-7-3.2-7-7a7 7 0 017-7z\"></path></svg>",
+            "title": "Expert Formulated",
+            "description": "Developed with professional salon experience in mind.",
+            "card_btn_label": "Learn More",
+            "card_btn_link": ""
+          }
+        },
+        "feature_RNHjMh": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/customer-support_1.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 18v-6a9 9 0 0118 0v6\"></path><path d=\"M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z\"></path><path d=\"M15 16v3M12 21v-4\"></path></svg>",
+            "title": "Everyday Friendly",
+            "description": "Easy to use, suitable for all skin types, and gender-neutral.",
+            "card_btn_label": "Learn More",
+            "card_btn_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_fecBiY",
+        "feature_E4UxyP",
+        "feature_RNHjMh"
+      ],
+      "name": "Why Choose Heel Heroes",
+      "settings": {
+        "padding_top_desktop": 100,
+        "padding_bottom_desktop": 120,
+        "heading_size_desktop": 54,
+        "desc_size_desktop": 16,
+        "card_title_size_desktop": 22,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 60,
+        "heading_size_mobile": 36,
+        "desc_size_mobile": 14,
+        "card_title_size_mobile": 16,
+        "max_width": 1900,
+        "section_bg": "#fdf4ee",
+        "card_bg": "#fafafa",
+        "bg_pattern": "shopify://shop_images/bg_img.webp",
+        "pattern_opacity": 100,
+        "kicker": "WHY CHOOSE HEEL HEROES",
+        "heading": "Professional Care. Thoughtful Formulation. Real Results.",
+        "text": "<p>Every detail of Heel Heroes is designed to deliver visible results while feeling luxurious, simple, and effective.</p>",
+        "btn_label": "Learn More",
+        "btn_link": "",
+        "brand_color": "#f36633",
+        "heading_color": "#8b7e76",
+        "text_color": "#7a7a7a"
+      }
+    },
+    "our_value_qh3nbM": {
+      "type": "our-value",
+      "blocks": {
+        "value_item_U3Yiw6": {
+          "type": "value_item",
+          "settings": {
+            "icon_img": "shopify://shop_images/shape.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z\"></path><path d=\"M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z\"></path></svg>",
+            "title": "Knowledge",
+            "description": "Built on years of hands-on salon experience."
+          }
+        },
+        "value_item_AdPi7z": {
+          "type": "value_item",
+          "settings": {
+            "icon_img": "shopify://shop_images/idea.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z\"></path></svg>",
+            "title": "Care",
+            "description": "Created for comfort, confidence, and consistency."
+          }
+        },
+        "value_item_xWAGbY": {
+          "type": "value_item",
+          "settings": {
+            "icon_img": "shopify://shop_images/rings.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Quality",
+            "description": "Premium formulation without unnecessary fillers."
+          }
+        },
+        "value_item_FBn8hc": {
+          "type": "value_item",
+          "settings": {
+            "icon_img": "shopify://shop_images/sakura.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z\"></path><path d=\"M12 22V12\"></path><path d=\"M12 12a5 5 0 0 0 5-5\"></path><path d=\"M12 12a5 5 0 0 1-5-5\"></path></svg>",
+            "title": "Integrity",
+            "description": "Results-driven, clean, and thoughtfully packaged."
+          }
+        }
+      },
+      "block_order": [
+        "value_item_U3Yiw6",
+        "value_item_AdPi7z",
+        "value_item_xWAGbY",
+        "value_item_FBn8hc"
+      ],
+      "name": "Our Value (Split)",
+      "settings": {
+        "max_width": 1900,
+        "border_radius": 24,
+        "padding_top": 0,
+        "padding_bottom": 60,
+        "outer_bg_color": "#ffffff",
+        "bg_color": "#faf6f4",
+        "kicker": "Our Value",
+        "heading": "Care That Goes Beyond the Surface",
+        "text": "<p>Heel Heroes blends science, experience, and intention to create foot care that truly works. Our formula focuses on long-term results—not quick fixes—so your feet feel better with every use.</p>",
+        "right_bg_color": "#efeae4",
+        "image": "shopify://shop_images/Brown-Natural-Product-Features-Benefits-Instagram-Post-2-1024x1024-1-1.webp",
+        "brand_color": "#f36633",
+        "heading_color": "#8b7e76",
+        "text_color": "#7a7a7a"
+      }
+    },
+    "feature_card_VjbUeQ": {
+      "type": "feature-card",
+      "name": "Featured Product Cards",
+      "settings": {
+        "max_width": 1700,
+        "section_bg": "#ffffff",
+        "heading": "Never Run Out of Healthy Heels",
+        "description": "<p>Consistency is key to lasting results. Subscribe and receive Heel Heroes delivered every 3 months—so your feet stay smooth, soft, and cared for year-round.</p>",
+        "collection": "frontpage",
+        "product_limit": 4,
+        "accent_color": "#d84531"
+      }
+    },
+    "custom_review_QyK9CH": {
+      "type": "custom-review",
+      "blocks": {
+        "review_4JVBhe": {
+          "type": "review",
+          "settings": {
+            "quote": "I started recommending Heel Heroes to my clients, and they are thrilled with the results. It's perfect for after pedicures, and my clients have noticed a real difference. It's a salon-quality product that works at home!",
+            "avatar": "shopify://shop_images/img__0001_Layer-7.jpg",
+            "name": "David T.",
+            "role": "Salon Owner"
+          }
+        },
+        "review_VJ7MWx": {
+          "type": "review",
+          "settings": {
+            "quote": "I've tried so many foot creams before, but Heel Heroes is by far the best. My cracked heels are healed, and they stay soft all day. I'm definitely subscribing for regular deliveries!",
+            "avatar": "shopify://shop_images/img__0002_Layer-6.jpg",
+            "name": "Emily L.",
+            "role": "First-time User"
+          }
+        },
+        "review_dTB9Ky": {
+          "type": "review",
+          "settings": {
+            "quote": "Heel Heroes has transformed my feet! After just a few days of using the cream, my heels felt soft and smooth again. It's non-greasy, and I love how it absorbs quickly. It's now a must-have in my skincare routine!",
+            "avatar": "shopify://shop_images/img__0003_Layer-5.jpg",
+            "name": "Jessica M.",
+            "role": "Verified Customer"
+          }
+        },
+        "review_Mgj6ze": {
+          "type": "review",
+          "settings": {
+            "quote": "Heel Heroes has transformed my feet! After just a few days of using the cream, my heels felt soft and smooth again. It's non-greasy, and I love how it absorbs quickly. It's now a must-have in my skincare routine!",
+            "avatar": "shopify://shop_images/img__0004_Layer-4.jpg",
+            "name": "Jane D.",
+            "role": "Verified Customer"
+          }
+        },
+        "review_mYLx3C": {
+          "type": "review",
+          "settings": {
+            "quote": "Heel Heroes has transformed my feet! After just a few days of using the cream, my heels felt soft and smooth again. It's non-greasy, and I love how it absorbs quickly. It's now a must-have in my skincare routine!",
+            "avatar": "shopify://shop_images/img__0006_Layer-2.jpg",
+            "name": "Jane D.",
+            "role": "Verified Customer"
+          }
+        }
+      },
+      "block_order": [
+        "review_4JVBhe",
+        "review_VJ7MWx",
+        "review_dTB9Ky",
+        "review_Mgj6ze",
+        "review_mYLx3C"
+      ],
+      "name": "Testimonial Section",
+      "settings": {
+        "max_width": 1800,
+        "section_bg": "#ffffff",
+        "bg_image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89_ff523e53-dca7-4873-ab1e-9d45d5931602.png",
+        "gradient_color_1": "#f7d8ce",
+        "gradient_color_2": "#ea8676",
+        "overlay_opacity": 55,
+        "eyebrow": "Testimonial",
+        "brand_name": "",
+        "heading": "What Our Customers Are Saying",
+        "featured_quote": "My heels have never felt this smooth. It actually works without feeling heavy or greasy.",
+        "accent_color": "#fe5923"
+      }
+    },
+    "why_choose_AyhHVH": {
+      "type": "why-choose",
+      "blocks": {
+        "feature_HL6g4D": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/call.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Need assistance? We’re here to help!",
+            "description": "If you have any questions or need support, feel free to reach out. We’re just a click away and ready to assist you with any product or order inquiries.",
+            "card_btn_label": "Contact now",
+            "card_btn_link": "#"
+          }
+        },
+        "feature_CNBQyb": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/email.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Have an issue or inquiry?",
+            "description": "For any issues or more detailed inquiries, please fill out the form below and our support team will get back to you as soon as possible.",
+            "card_btn_label": "Contact now",
+            "card_btn_link": "#"
+          }
+        },
+        "feature_KtWBt7": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/open-book.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Stay Updated with Heel Heroes",
+            "description": "We’re working on new updates and features for our loyal customers. Stay tuned for future announcements and exciting additions to Heel Heroes.",
+            "card_btn_label": "Read Now",
+            "card_btn_link": "#"
+          }
+        }
+      },
+      "block_order": [
+        "feature_HL6g4D",
+        "feature_CNBQyb",
+        "feature_KtWBt7"
+      ],
+      "custom_css": [
+        ".hh-wc-section{padding: 0 20px 20px;}"
+      ],
+      "name": "Why Choose Heel Heroes",
+      "settings": {
+        "padding_top_desktop": 100,
+        "padding_bottom_desktop": 120,
+        "heading_size_desktop": 48,
+        "desc_size_desktop": 18,
+        "card_title_size_desktop": 24,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 60,
+        "heading_size_mobile": 32,
+        "desc_size_mobile": 16,
+        "card_title_size_mobile": 20,
+        "max_width": 1900,
+        "section_bg": "#fdf4ee",
+        "card_bg": "#fafafa",
+        "bg_pattern": "shopify://shop_images/bg_img.webp",
+        "pattern_opacity": 95,
+        "kicker": "",
+        "heading": "Wholesale Program for Salon Professionals",
+        "text": "<p>Offer your clients a professional aftercare solution they’ll trust. Heel Heroes is available through our wholesale program for licensed salon owners.</p>",
+        "btn_label": "Apply for Wholesale Access",
+        "btn_link": "#",
+        "brand_color": "#fe5923",
+        "heading_color": "#8b7e76",
+        "text_color": "#7a7a7a"
+      }
+    }
+  },
+  "order": [
+    "hero_banner_v2_dfqaWm",
+    "custom_hero_eUFG4L",
+    "floting_card_xaYQqF",
+    "parallax_hero_rbFFTg",
+    "why_choose_CAFYMi",
+    "our_value_qh3nbM",
+    "feature_card_VjbUeQ",
+    "custom_review_QyK9CH",
+    "why_choose_AyhHVH"
+  ]
+}

@@ -1,0 +1,640 @@
+<footer id="hh-footer-{{ section.id }}" class="hh-footer-wrapper">
+  <div class="hh-footer-container">
+    
+    <!-- Top Floating Card -->
+    <div class="hh-footer-card">
+      {% for block in section.blocks %}
+        <div class="hh-footer-col" {{ block.shopify_attributes }}>
+          
+          {% case block.type %}
+            
+            {% when 'contact' %}
+              <h3 class="hh-col-title">{{ block.settings.title }}</h3>
+              <ul class="hh-contact-list">
+                {% if block.settings.address != blank %}
+                  <li>
+                    <svg viewBox="0 0 384 512" fill="currentColor"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>
+                    <span>{{ block.settings.address }}</span>
+                  </li>
+                {% endif %}
+                {% if block.settings.email != blank %}
+                  <li>
+                    <svg viewBox="0 0 512 512" fill="currentColor"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path></svg>
+                    <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
+                  </li>
+                {% endif %}
+                {% if block.settings.phone != blank %}
+                  <li>
+                    <svg viewBox="0 0 448 512" fill="currentColor"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48zm-16.39 307.37l-15 65A15 15 0 0 1 354 416C194 416 64 286.29 64 126a15.7 15.7 0 0 1 11.63-14.61l65-15A18.23 18.23 0 0 1 144 96a16.27 16.27 0 0 1 13.79 9.09l30 70A17.9 17.9 0 0 1 189 181a17 17 0 0 1-5.5 11.61l-37.89 31a231.91 231.91 0 0 0 110.78 110.78l31-37.89A17 17 0 0 1 299 291a17.85 17.85 0 0 1 5.91 1.21l70 30A16.25 16.25 0 0 1 384 336a17.41 17.41 0 0 1-.39 3.37z"></path></svg>
+                    <a href="tel:{{ block.settings.phone }}">{{ block.settings.phone }}</a>
+                  </li>
+                {% endif %}
+              </ul>
+
+            {% when 'menu' %}
+              <h3 class="hh-col-title">{{ block.settings.title }}</h3>
+              <ul class="hh-menu-list">
+                {% if block.settings.menu != blank %}
+                  {% for link in linklists[block.settings.menu].links %}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {% endfor %}
+                {% else %}
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Shop</a></li>
+                  <li><a href="#">Contact</a></li>
+                {% endif %}
+              </ul>
+
+            {% when 'newsletter' %}
+              <h3 class="hh-col-title">{{ block.settings.title }}</h3>
+              {% if block.settings.subheading != blank %}
+                <h6 class="hh-nl-subtitle">{{ block.settings.subheading }}</h6>
+              {% endif %}
+              {% if block.settings.text != blank %}
+                <p class="hh-nl-text">{{ block.settings.text }}</p>
+              {% endif %}
+              
+              {% form 'customer', class: 'hh-nl-form' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="hh-nl-input-group">
+                  <input type="email" name="contact[email]" placeholder="Email" required class="hh-nl-input">
+                  <button type="submit" class="hh-nl-btn">{{ block.settings.button_label }}</button>
+                </div>
+                {% if form.posted_successfully? %}
+                  <p class="hh-nl-success">Thanks for subscribing!</p>
+                {% endif %}
+              {% endform %}
+              
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="hh-footer-bottom">
+      
+      <!-- Left: Social & Policy Links -->
+      <div class="hh-bottom-left">
+        {% if section.settings.show_social %}
+          <div class="hh-social-icons">
+            {% if settings.social_facebook_link != blank %}
+              <a href="{{ settings.social_facebook_link }}" target="_blank" aria-label="Facebook">
+                <svg viewBox="0 0 320 512" fill="currentColor"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg>
+              </a>
+            {% endif %}
+            {% if settings.social_twitter_link != blank %}
+              <a href="{{ settings.social_twitter_link }}" target="_blank" aria-label="Twitter">
+                <svg viewBox="0 0 512 512" fill="currentColor"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+              </a>
+            {% endif %}
+            {% if settings.social_youtube_link != blank %}
+              <a href="{{ settings.social_youtube_link }}" target="_blank" aria-label="YouTube">
+                <svg viewBox="0 0 576 512" fill="currentColor"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg>
+              </a>
+            {% endif %}
+            <!-- Add fallback dummy icons if theme settings are empty for demonstration -->
+            {% if settings.social_facebook_link == blank and settings.social_twitter_link == blank and settings.social_youtube_link == blank %}
+               <a href="#" aria-label="Facebook"><svg viewBox="0 0 320 512" fill="currentColor"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg></a>
+               <a href="#" aria-label="Twitter"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></a>
+               <a href="#" aria-label="YouTube"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg></a>
+            {% endif %}
+          </div>
+        {% endif %}
+        
+        <ul class="hh-policy-links">
+          {% if section.settings.policy_menu != blank %}
+            {% for link in linklists[section.settings.policy_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          {% else %}
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Payment Policy</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <!-- Center: Logo -->
+      <div class="hh-bottom-center">
+        <a href="{{ routes.root_url }}" class="hh-footer-logo">
+          {% if section.settings.logo != blank %}
+            <img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" height="auto" loading="lazy">
+          {% else %}
+            <span style="font-size: 24px; font-weight: bold; color: var(--hh-f-accent);">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+      </div>
+
+      <!-- Right: Copyright -->
+      <div class="hh-bottom-right">
+        <p class="hh-copyright">
+          {{ section.settings.copyright_text | replace: '[year]', 'now' | date: '%Y' }}
+        </p>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+<style>
+  #hh-footer-{{ section.id }} {
+    --hh-f-bg: {{ section.settings.bg_color }};
+    --hh-f-card-bg: {{ section.settings.card_bg }};
+    --hh-f-accent: {{ section.settings.brand_color }};
+    --hh-f-text: {{ section.settings.text_color }};
+    --hh-f-border: #eaeaea;
+  }
+
+  /* Outer Wrapper */
+  .hh-footer-wrapper {
+    width: 100%;
+    background-color: #ffffff; /* Base background fallback */
+    padding: 0 20px 40px 20px;
+    box-sizing: border-box;
+  }
+
+  .hh-footer-container {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    background-color: transparent;
+    background-image: linear-gradient(180deg, #F8F2F0 0%, #FFEEE9 100%);
+    border-radius: 20px;
+    padding: 60px 40px 40px 40px;
+    box-sizing: border-box;
+    position: relative;
+    margin-top: 55px; /* Offset to allow card to visually float if needed, or just space */
+  }
+
+  /* Top Floating Card */
+  .hh-footer-card {
+    background: var(--hh-f-card-bg);
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.16);
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -100px; /* Pulls card up to float over section boundary */
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hh-footer-col {
+    flex: 1;
+    padding: 50px 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+  }
+
+  .hh-footer-col:not(:last-child) {
+    border-right: 1px solid var(--hh-f-border);
+  }
+
+  /* Column Typography */
+  .hh-col-title {
+    color: var(--hh-f-accent);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 25px 0;
+  }
+
+  /* List Styles */
+  .hh-contact-list,
+  .hh-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hh-contact-list li,
+  .hh-menu-list li {
+    margin-bottom: 15px;
+    color: var(--hh-f-text);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    line-height: 1.5;
+  }
+
+  .hh-contact-list li:last-child,
+  .hh-menu-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .hh-contact-list svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+    color: #999;
+    flex-shrink: 0;
+  }
+
+  .hh-contact-list a,
+  .hh-menu-list a {
+    color: var(--hh-f-text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .hh-contact-list a:hover,
+  .hh-menu-list a:hover {
+    color: var(--hh-f-accent);
+  }
+
+  /* Newsletter Specific */
+  .hh-nl-subtitle {
+    color: var(--hh-f-accent);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+  }
+
+  .hh-nl-text {
+    color: #999;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 20px 0;
+  }
+
+  .hh-nl-form {
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .hh-nl-input-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  .hh-nl-input {
+    flex: 1;
+    background: #F8F8F8;
+    border: 1px solid transparent;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border 0.3s ease;
+  }
+
+  .hh-nl-input:focus {
+    border: 1px solid var(--hh-f-accent);
+  }
+
+  .hh-nl-btn {
+    background: var(--hh-f-accent);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .hh-nl-btn:hover {
+    background: #db4a35; /* Slightly darker */
+    transform: translateY(-2px);
+  }
+
+  .hh-nl-success {
+    color: #28a745;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+
+  /* Bottom Bar */
+  .hh-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 20px;
+  }
+
+  .hh-bottom-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex: 1;
+  }
+
+  .hh-social-icons {
+    display: flex;
+    gap: 15px;
+  }
+
+  .hh-social-icons a {
+    color: var(--hh-f-accent);
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hh-social-icons a:hover {
+    transform: translateY(-3px);
+  }
+
+  .hh-social-icons svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .hh-policy-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+  }
+
+  .hh-policy-links a {
+    color: #999;
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .hh-policy-links a:hover {
+    color: var(--hh-f-accent);
+  }
+
+  .hh-bottom-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hh-footer-logo {
+    display: inline-block;
+  }
+
+  .hh-footer-logo img {
+    width: 150px;
+    height: 107px;
+    object-fit: contain;
+  }
+
+  .hh-bottom-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hh-copyright {
+    color: #999;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .hh-footer-col { padding: 40px 30px; }
+    .hh-bottom-left { flex-direction: column; align-items: flex-start; gap: 15px; }
+  }
+
+  @media (max-width: 768px) {
+    .hh-footer-container {
+      padding: 40px 20px 30px 20px;
+      border-radius: 16px;
+      margin-top: 60px;
+    }
+    
+    .hh-footer-card {
+      flex-direction: column;
+      margin-top: -60px;
+      margin-bottom: 40px;
+    }
+
+    .hh-footer-col {
+      padding: 35px 25px;
+    }
+
+    .hh-footer-col:not(:last-child) {
+      border-right: none;
+      border-bottom: 1px solid var(--hh-f-border);
+    }
+
+    .hh-nl-input-group {
+      flex-direction: column;
+    }
+    
+    .hh-nl-btn {
+      width: 100%;
+    }
+
+    .hh-footer-bottom {
+      flex-direction: column;
+      text-align: center;
+      gap: 30px;
+    }
+
+    .hh-bottom-left {
+      align-items: center;
+      order: 2; /* Push links below logo */
+    }
+
+    .hh-policy-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hh-bottom-center {
+      order: 1; /* Logo on top */
+    }
+
+    .hh-bottom-right {
+      order: 3;
+      justify-content: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Premium Footer",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1900
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Outer Background Color",
+      "default": "#FAF0E6"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Bar Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Footer Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 150
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Icons",
+      "info": "Edit URLs in Theme Settings > Social media",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "policy_menu",
+      "label": "Policy Links Menu"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "Copyright © [year] Heel Heroes. All rights reserved.",
+      "info": "Use [year] to automatically show the current year."
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Color (Headings, Buttons, Icons)",
+      "default": "#F36633"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#7A7A7A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "contact",
+      "name": "Contact Info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Head Office"
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "label": "Address",
+          "default": "Example Location"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email",
+          "default": "Support@example.com"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone",
+          "default": "+1234567890"
+        }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu Links",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Short Link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Newsletter"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "STAY UPDATED ON FOOT CARE TIPS AND EXCLUSIVE OFFERS"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Sign up to receive the latest news, product updates, and special promotions straight to your inbox."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Sign up"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Footer",
+      "blocks": [
+        { "type": "contact" },
+        { "type": "menu" },
+        { "type": "newsletter" }
+      ]
+    }
+  ]
+}
+{% endschema %}

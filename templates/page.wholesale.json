@@ -1,0 +1,372 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "Title",
+          "settings": {
+            "text": "<h1>{{ closest.page.title }}</h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "page-content": {
+          "type": "page-content",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "hero_banner_v2_7zPHKR": {
+      "type": "hero-banner-v2",
+      "blocks": {
+        "slide_DVPfkY": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89_ff523e53-dca7-4873-ab1e-9d45d5931602.png",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        },
+        "slide_jz9k3M": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/2C66160E-361E-4F77-A6FF-63CD6A438438_e10ccb9b-174d-496b-af02-997dcc977949.jpg",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_DVPfkY",
+        "slide_jz9k3M"
+      ],
+      "name": "HH – Hero Section v2",
+      "settings": {
+        "max_width": 1900,
+        "section_bg": "#ffffff",
+        "brand_color": "#f36633",
+        "dark_card_color": "#54463f",
+        "light_card_color": "#faf8f5",
+        "autoplay_speed": 6,
+        "overlay_opacity": 40
+      }
+    },
+    "why_choose_cCz8Fy": {
+      "type": "why-choose",
+      "blocks": {
+        "feature_iTC4KR": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/value.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\"><polygon points=\"12 2 22 8.5 12 15 2 8.5 12 2\"></polygon><polygon points=\"12 22 22 15.5 12 9 2 15.5 12 22\"></polygon></svg>",
+            "title": "Exclusive Wholesale Pricing",
+            "description": "Discounted rates for salon professionals.",
+            "card_btn_label": "Learn More",
+            "card_btn_link": ""
+          }
+        },
+        "feature_9gYEyB": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/ornament.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Bulk Order Options",
+            "description": "Stock up for in-salon use.",
+            "card_btn_label": "Learn More",
+            "card_btn_link": ""
+          }
+        },
+        "feature_fHh9MC": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/call.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"3\"></circle><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1l2.1-2.1M17 7l2.1-2.1\"></path><path d=\"M12 5a7 7 0 017 7c0 3.8-3.2 7-7 7s-7-3.2-7-7a7 7 0 017-7z\"></path></svg>",
+            "title": "Dedicated Support",
+            "description": "Customer support tailored to your needs.",
+            "card_btn_label": "Learn More",
+            "card_btn_link": ""
+          }
+        },
+        "feature_y3ca9e": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/customer-support.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 18v-6a9 9 0 0118 0v6\"></path><path d=\"M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z\"></path><path d=\"M15 16v3M12 21v-4\"></path></svg>",
+            "title": "Premium Quality Products",
+            "description": "Salon-grade products used by professionals worldwide.",
+            "card_btn_label": "Learn More",
+            "card_btn_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_iTC4KR",
+        "feature_9gYEyB",
+        "feature_fHh9MC",
+        "feature_y3ca9e"
+      ],
+      "custom_css": [
+        "@media (min-width: 1024px) {.hh-wc-grid {grid-template-columns: repeat(4, 1fr); }}"
+      ],
+      "name": "Why Choose Heel Heroes",
+      "settings": {
+        "padding_top_desktop": 100,
+        "padding_bottom_desktop": 120,
+        "heading_size_desktop": 54,
+        "desc_size_desktop": 16,
+        "card_title_size_desktop": 22,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 60,
+        "heading_size_mobile": 36,
+        "desc_size_mobile": 14,
+        "card_title_size_mobile": 16,
+        "max_width": 1900,
+        "section_bg": "#fdf4ee",
+        "card_bg": "#fafafa",
+        "bg_pattern": "shopify://shop_images/bg_img.webp",
+        "pattern_opacity": 100,
+        "kicker": "Our Wholesale Program",
+        "heading": "Why Join Our Wholesale Program?",
+        "text": "",
+        "btn_label": "Learn More",
+        "btn_link": "",
+        "brand_color": "#f36633",
+        "heading_color": "#8b7e76",
+        "text_color": "#7a7a7a"
+      }
+    },
+    "floting_card_RTVbpU": {
+      "type": "floting-card",
+      "name": "Image with Floating Card",
+      "settings": {
+        "max_width": 1770,
+        "section_bg": "#ffffff",
+        "pt_desk": 110,
+        "pb_desk": 110,
+        "px_desk": 20,
+        "pt_mob": 50,
+        "pb_mob": 50,
+        "px_mob": 15,
+        "kicker": "Wholesale Program",
+        "heading": "Who Can Apply?",
+        "text": "<ul><li>Hair & beauty salons</li><li>Pedicure & nail clinics</li><li>Mobile beauty professionals</li><li>Health & wellness spas</li></ul>",
+        "button_label": "Join Our Wholesale Program",
+        "button_link": "",
+        "fs_kicker_desk": 14,
+        "fs_heading_desk": 54,
+        "fs_text_desk": 16,
+        "fs_kicker_mob": 12,
+        "fs_heading_mob": 34,
+        "fs_text_mob": 14,
+        "image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89.png",
+        "show_floating_card": false,
+        "card_bg": "#ffffff",
+        "card_icon_svg": "",
+        "card_title": "",
+        "card_text": "",
+        "fs_card_title_desk": 22,
+        "fs_card_text_desk": 16,
+        "fs_card_title_mob": 16,
+        "fs_card_text_mob": 14,
+        "brand_color": "#f36633",
+        "heading_color": "#928480",
+        "text_color": "#928480"
+      }
+    },
+    "floting_card_JKapNd": {
+      "type": "floting-card",
+      "custom_css": [
+        ".hh-about-container .hh-about-visual {order: 1;}",
+        ".hh-about-container .hh-about-content {order: 2;}"
+      ],
+      "name": "Image with Floating Card",
+      "settings": {
+        "max_width": 1770,
+        "section_bg": "#ffffff",
+        "pt_desk": 110,
+        "pb_desk": 110,
+        "px_desk": 20,
+        "pt_mob": 50,
+        "pb_mob": 50,
+        "px_mob": 15,
+        "kicker": "Wholesale Program",
+        "heading": "Who Can Apply?",
+        "text": "<ul><li>Hair & beauty salons</li><li>Pedicure & nail clinics</li><li>Mobile beauty professionals</li><li>Health & wellness spas</li></ul>",
+        "button_label": "Join Our Wholesale Program",
+        "button_link": "",
+        "fs_kicker_desk": 14,
+        "fs_heading_desk": 54,
+        "fs_text_desk": 16,
+        "fs_kicker_mob": 12,
+        "fs_heading_mob": 34,
+        "fs_text_mob": 14,
+        "image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89.png",
+        "show_floating_card": false,
+        "card_bg": "#ffffff",
+        "card_icon_svg": "",
+        "card_title": "",
+        "card_text": "",
+        "fs_card_title_desk": 22,
+        "fs_card_text_desk": 16,
+        "fs_card_title_mob": 16,
+        "fs_card_text_mob": 14,
+        "brand_color": "#f36633",
+        "heading_color": "#928480",
+        "text_color": "#928480"
+      }
+    },
+    "wholesale_form_4pPm8F": {
+      "type": "wholesale-form",
+      "name": "Wholesale Form",
+      "settings": {
+        "padding_top_desktop": 100,
+        "padding_bottom_desktop": 100,
+        "heading_size_desktop": 48,
+        "desc_size_desktop": 16,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 50,
+        "heading_size_mobile": 32,
+        "desc_size_mobile": 15,
+        "max_width": 1900,
+        "section_bg": "#fdf4ee",
+        "bg_pattern": "shopify://shop_images/bg_img_d5d72a49-c56c-4fcd-b494-9d798e407d03.webp",
+        "pattern_opacity": 100,
+        "kicker": "OUR WHOLESALE PROGRAM",
+        "heading": "Apply for Wholesale Access",
+        "text": "<p>Complete the application form below. Our team will review your submission and contact you within 1-2 business days.</p>",
+        "btn_label": "Send Your Information",
+        "brand_color": "#ea5a41",
+        "heading_color": "#8b7e76",
+        "text_color": "#7a7a7a"
+      }
+    },
+    "why_choose_3zhTbd": {
+      "type": "why-choose",
+      "blocks": {
+        "feature_RfgtP4": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/call.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Need assistance? We’re here to help!",
+            "description": "If you have any questions or need support, feel free to reach out. We’re just a click away and ready to assist you with any product or order inquiries.",
+            "card_btn_label": "Contact now",
+            "card_btn_link": "#"
+          }
+        },
+        "feature_HRqcPf": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/email.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Have an issue or inquiry?",
+            "description": "For any issues or more detailed inquiries, please fill out the form below and our support team will get back to you as soon as possible.",
+            "card_btn_label": "Contact now",
+            "card_btn_link": "#"
+          }
+        },
+        "feature_p3PtH8": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/open-book.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Stay Updated with Heel Heroes",
+            "description": "We’re working on new updates and features for our loyal customers. Stay tuned for future announcements and exciting additions to Heel Heroes.",
+            "card_btn_label": "Read Now",
+            "card_btn_link": "#"
+          }
+        }
+      },
+      "block_order": [
+        "feature_RfgtP4",
+        "feature_HRqcPf",
+        "feature_p3PtH8"
+      ],
+      "custom_css": [
+        ".hh-wc-section {padding: 0 20px 20px;}"
+      ],
+      "name": "Why Choose Heel Heroes",
+      "settings": {
+        "padding_top_desktop": 100,
+        "padding_bottom_desktop": 120,
+        "heading_size_desktop": 48,
+        "desc_size_desktop": 18,
+        "card_title_size_desktop": 24,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 60,
+        "heading_size_mobile": 32,
+        "desc_size_mobile": 16,
+        "card_title_size_mobile": 20,
+        "max_width": 1900,
+        "section_bg": "#fdf4ee",
+        "card_bg": "#fafafa",
+        "bg_pattern": "shopify://shop_images/bg_img.webp",
+        "pattern_opacity": 95,
+        "kicker": "",
+        "heading": "Wholesale Program for Salon Professionals",
+        "text": "<p>Offer your clients a professional aftercare solution they’ll trust. Heel Heroes is available through our wholesale program for licensed salon owners.</p>",
+        "btn_label": "Apply for Wholesale Access",
+        "btn_link": "#",
+        "brand_color": "#fe5923",
+        "heading_color": "#8b7e76",
+        "text_color": "#7a7a7a"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "hero_banner_v2_7zPHKR",
+    "why_choose_cCz8Fy",
+    "floting_card_RTVbpU",
+    "floting_card_JKapNd",
+    "wholesale_form_4pPm8F",
+    "why_choose_3zhTbd"
+  ]
+}

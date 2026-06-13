@@ -1,0 +1,532 @@
+{% comment %}
+  Section: Our Value (50/50 Split Layout)
+  Description: A premium boxed section with a text/icon grid on the left and a full uncropped image on the right.
+{% endcomment %}
+
+<div id="hh-values-{{ section.id }}" class="hh-section-outer">
+  <div class="hh-values-container">
+    
+    <!-- Left Content Column -->
+    <div class="hh-values-left">
+      <div class="hh-values-content">
+        
+        <div class="hh-animate-element">
+          {% if section.settings.kicker != blank %}
+            <h6 class="hh-v-kicker">{{ section.settings.kicker }}</h6>
+          {% endif %}
+          
+          {% if section.settings.heading != blank %}
+            <h2 class="hh-v-heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+          
+          {% if section.settings.text != blank %}
+            <div class="hh-v-desc">{{ section.settings.text }}</div>
+          {% endif %}
+          
+          <div class="hh-v-divider"></div>
+        </div>
+        
+        <!-- Icon Grid -->
+        <div class="hh-v-grid">
+          {% for block in section.blocks %}
+            <div class="hh-v-item hh-animate-element delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="hh-v-icon">
+                {% if block.settings.icon_img != blank %}
+                  <img src="{{ block.settings.icon_img | image_url: width: 80 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="36" height="36">
+                {% else %}
+                  {{ block.settings.icon_svg }}
+                {% endif %}
+              </div>
+              <h4 class="hh-v-item-title">{{ block.settings.title }}</h4>
+              <p class="hh-v-item-desc">{{ block.settings.description }}</p>
+            </div>
+          {% endfor %}
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- Right Image Column (No Animations, No Cropping) -->
+    <div class="hh-values-right">
+      {% if section.settings.image %}
+        <img src="{{ section.settings.image | image_url: width: 1500 }}" 
+             alt="{{ section.settings.heading | escape }}" 
+             loading="lazy" 
+             class="hh-v-image"
+             width="{{ section.settings.image.width }}"
+             height="{{ section.settings.image.height }}">
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'hh-v-image hh-placeholder' }}
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  #hh-values-{{ section.id }} {
+    --hh-v-bg: {{ section.settings.bg_color }};
+    --hh-v-right-bg: {{ section.settings.right_bg_color }};
+    --hh-v-accent: {{ section.settings.brand_color }};
+    --hh-v-heading: {{ section.settings.heading_color }};
+    --hh-v-text: {{ section.settings.text_color }};
+  }
+
+  #hh-values-{{ section.id }}.hh-section-outer {
+    width: 100%;
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px 20px;
+    background-color: {{ section.settings.outer_bg_color }};
+    box-sizing: border-box;
+  }
+
+  #hh-values-{{ section.id }} .hh-values-container {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    border-radius: {{ section.settings.border_radius }}px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--hh-v-bg);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+  }
+
+  #hh-values-{{ section.id }} .hh-values-left {
+    width: 50%;
+    background-color: var(--hh-v-bg);
+    padding: 4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+
+  /* Right Column — stretches fully to fill container height */
+  #hh-values-{{ section.id }} .hh-values-right {
+    width: 50%;
+    background-color: var(--hh-v-right-bg);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* Image fills the full column height with no gaps */
+  #hh-values-{{ section.id }} .hh-v-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  #hh-values-{{ section.id }} .hh-placeholder {
+    background: #e9e9e9;
+    fill: #a3a3a3;
+    width: 100%;
+    height: 100%;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-kicker {
+    color: var(--hh-v-accent);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    font-family: sans-serif;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-heading {
+    color: var(--hh-v-heading);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 46px;
+    line-height: 1.15;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-desc {
+    color: var(--hh-v-text);
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0 0 40px 0;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-desc p {
+    margin: 0;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--hh-v-accent);
+    margin-bottom: 50px;
+    opacity: 0.6;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 30px;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-icon {
+    margin-bottom: 15px;
+    color: var(--hh-v-accent);
+  }
+
+  #hh-values-{{ section.id }} .hh-v-icon svg {
+    width: 36px;
+    height: 36px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-icon img {
+    width: 36px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-item-title {
+    color: var(--hh-v-heading);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+  }
+
+  #hh-values-{{ section.id }} .hh-v-item-desc {
+    color: var(--hh-v-text);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  #hh-values-{{ section.id }} .hh-animate-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #hh-values-{{ section.id }} .hh-animate-element.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #hh-values-{{ section.id }} .delay-1 { transition-delay: 0.1s; }
+  #hh-values-{{ section.id }} .delay-2 { transition-delay: 0.2s; }
+  #hh-values-{{ section.id }} .delay-3 { transition-delay: 0.3s; }
+  #hh-values-{{ section.id }} .delay-4 { transition-delay: 0.4s; }
+
+  /* Tablet — stack vertically, image goes below */
+  @media (max-width: 1024px) {
+    #hh-values-{{ section.id }} .hh-values-container {
+      flex-direction: column;
+    }
+
+    #hh-values-{{ section.id }} .hh-values-left {
+      width: 100%;
+      padding: 80px 40px;
+    }
+
+    #hh-values-{{ section.id }} .hh-values-content {
+      max-width: 700px;
+    }
+
+    /* Image column takes its own height from the image itself */
+    #hh-values-{{ section.id }} .hh-values-right {
+      width: 100%;
+      min-height: 500px;
+    }
+
+    #hh-values-{{ section.id }} .hh-v-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #hh-values-{{ section.id }}.hh-section-outer {
+      padding: 40px 15px;
+    }
+
+    #hh-values-{{ section.id }} .hh-values-container {
+      border-radius: 16px;
+    }
+
+    #hh-values-{{ section.id }} .hh-values-left {
+      padding: 50px 20px;
+    }
+
+    #hh-values-{{ section.id }} .hh-v-heading {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    #hh-values-{{ section.id }} .hh-v-desc {
+      font-size: 15px;
+      margin-bottom: 30px;
+    }
+
+    #hh-values-{{ section.id }} .hh-v-divider {
+      margin-bottom: 30px;
+    }
+
+    #hh-values-{{ section.id }} .hh-v-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    #hh-values-{{ section.id }} .hh-values-right {
+      min-height: 350px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    function initHhValues() {
+      const section = document.getElementById('hh-values-{{ section.id }}');
+      if (!section) return;
+
+      const animatedElements = section.querySelectorAll('.hh-animate-element');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -10% 0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      animatedElements.forEach(el => observer.observe(el));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHhValues);
+    } else {
+      initHhValues();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.target.querySelector('#hh-values-{{ section.id }}')) {
+        initHhValues();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Our Value (Split)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1900
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Container Border Radius",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Outer Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Outer Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "outer_bg_color",
+      "label": "Outer Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Left Column Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Left Column Background",
+      "default": "#FAF6F4"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Our Value"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Care That Goes Beyond the Surface"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description",
+      "default": "<p>Heel Heroes blends science, experience, and intention to create foot care that truly works. Our formula focuses on long-term results—not quick fixes—so your feet feel better with every use.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Right Column Settings"
+    },
+    {
+      "type": "color",
+      "id": "right_bg_color",
+      "label": "Right Column Background",
+      "info": "Set this to match the background of your image if needed.",
+      "default": "#EFEAE4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Right Full Image",
+      "info": "Image will display fully without cropping."
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Color (Icons, Divider, Kicker)",
+      "default": "#F36633"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#8B7E76"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#7A7A7A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value_item",
+      "name": "Value Item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_img",
+          "label": "Custom Icon Image (Overrides SVG)"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG Code",
+          "info": "Paste SVG code here.",
+          "default": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'></path><path d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'></path></svg>"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Knowledge"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Built on years of hands-on salon experience."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Value (Split)",
+      "blocks": [
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "Knowledge",
+            "description": "Built on years of hands-on salon experience.",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'></path><path d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'></path></svg>"
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "Care",
+            "description": "Created for comfort, confidence, and consistency.",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'></path></svg>"
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "Quality",
+            "description": "Premium formulation without unnecessary fillers.",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 3h12l4 6-10 12L2 9l4-6z'></path><path d='M12 21V9'></path><path d='M2 9h20'></path><path d='M6 3l6 6 6-6'></path></svg>"
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "Integrity",
+            "description": "Results-driven, clean, and thoughtfully packaged.",
+            "icon_svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z'></path><path d='M12 22V12'></path><path d='M12 12a5 5 0 0 0 5-5'></path><path d='M12 12a5 5 0 0 1-5-5'></path></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

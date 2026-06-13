@@ -1,0 +1,633 @@
+<div id="ph-section-{{ section.id }}" class="ph-section-wrapper">
+  <div class="ph-container">
+    
+    <!-- SECTION 01: Parallax Hero Banner
+         background-attachment: fixed is set in CSS.
+         The bg image URL is passed via inline style so Liquid can inject it. -->
+    <div class="ph-hero{% unless section.settings.bg_image %} ph-hero-placeholder{% endunless %}"
+         {% if section.settings.bg_image %}
+           style="background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');"
+         {% endif %}>
+
+      <div class="ph-overlay"></div>
+
+      <div class="ph-hero-content ph-animate-up">
+        {% if section.settings.heading != blank %}
+          <h2 class="ph-hero-heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+        
+        {% if section.settings.text != blank %}
+          <div class="ph-hero-text">{{ section.settings.text }}</div>
+        {% endif %}
+        
+        {% if section.settings.btn_label != blank %}
+          <a href="{{ section.settings.btn_link | default: '#' }}" class="ph-hero-btn">
+            {{ section.settings.btn_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- SECTION 02: Featured Collection Products Overlap -->
+    <div class="ph-products-overlap ph-animate-up delay-1">
+      <div class="ph-products-header">
+        <h3 class="ph-products-title">{{ section.settings.collection_heading }}</h3>
+        <div class="ph-title-underline"></div>
+      </div>
+
+      <div class="ph-slider-container" id="ph-slider-{{ section.id }}">
+        <div class="ph-products-grid">
+          {% assign collection = collections[section.settings.collection] %}
+          {% assign product_limit = section.settings.product_limit %}
+          
+          {% if collection != blank and collection.products_count > 0 %}
+            {% for product in collection.products limit: product_limit %}
+              <div class="ph-product-card">
+                <a href="{{ product.url }}" class="ph-product-img-link">
+                  <div class="ph-product-img-wrapper">
+                    <img src="{{ product.featured_image | image_url: width: 600 }}" 
+                         alt="{{ product.title | escape }}"
+                         loading="lazy"
+                         width="{{ product.featured_image.width }}"
+                         height="{{ product.featured_image.height }}">
+                  </div>
+                </a>
+                <div class="ph-product-info">
+                  <h4 class="ph-product-title">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h4>
+                  <div class="ph-product-stars">
+                    {% for i in (1..5) %}
+                      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% endfor %}
+                  </div>
+                  <div class="ph-product-price">{{ product.price | money }}</div>
+                  <form method="post" action="/cart/add" class="ph-add-to-cart-form">
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    <button type="submit" class="ph-add-btn" {% if product.available == false %}disabled{% endif %}>
+                      {% if product.available %}Add to cart{% else %}Sold Out{% endif %}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            {% for i in (1..4) %}
+              <div class="ph-product-card">
+                <a href="#" class="ph-product-img-link">
+                  <div class="ph-product-img-wrapper">
+                    {{ 'product-' | append: i | placeholder_svg_tag }}
+                  </div>
+                </a>
+                <div class="ph-product-info">
+                  <h4 class="ph-product-title"><a href="#">Heel Heroes Intensive Repair</a></h4>
+                  <div class="ph-product-stars">
+                    {% for j in (1..5) %}
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% endfor %}
+                  </div>
+                  <div class="ph-product-price">$22.99</div>
+                  <button class="ph-add-btn" disabled>Add to cart</button>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<style>
+  #ph-section-{{ section.id }} {
+    --ph-color-gradient-1: {{ section.settings.gradient_color_1 }};
+    --ph-color-gradient-2: {{ section.settings.gradient_color_2 }};
+    --ph-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --ph-accent-color: {{ section.settings.accent_color }};
+    --ph-text-dark: #54463F;
+    --ph-card-bg: #FFFFFF;
+    --ph-transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .ph-section-wrapper {
+    width: 100%;
+    padding: 40px 20px 80px 20px;
+    background: {{ section.settings.section_bg }};
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .ph-container {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ─── PARALLAX HERO ────────────────────────────────────────────────────────
+   *
+   * background-attachment: fixed  →  the background image is positioned
+   * relative to the VIEWPORT, not the element. The section scrolls over it
+   * like a moving window — image never moves, zero JS, zero jitter.
+   *
+   * background-size: cover + background-position: center  →  image always
+   * fills the hero at any viewport size.
+   *
+   * Note: iOS Safari ignores `fixed` and falls back to `scroll`. If iOS
+   * support is critical, a JS fallback can be added, but for desktop and
+   * Android this is perfectly smooth.
+   * ─────────────────────────────────────────────────────────────────────── */
+  .ph-hero {
+    position: relative;
+    width: 100%;
+    height: 505px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    background-color: #f4ede6;
+
+    /* The magic: browser handles this natively with no JS at all */
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  /* Fallback appearance when no image is set in the editor */
+  .ph-hero-placeholder {
+    background: linear-gradient(135deg, #f7d8ce 0%, #ea8676 100%);
+  }
+
+  .ph-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image: linear-gradient(135deg, var(--ph-color-gradient-1) 0%, var(--ph-color-gradient-2) 100%);
+    opacity: var(--ph-overlay-opacity);
+    pointer-events: none;
+  }
+
+  .ph-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+    margin-top: -60px;
+  }
+
+  .ph-hero-heading {
+    color: #ffffff;
+    font-size: 54px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 0 0 20px 0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .ph-hero-text {
+    color: rgba(255,255,255,0.95);
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  }
+
+  .ph-hero-text p { margin: 0; }
+
+  .ph-hero-btn {
+    display: inline-block;
+    background: #ffffff;
+    color: var(--ph-accent-color);
+    text-decoration: none;
+    padding: 14px 35px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ph-hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  /* ─── FEATURED PRODUCTS OVERLAP ─────────────────────────────────────── */
+  .ph-products-overlap {
+    position: relative;
+    z-index: 10;
+    background: var(--ph-card-bg);
+    border-radius: 16px;
+    padding: 50px 40px;
+    margin: -100px auto 0 auto;
+    width: 94%;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.06);
+  }
+
+  .ph-products-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ph-products-title {
+    color: var(--ph-text-dark);
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+  }
+
+  .ph-title-underline {
+    width: 40px;
+    height: 2px;
+    background-color: var(--ph-accent-color);
+    margin: 0 auto;
+  }
+
+  .ph-slider-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ph-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    width: 100%;
+  }
+
+  .ph-product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform var(--ph-transition);
+  }
+
+  .ph-product-card:hover { transform: translateY(-5px); }
+
+  .ph-product-img-link {
+    width: 100%;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8f8f8;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 20px;
+  }
+
+  .ph-product-img-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .ph-product-img-wrapper img,
+  .ph-product-img-wrapper svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .ph-product-card:hover .ph-product-img-wrapper img { transform: scale(1.05); }
+
+  .ph-product-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ph-product-title {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+  }
+
+  .ph-product-title a {
+    color: var(--ph-accent-color);
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .ph-product-title a:hover { opacity: 0.7; }
+
+  .ph-product-stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 12px;
+  }
+
+  .ph-product-stars svg {
+    width: 14px;
+    height: 14px;
+    color: #54463F;
+  }
+
+  .ph-product-price {
+    color: var(--ph-accent-color);
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+
+  .ph-add-to-cart-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ph-add-btn {
+    background: var(--ph-accent-color);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--ph-transition);
+  }
+
+  .ph-add-btn:hover:not([disabled]) {
+    background: #d85141;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(234, 134, 118, 0.3);
+  }
+
+  .ph-add-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ─── ANIMATIONS ──────────────────────────────────────────────────────── */
+  .ph-animate-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .ph-animate-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .delay-1 { transition-delay: 0.2s; }
+
+  /* ─── RESPONSIVE ──────────────────────────────────────────────────────── */
+  @media (max-width: 1199px) {
+    .ph-products-overlap { width: 95%; padding: 40px 30px; }
+  }
+
+  @media (max-width: 991px) {
+    .ph-hero { height: 420px; }
+    .ph-hero-heading { font-size: 42px; }
+    .ph-products-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .ph-products-overlap { margin-top: -80px; }
+  }
+
+  @media (max-width: 767px) {
+    .ph-section-wrapper { padding: 20px 10px 60px 10px; }
+    .ph-hero { height: 340px; border-radius: 16px; }
+    .ph-hero-heading { font-size: 32px; margin-bottom: 12px; }
+    .ph-hero-text { font-size: 15px; margin-bottom: 20px; }
+    .ph-hero-content { margin-top: -40px; }
+
+    .ph-products-overlap {
+      width: 96%;
+      margin-top: -60px;
+      padding: 30px 15px;
+      border-radius: 12px;
+    }
+
+    .ph-products-title { font-size: 24px; }
+
+    /* 2-column grid — always reserves both slots regardless of product count */
+    .ph-slider-container { overflow: visible; }
+
+    .ph-products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .ph-product-card {
+      min-width: unset;
+      flex: unset;
+      scroll-snap-align: unset;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('ph-section-{{ section.id }}');
+    if (!section) return;
+
+    // No parallax JS needed — background-attachment: fixed handles it natively.
+
+    // ─── DESKTOP DRAG-TO-SCROLL ────────────────────────────────────────────
+    const slider = section.querySelector('.ph-slider-container');
+    let isDown = false, startX, scrollLeft;
+
+    if (slider) {
+      slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.style.cursor = 'grabbing';
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+      slider.addEventListener('mouseleave', () => { isDown = false; slider.style.cursor = 'grab'; });
+      slider.addEventListener('mouseup',    () => { isDown = false; slider.style.cursor = 'grab'; });
+      slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        slider.scrollLeft = scrollLeft - (e.pageX - slider.offsetLeft - startX) * 2;
+      });
+    }
+
+    // ─── ENTRANCE ANIMATIONS ──────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+    section.querySelectorAll('.ph-animate-up').forEach(el => observer.observe(el));
+
+
+    // ─── AJAX ADD TO CART & OPEN DRAWER ──────────────────────────────────
+    const addToCartForms = section.querySelectorAll('.ph-add-to-cart-form');
+    
+    addToCartForms.forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // ফর্ম সাবমিট হয়ে পেজ রিলোড হওয়া বন্ধ করবে
+        
+        const submitBtn = form.querySelector('.ph-add-btn');
+        if (!submitBtn || submitBtn.disabled) return;
+        
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Adding...'; // কার্টে অ্যাড হওয়ার সময় বাটন টেক্সট
+        submitBtn.disabled = true;
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (response.ok) {
+            // প্রোডাক্ট সাকসেসফুলি অ্যাড হলে হেডারের কার্ট বাটনে ক্লিক ট্রিগার করবে
+            const cartDrawerBtn = document.querySelector('.hhN__cart-btn');
+            if (cartDrawerBtn) {
+              cartDrawerBtn.click();
+            } else {
+              // কোনো কারণে হেডারের বাটন না পেলে সরাসরি কার্ট পেজে নিয়ে যাবে
+              window.location.href = '/cart';
+            }
+          } else {
+            console.error('Failed to add to cart');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        } finally {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      });
+    });
+
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Parallax Hero + Products",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1800,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1500
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Outer Background",
+      "default": "#f4ede6"
+    },
+    {
+      "type": "header",
+      "content": "Parallax Hero Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Overlay Gradient Color 1",
+      "default": "#f7d8ce"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Overlay Gradient Color 2",
+      "default": "#ea8676"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 60
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Hero Heading",
+      "default": "Our Hero Product"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Hero Description",
+      "default": "<p>A next-generation foot cream designed to rescue dry, cracked heels and restore lasting softness.</p>"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label (Optional)"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Featured Products Overlap"
+    },
+    {
+      "type": "text",
+      "id": "collection_heading",
+      "label": "Collection Heading",
+      "default": "Featured Product"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "label": "Maximum Products to Show",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Buttons, Price, Titles)",
+      "default": "#db4a35"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parallax Hero + Products",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

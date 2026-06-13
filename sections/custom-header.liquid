@@ -1,0 +1,1052 @@
+{%- comment -%} heel-heroes-nav.liquid {%- endcomment -%}
+{%- assign sid = section.id -%}
+
+<div class="hhN" id="hhN-{{ sid }}">
+
+  {%- comment -%} ── Overlay ── {%- endcomment -%}
+  <div class="hhN__overlay" id="hhNOverlay-{{ sid }}"></div>
+
+  {%- comment -%} ── Cart Drawer ── {%- endcomment -%}
+  <aside class="hhN__drawer" id="hhNDrawer-{{ sid }}" role="dialog" aria-modal="true" aria-label="Shopping cart" aria-hidden="true">
+
+    <div class="hhN__drawer-head">
+      <div class="hhN__drawer-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <path d="M3 6h18M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span>Your Cart</span>
+        <span class="hhN__drawer-badge" id="hhNDrawerBadge-{{ sid }}">{{ cart.item_count }}</span>
+      </div>
+      <button class="hhN__drawer-close" id="hhNDrawerClose-{{ sid }}" aria-label="Close cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="hhN__drawer-body" id="hhNDrawerBody-{{ sid }}">
+      <div class="hhN__drawer-loader">
+        <span class="hhN__spinner"></span>
+        <p>Loading your cart…</p>
+      </div>
+    </div>
+
+    <div class="hhN__drawer-foot" id="hhNDrawerFoot-{{ sid }}">
+      <div class="hhN__subtotal-row">
+        <span class="hhN__subtotal-label">Subtotal</span>
+        <span class="hhN__subtotal-val" id="hhNSubtotal-{{ sid }}">—</span>
+      </div>
+      <p class="hhN__foot-note">Shipping &amp; taxes calculated at checkout</p>
+      <a href="/checkout" class="hhN__checkout-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Proceed to Checkout
+      </a>
+      <a href="/cart" class="hhN__view-cart-link">View Full Cart</a>
+    </div>
+
+  </aside>
+
+  {%- comment -%} ── Navbar ── {%- endcomment -%}
+  <header class="hhN__bar" id="hhNBar-{{ sid }}">
+    <div class="hhN__bar-inner">
+
+      {%- comment -%} Mobile hamburger {%- endcomment -%}
+      <button class="hhN__mob-toggle" id="hhNMobToggle-{{ sid }}" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="22" height="22">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+      </button>
+
+      {%- comment -%} Desktop nav links (hidden on mobile) ── {%- endcomment -%}
+      <nav class="hhN__desk-nav" id="hhNDeskNav-{{ sid }}" aria-label="Desktop navigation">
+        {% if section.settings.menu %}
+          {% for link in linklists[section.settings.menu].links %}
+            <a href="{{ link.url }}" class="hhN__link">{{ link.title }}</a>
+          {% endfor %}
+        {% else %}
+          <a href="/" class="hhN__link">Home</a>
+          <a href="/pages/about" class="hhN__link">About</a>
+          <a href="/collections/all" class="hhN__link">Shop</a>
+          <a href="/pages/contact" class="hhN__link">Contact</a>
+        {% endif %}
+      </nav>
+
+      {%- comment -%} Centred logo {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="hhN__logo">
+        {% if section.settings.logo %}
+          <img src="{{ section.settings.logo | image_url: width: 400 }}"
+               alt="{{ shop.name }}"
+               width="{{ section.settings.logo_width }}"
+               height="auto"
+               loading="eager">
+        {% else %}
+          <span class="hhN__logo-text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+
+      {%- comment -%} Right icons {%- endcomment -%}
+      <div class="hhN__right">
+        <button class="hhN__icon-btn hhN__cart-btn" id="hhNCartBtn-{{ sid }}" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <path d="M3 6h18M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="hhN__cart-badge" id="hhNCartBadge-{{ sid }}" {% if cart.item_count == 0 %}style="display:none"{% endif %}>
+            {{ cart.item_count }}
+          </span>
+        </button>
+
+        {%- comment -%} Desktop-only login button {%- endcomment -%}
+        <a href="{{ routes.account_url }}" class="hhN__icon-btn hhN__desk-login">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
+          </svg>
+          <span>Login</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  {%- comment -%} ── Mobile Menu (separate from navbar flow) ── {%- endcomment -%}
+  <nav class="hhN__mobile-menu" id="hhNMenu-{{ sid }}" aria-label="Mobile navigation">
+    <div class="hhN__menu-header">
+      <span class="hhN__menu-label">Menu</span>
+      <button class="hhN__mob-close" id="hhNMobClose-{{ sid }}" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="hhN__menu-links">
+      {% if section.settings.menu %}
+        {% for link in linklists[section.settings.menu].links %}
+          <a href="{{ link.url }}" class="hhN__mob-link">{{ link.title }}</a>
+        {% endfor %}
+      {% else %}
+        <a href="/" class="hhN__mob-link">Home</a>
+        <a href="/pages/about" class="hhN__mob-link">About</a>
+        <a href="/collections/all" class="hhN__mob-link">Shop</a>
+        <a href="/pages/contact" class="hhN__mob-link">Contact</a>
+      {% endif %}
+    </div>
+
+    <div class="hhN__menu-footer">
+      <a href="{{ routes.account_url }}" class="hhN__mob-account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
+        </svg>
+        Login / Account
+      </a>
+    </div>
+  </nav>
+
+</div>
+
+<style>
+  :root {
+    --hhN-brand:      {{ section.settings.brand_color }};
+    --hhN-brand-dk:   {{ section.settings.brand_color | color_darken: 10 }};
+    --hhN-dark-card:  {{ section.settings.dark_card_color }};
+    --hhN-light-card: {{ section.settings.light_card_color }};
+    --hhN-ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* ── Root wrap ── */
+  .hhN {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+  }
+
+  /* ── Overlay ── */
+  .hhN__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 300;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+  .hhN__overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ── Cart Drawer ── */
+  .hhN__drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    max-width: 95vw;
+    height: 100%;
+    background: #fff;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(105%);
+    transition: transform 0.45s var(--hhN-ease);
+    box-shadow: -15px 0 50px rgba(0,0,0,0.10);
+  }
+  .hhN__drawer.is-open {
+    transform: translateX(0);
+  }
+
+  .hhN__drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    border-bottom: 1px solid #f0ece8;
+    flex-shrink: 0;
+  }
+  .hhN__drawer-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .hhN__drawer-badge {
+    background: var(--hhN-brand);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hhN__drawer-close {
+    background: #f5f0eb;
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #666;
+    transition: background 0.25s, color 0.25s;
+  }
+  .hhN__drawer-close:hover {
+    background: var(--hhN-brand);
+    color: #fff;
+  }
+
+  .hhN__drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 24px;
+    scroll-behavior: smooth;
+  }
+  .hhN__drawer-body::-webkit-scrollbar { width: 4px; }
+  .hhN__drawer-body::-webkit-scrollbar-track { background: transparent; }
+  .hhN__drawer-body::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+
+  .hhN__drawer-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    gap: 14px;
+    color: #bbb;
+    font-size: 14px;
+  }
+  .hhN__spinner {
+    display: block;
+    width: 34px;
+    height: 34px;
+    border: 3px solid #f0ece8;
+    border-top-color: var(--hhN-brand);
+    border-radius: 50%;
+    animation: hhNSpin 0.75s linear infinite;
+  }
+  @keyframes hhNSpin { to { transform: rotate(360deg); } }
+
+  .hhN__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    gap: 14px;
+  }
+  .hhN__empty-icon { color: #d8d0c8; }
+  .hhN__empty h4 { font-size: 18px; font-weight: 700; color: #222; margin: 0; }
+  .hhN__empty p  { font-size: 14px; color: #aaa; margin: 0; line-height: 1.6; }
+  .hhN__empty-shop {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--hhN-brand);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .hhN__empty-shop:hover {
+    background: var(--hhN-brand-dk);
+    transform: translateY(-2px);
+  }
+
+  .hhN__item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f5f0eb;
+    align-items: flex-start;
+    animation: hhNItemIn 0.3s var(--hhN-ease);
+  }
+  @keyframes hhNItemIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .hhN__item-img {
+    width: 76px;
+    height: 76px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f5f0eb;
+    border: 1px solid #ede8e2;
+  }
+  .hhN__item-info { flex: 1; min-width: 0; }
+  .hhN__item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hhN__item-variant {
+    font-size: 12px;
+    color: #aaa;
+    margin: 0 0 10px;
+    min-height: 16px;
+  }
+  .hhN__item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .hhN__qty {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #e8e0d8;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .hhN__qty-btn {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+    line-height: 1;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    user-select: none;
+  }
+  .hhN__qty-btn:hover { background: var(--hhN-brand); color: #fff; }
+  .hhN__qty-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    padding: 0 8px;
+    min-width: 28px;
+    text-align: center;
+  }
+  .hhN__item-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--hhN-brand);
+  }
+  .hhN__item-del {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ccc;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+    flex-shrink: 0;
+    margin-left: 6px;
+    margin-top: -2px;
+  }
+  .hhN__item-del:hover { color: #e03; }
+
+  .hhN__drawer-foot {
+    border-top: 1px solid #f0ece8;
+    padding: 20px 24px 24px;
+    background: #faf8f5;
+    flex-shrink: 0;
+  }
+  .hhN__subtotal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .hhN__subtotal-label { font-size: 13px; color: #888; font-weight: 500; }
+  .hhN__subtotal-val   { font-size: 22px; font-weight: 800; color: #1a1a1a; }
+  .hhN__foot-note { font-size: 12px; color: #bbb; margin: 0 0 16px; }
+  .hhN__checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--hhN-brand);
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    margin-bottom: 10px;
+  }
+  .hhN__checkout-btn:hover {
+    background: var(--hhN-brand-dk);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .hhN__view-cart-link {
+    display: block;
+    text-align: center;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .hhN__view-cart-link:hover { color: var(--hhN-brand); }
+
+  /* ── Navbar ── */
+  .hhN__bar {
+    position: absolute;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: {{ section.settings.max_width | minus: 40 }}px;
+    z-index: 100;
+    pointer-events: none;
+  }
+  .hhN__bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 14px;
+    padding: 10px 28px;
+    gap: 16px;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.07);
+    pointer-events: auto;
+    position: relative;
+  }
+
+  .hhN__bar.is-sticky {
+    display: none;
+    position: fixed;
+    top: 10px;
+    animation: hhNBarSlide 0.4s var(--hhN-ease);
+  }
+  @keyframes hhNBarSlide {
+    from { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* ── Desktop Nav Links (inside bar) ── */
+  .hhN__desk-nav {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .hhN__link {
+    text-decoration: none;
+    color: #E52F1B;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    position: relative;
+    transition: color 0.25s;
+    white-space: nowrap;
+  }
+  .hhN__link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--hhN-brand);
+    border-radius: 2px;
+    transition: width 0.3s var(--hhN-ease);
+  }
+  .hhN__link:hover { color: var(--hhN-brand); }
+  .hhN__link:hover::after { width: 100%; }
+
+  /* Logo */
+  .hhN__logo {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    flex: 1;
+    z-index: 1;
+  }
+  .hhN__logo img {
+    max-height: 103px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .hhN__logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--hhN-brand);
+    letter-spacing: -0.5px;
+  }
+
+  /* Right icons */
+  .hhN__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .hhN__icon-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--hhN-brand);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    height: 40px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    white-space: nowrap;
+  }
+  .hhN__icon-btn:hover {
+    background: var(--hhN-brand-dk);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  }
+
+  .hhN__cart-btn { padding: 0 13px; position: relative; }
+  .hhN__cart-badge {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background: #fff;
+    color: var(--hhN-brand);
+    font-size: 10px;
+    font-weight: 900;
+    border-radius: 50%;
+    width: 19px;
+    height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px var(--hhN-brand);
+    animation: hhNBadgePop 0.3s var(--hhN-ease);
+  }
+  @keyframes hhNBadgePop {
+    from { transform: scale(0); }
+    to   { transform: scale(1); }
+  }
+
+  /* Mobile hamburger - hidden by default */
+  .hhN__mob-toggle {
+    display: none;
+    background: var(--hhN-brand);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.25s;
+  }
+  .hhN__mob-toggle:hover { background: var(--hhN-brand-dk); }
+
+  /* ── Mobile Menu (slide in from left) ── */
+  .hhN__mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    max-width: 85vw;
+    height: 100%;
+    background: #ffffff;
+    z-index: 600;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-110%);
+    transition: transform 0.4s var(--hhN-ease);
+    box-shadow: 8px 0 40px rgba(0,0,0,0.15);
+    overflow-y: auto;
+    /* Ensure it's always on top and visible when open */
+  }
+  .hhN__mobile-menu.is-open {
+    transform: translateX(0);
+  }
+
+  .hhN__menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px;
+    border-bottom: 2px solid #f0ece8;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .hhN__menu-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+  }
+  .hhN__mob-close {
+    background: #f5f0eb;
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #555;
+    transition: background 0.2s, color 0.2s;
+  }
+  .hhN__mob-close:hover {
+    background: var(--hhN-brand);
+    color: #fff;
+  }
+
+  .hhN__menu-links {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    background: #fff;
+  }
+
+  .hhN__mob-link {
+    display: block;
+    padding: 16px 24px;
+    text-decoration: none;
+    color: #1a1a1a;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid #f5f0eb;
+    transition: color 0.2s, background 0.2s, padding-left 0.2s;
+    background: #fff;
+  }
+  .hhN__mob-link:hover {
+    color: var(--hhN-brand);
+    background: #fff8f4;
+    padding-left: 30px;
+  }
+
+  .hhN__menu-footer {
+    padding: 16px 20px 24px;
+    border-top: 2px solid #f0ece8;
+    background: #faf8f5;
+    flex-shrink: 0;
+  }
+  .hhN__mob-account {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #fff;
+    background: var(--hhN-brand);
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.25s;
+  }
+  .hhN__mob-account:hover { background: var(--hhN-brand-dk); }
+
+  /* Desktop menu hidden on mobile */
+  .hhN__desk-nav { display: flex; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    /* Reposition bar for mobile */
+    .hhN__bar {
+      top: 12px;
+      width: calc(100% - 24px);
+    }
+    .hhN__bar-inner {
+      padding: 10px 12px;
+      justify-content: space-between;
+    }
+
+    /* Show hamburger */
+    .hhN__mob-toggle {
+      display: flex;
+      position: static;
+    }
+
+    /* Hide desktop nav */
+    .hhN__desk-nav { display: none; }
+
+    /* Hide desktop login */
+    .hhN__desk-login { display: none; }
+
+    /* Logo centered */
+    .hhN__logo {
+      flex: 1;
+      justify-content: center;
+    }
+    .hhN__logo img {
+      max-height: 44px;
+    }
+
+    /* Right side - just cart */
+    .hhN__right {
+      position: static;
+      transform: none;
+      flex: 0 0 auto;
+    }
+  }
+
+  @media (min-width: 769px) {
+    /* Desktop: hide mobile menu completely */
+    .hhN__mobile-menu {
+      display: none !important;
+    }
+    .hhN__mob-toggle { display: none; }
+  }
+</style>
+
+<script>
+(function () {
+  'use strict';
+  const sid = '{{ section.id }}';
+
+  const $ = id => document.getElementById(id);
+
+  function money(cents) {
+    try {
+      return (cents / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: '{{ cart.currency.iso_code | default: "USD" }}'
+      });
+    } catch (e) {
+      return '$' + (cents / 100).toFixed(2);
+    }
+  }
+
+  const overlay     = $(`hhNOverlay-${sid}`);
+  const drawer      = $(`hhNDrawer-${sid}`);
+  const drawerClose = $(`hhNDrawerClose-${sid}`);
+  const drawerBody  = $(`hhNDrawerBody-${sid}`);
+  const drawerFoot  = $(`hhNDrawerFoot-${sid}`);
+  const drawerBadge = $(`hhNDrawerBadge-${sid}`);
+  const drawerTotal = $(`hhNSubtotal-${sid}`);
+  const navBadge    = $(`hhNCartBadge-${sid}`);
+  const cartBtn     = $(`hhNCartBtn-${sid}`);
+  const mobToggle   = $(`hhNMobToggle-${sid}`);
+  const mobClose    = $(`hhNMobClose-${sid}`);
+  const mobileMenu  = $(`hhNMenu-${sid}`);
+  const navBar      = $(`hhNBar-${sid}`);
+
+  let cartState = null;
+
+  /* ── Cart ── */
+  function openCart() {
+    drawer.setAttribute('aria-hidden', 'false');
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    fetchCart();
+  }
+
+  function closeCart() {
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.classList.remove('is-open');
+    if (!mobileMenu || !mobileMenu.classList.contains('is-open')) {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  async function fetchCart() {
+    drawerBody.innerHTML = `
+      <div class="hhN__drawer-loader">
+        <span class="hhN__spinner"></span>
+        <p>Loading your cart…</p>
+      </div>`;
+    drawerFoot.style.display = 'none';
+    try {
+      const res = await fetch('/cart.js', { headers: { 'Content-Type': 'application/json' } });
+      cartState = await res.json();
+      renderCart(cartState);
+    } catch (err) {
+      drawerBody.innerHTML = '<p style="text-align:center;padding:30px;color:#aaa">Could not load cart. Please refresh.</p>';
+    }
+  }
+
+  function updateCounters(count) {
+    if (drawerBadge) drawerBadge.textContent = count;
+    if (navBadge) {
+      navBadge.textContent = count;
+      navBadge.style.display = count > 0 ? 'flex' : 'none';
+    }
+  }
+
+  function renderCart(cart) {
+    updateCounters(cart.item_count || 0);
+    cartState = cart;
+
+    if (!cart.item_count) {
+      drawerBody.innerHTML = `
+        <div class="hhN__empty">
+          <svg class="hhN__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="72" height="72">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <path d="M3 6h18M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <h4>Your cart is empty</h4>
+          <p>Looks like you haven't added<br>anything yet. Let's change that!</p>
+          <a href="/collections/all" class="hhN__empty-shop">Start Shopping</a>
+        </div>`;
+      drawerFoot.style.display = 'none';
+      return;
+    }
+
+    drawerBody.innerHTML = cart.items.map((item, idx) => {
+      const img   = item.featured_image?.url || item.image || '';
+      const thumb = img ? img.replace(/(\.[a-z]+)(\?.*)?$/, '_160x160$1') : '';
+      const vt    = item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : '';
+      return `
+        <div class="hhN__item" data-idx="${idx}" data-key="${item.key}">
+          ${thumb ? `<img class="hhN__item-img" src="${thumb}" alt="${item.product_title}" loading="lazy">` : '<div class="hhN__item-img"></div>'}
+          <div class="hhN__item-info">
+            <p class="hhN__item-name">${item.product_title}</p>
+            <p class="hhN__item-variant">${vt}</p>
+            <div class="hhN__item-row">
+              <div class="hhN__qty">
+                <button class="hhN__qty-btn" data-key="${item.key}" data-delta="-1" aria-label="Decrease">−</button>
+                <span class="hhN__qty-num">${item.quantity}</span>
+                <button class="hhN__qty-btn" data-key="${item.key}" data-delta="1" aria-label="Increase">+</button>
+              </div>
+              <span class="hhN__item-price">${money(item.line_price)}</span>
+            </div>
+          </div>
+          <button class="hhN__item-del" data-key="${item.key}" title="Remove">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>`;
+    }).join('');
+
+    if (drawerTotal) drawerTotal.textContent = money(cart.total_price);
+    drawerFoot.style.display = 'block';
+
+    drawerBody.querySelectorAll('.hhN__qty-btn').forEach(btn => {
+      btn.addEventListener('click', async function () {
+        const key   = this.dataset.key;
+        const delta = parseInt(this.dataset.delta, 10);
+        const item  = cartState.items.find(i => i.key === key);
+        if (!item) return;
+        const qty = Math.max(0, item.quantity + delta);
+        await changeItem(key, qty);
+      });
+    });
+
+    drawerBody.querySelectorAll('.hhN__item-del').forEach(btn => {
+      btn.addEventListener('click', function () { changeItem(this.dataset.key, 0); });
+    });
+  }
+
+  async function changeItem(key, quantity) {
+    try {
+      const res  = await fetch('/cart/change.js', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ id: key, quantity })
+      });
+      const cart = await res.json();
+      renderCart(cart);
+    } catch (err) {
+      console.error('[HH Cart] update failed', err);
+    }
+  }
+
+  if (cartBtn)     cartBtn.addEventListener('click', openCart);
+  if (drawerClose) drawerClose.addEventListener('click', closeCart);
+
+  /* ── Overlay click closes everything ── */
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      closeCart();
+      if (mobileMenu) {
+        mobileMenu.classList.remove('is-open');
+      }
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    });
+  }
+
+  /* ── Sticky Bar ── */
+  if (navBar) {
+    window.addEventListener('scroll', () => {
+      navBar.classList.toggle('is-sticky', window.scrollY > 100);
+    }, { passive: true });
+  }
+
+  /* ── Mobile Menu ── */
+  if (mobToggle && mobileMenu) {
+    mobToggle.addEventListener('click', () => {
+      mobileMenu.classList.add('is-open');
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  if (mobClose && mobileMenu) {
+    mobClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('is-open');
+      if (!drawer.classList.contains('is-open')) {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "HH – Navigation",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1600
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 150
+    },
+    {
+      "type": "header",
+      "content": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation Menu"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Color",
+      "default": "#F36633"
+    },
+    {
+      "type": "color",
+      "id": "dark_card_color",
+      "label": "Dark Card Color",
+      "default": "#54463F"
+    },
+    {
+      "type": "color",
+      "id": "light_card_color",
+      "label": "Light Card Color",
+      "default": "#FAF8F5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH - Navigation"
+    }
+  ]
+}
+{% endschema %}

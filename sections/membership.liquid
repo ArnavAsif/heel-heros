@@ -1,0 +1,540 @@
+{%- style -%}
+  .membership-sec-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top_mb }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+    background-color: {{ section.settings.bg_color }};
+    font-family: 'Assistant', sans-serif;
+  }
+  
+  .membership-container-{{ section.id }} {
+    max-width: {% if section.settings.container_width == 'full' %}100%{% else %}{{ section.settings.container_width }}{% endif %};
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .membership-left-{{ section.id }} {
+    width: 100%;
+  }
+
+  .membership-sub-{{ section.id }} {
+    color: {{ section.settings.accent_color }};
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .membership-title-{{ section.id }} {
+    color: {{ section.settings.title_color }};
+    font-size: 36px;
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+    font-weight: 500;
+  }
+
+  .membership-desc-{{ section.id }} {
+    color: {{ section.settings.text_color }};
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    opacity: 0.8;
+  }
+
+  .membership-features-{{ section.id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 35px 0;
+  }
+
+  .membership-features-{{ section.id }} li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: {{ section.settings.text_color }};
+    opacity: 0.85;
+  }
+
+  .membership-features-{{ section.id }} li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: {{ section.settings.accent_color }};
+    font-weight: bold;
+  }
+
+  .membership-btn-{{ section.id }} {
+    display: inline-block;
+    background-color: {{ section.settings.btn_bg_color }};
+    color: {{ section.settings.btn_text_color }};
+    padding: 12px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .membership-btn-{{ section.id }}:hover {
+    opacity: 0.9;
+  }
+
+  /* Right Side Card Styling */
+  .membership-card-{{ section.id }} {
+    width: 100%;
+    max-width: 440px;
+    background: #f7f9fa;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    position: relative;
+  }
+
+  .card-header-{{ section.id }} {
+    background-color: {{ section.settings.accent_color }};
+    color: #ffffff;
+    padding: 30px 25px;
+    text-align: center;
+    position: relative;
+  }
+
+  .card-badge-{{ section.id }} {
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: #ffffff;
+    color: {{ section.settings.accent_color }};
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 30px;
+    transform: rotate(45deg);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .card-header-{{ section.id }} h3 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    color: #ffffff;
+    font-weight: 500;
+  }
+
+  .card-header-{{ section.id }} p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.9;
+    line-height: 1.4;
+  }
+
+  .card-body-{{ section.id }} {
+    padding: 35px 30px;
+    text-align: center;
+  }
+
+  .card-price-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .price-compare-{{ section.id }} {
+    font-size: 16px;
+    text-decoration: line-through;
+    color: #999;
+  }
+
+  .price-main-{{ section.id }} {
+    font-size: 42px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+    line-height: 1;
+  }
+
+  .price-period-{{ section.id }} {
+    display: block;
+    font-size: 12px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .card-lines-{{ section.id }} {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .card-line-item-{{ section.id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid #e5e9eb;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  .card-line-item-{{ section.id }}:last-child {
+    border-bottom: none;
+  }
+
+  .card-line-item-{{ section.id }} svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .card-btn-{{ section.id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ section.settings.btn_bg_color }};
+    color: {{ section.settings.btn_text_color }};
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (min-width: 769px) {
+    .membership-sec-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_dt }}px;
+      padding-bottom: {{ section.settings.padding_bottom_dt }}px;
+    }
+    .membership-container-{{ section.id }} {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 60px;
+    }
+    .membership-left-{{ section.id }} {
+      width: 55%;
+    }
+    .membership-card-{{ section.id }} {
+      width: 40%;
+    }
+    .membership-title-{{ section.id }} {
+      font-size: 52px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="membership-sec-{{ section.id }}">
+  <div class="membership-container-{{ section.id }}">
+    
+    <div class="membership-left-{{ section.id }}">
+      {% if section.settings.sub_title != blank %}
+        <span class="membership-sub-{{ section.id }}">{{ section.settings.sub_title }}</span>
+      {% endif %}
+      
+      {% if section.settings.title != blank %}
+        <h2 class="membership-title-{{ section.id }}">{{ section.settings.title }}</h2>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <div class="membership-desc-{{ section.id }}">{{ section.settings.description }}</div>
+      {% endif %}
+
+      <ul class="membership-features-{{ section.id }}">
+        {% if section.settings.feat_1 != blank %}<li>{{ section.settings.feat_1 }}</li>{% endif %}
+        {% if section.settings.feat_2 != blank %}<li>{{ section.settings.feat_2 }}</li>{% endif %}
+        {% if section.settings.feat_3 != blank %}<li>{{ section.settings.feat_3 }}</li>{% endif %}
+        {% if section.settings.feat_4 != blank %}<li>{{ section.settings.feat_4 }}</li>{% endif %}
+      </ul>
+
+      {% if section.settings.btn_label != blank %}
+        <a href="{{ section.settings.btn_url }}" class="membership-btn-{{ section.id }}">{{ section.settings.btn_label }}</a>
+      {% endif %}
+    </div>
+
+    {%- assign target_product = section.settings.membership_product -%}
+    <div class="membership-card-{{ section.id }}">
+      <div class="card-header-{{ section.id }}">
+        <div class="card-badge-{{ section.id }}">Popular</div>
+        <h3>{{ section.settings.card_title }}</h3>
+        <p>{{ section.settings.card_sub }}</p>
+      </div>
+
+      <div class="card-body-{{ section.id }}">
+        <div class="card-price-{{ section.id }}">
+          {% comment %} Pull Compare at Price from selected product {% endcomment %}
+          {% if target_product != blank and target_product.compare_at_price > target_product.price %}
+            <span class="price-compare-{{ section.id }}">{{ target_product.compare_at_price | money }}</span>
+          {% elsif target_product == blank %}
+            <span class="price-compare-{{ section.id }}">$22.99</span>
+          {% endif %}
+          
+          <div>
+            <span class="price-main-{{ section.id }}">
+              {% comment %} Pull Active Price from selected product {% endcomment %}
+              {% if target_product != blank %}
+                {{ target_product.price | money }}
+              {% else %}
+                $18.00
+              {% endif %}
+            </span>
+            <span class="price-period-{{ section.id }}">Monthly</span>
+          </div>
+        </div>
+
+        {% comment %} 3 Points controlled exclusively by Customizer settings {% endcomment %}
+        <div class="card-lines-{{ section.id }}">
+          {% if section.settings.card_point_1 != blank %}
+            <div class="card-line-item-{{ section.id }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>{{ section.settings.card_point_1 }}</span>
+            </div>
+          {% endif %}
+          
+          {% if section.settings.card_point_2 != blank %}
+            <div class="card-line-item-{{ section.id }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>{{ section.settings.card_point_2 }}</span>
+            </div>
+          {% endif %}
+
+          {% if section.settings.card_point_3 != blank %}
+            <div class="card-line-item-{{ section.id }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>{{ section.settings.card_point_3 }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if target_product != blank %}
+          <form method="post" action="/cart/add">
+            <input type="hidden" name="id" value="{{ target_product.first_available_variant.id }}" />
+            <button type="submit" class="card-btn-{{ section.id }}">{{ section.settings.card_btn_label }}</button>
+          </form>
+        {% else %}
+          <button class="card-btn-{{ section.id }}">{{ section.settings.card_btn_label }}</button>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Membership Plan",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "1170px", "label": "1170px" },
+        { "value": "1470px", "label": "1470px" },
+        { "value": "1570px", "label": "1570px" },
+        { "value": "1770px", "label": "1770px (Default)" },
+        { "value": "full", "label": "Full Width" }
+      ],
+      "default": "1770px"
+    },
+    {
+      "type": "product",
+      "id": "membership_product",
+      "label": "Select Membership Product",
+      "info": "Inherits only the 'Price' and 'Compare at price' from this product layout configuration."
+    },
+    {
+      "type": "header",
+      "content": "Left Content Customization"
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Subheading",
+      "default": "WHY WE BEST"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Heel Heroes Premium Membership"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Unlock exclusive benefits, discounts, and professional-grade foot care with our Premium Membership.</p>"
+    },
+    {
+      "type": "text",
+      "id": "feat_1",
+      "label": "Feature Item 1",
+      "default": "Exclusive Price: Get Heel Heroes Intensive Repair Cream for $18.00 (Regular Price: $22.99) every 4 months."
+    },
+    {
+      "type": "text",
+      "id": "feat_2",
+      "label": "Feature Item 2",
+      "default": "Priority Customer Support: Receive fast responses and priority assistance for any inquiries."
+    },
+    {
+      "type": "text",
+      "id": "feat_3",
+      "label": "Feature Item 3",
+      "default": "Early Access: Get exclusive access to new products and promotions."
+    },
+    {
+      "type": "text",
+      "id": "feat_4",
+      "label": "Feature Item 4",
+      "default": "Special Discounts & Offers: Enjoy members-only promotions on other products."
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Left Button Label",
+      "default": "Join Premium Now"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Left Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Right Card Settings & Points"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Card Header Title",
+      "default": "Premium Membership Plan"
+    },
+    {
+      "type": "text",
+      "id": "card_sub",
+      "label": "Card Header Subtitle",
+      "default": "Unlock exclusive benefits, discounts, and professional-grade foot care with our Premium Membership."
+    },
+    {
+      "type": "text",
+      "id": "card_point_1",
+      "label": "Card Feature 1",
+      "default": "Exclusive Member Discount: Save $4 on every purchase."
+    },
+    {
+      "type": "text",
+      "id": "card_point_2",
+      "label": "Card Feature 2",
+      "default": "Priority Access: Enjoy exclusive early access to product launches."
+    },
+    {
+      "type": "text",
+      "id": "card_point_3",
+      "label": "Card Feature 3",
+      "default": "4-Month Auto Delivery: Your foot cream will be shipped automatically every 4 months."
+    },
+    {
+      "type": "text",
+      "id": "card_btn_label",
+      "label": "Card Purchase Button",
+      "default": "Get Premium"
+    },
+    {
+      "type": "header",
+      "content": "Color Schemes"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fdf1eb"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Theme Accent (Orange)",
+      "default": "#f25c27"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Headings Color",
+      "default": "#786b68"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#2c2c2c"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background",
+      "default": "#f25c27"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_dt",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_dt",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mb",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mb",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Membership Plan"
+    }
+  ]
+}
+{% endschema %}

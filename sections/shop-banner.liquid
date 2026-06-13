@@ -1,0 +1,468 @@
+{{ 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js' | script_tag }}
+
+<div id="ph-banner-{{ section.id }}" class="ph-banner-section">
+  <div class="ph-banner-container ph-banner-animate">
+    
+    <div class="ph-banner-gradient"></div>
+
+    <div class="ph-banner-pattern" 
+         {% if section.settings.bg_pattern != blank %}
+           style="background-image: url('{{ section.settings.bg_pattern | image_url: width: 400 }}');"
+         {% endif %}>
+    </div>
+
+    <div class="ph-banner-lottie-wrap">
+      <div id="LottiePlayer-{{ section.id }}" class="ph-lottie-animation"></div>
+    </div>
+
+    <div class="ph-banner-content">
+      {% if section.settings.title != blank %}
+        <h1 class="ph-banner-title">{{ section.settings.title }}</h1>
+      {% endif %}
+      
+      {% if section.settings.subtitle != blank %}
+        <p class="ph-banner-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* CSS Variables with fallbacks */
+  #ph-banner-{{ section.id }} {
+    /* Colors */
+    --ph-banner-grad-1: {{ section.settings.grad_1 | default: '#fcf3f1' }};
+    --ph-banner-grad-2: {{ section.settings.grad_2 | default: '#f48d7d' }};
+    --ph-banner-title-color: {{ section.settings.title_color | default: '#ea5a41' }};
+    --ph-banner-subtitle-color: {{ section.settings.subtitle_color | default: '#ffffff' }};
+    
+    /* Settings */
+    --ph-banner-pattern-opacity: {{ section.settings.pattern_opacity | divided_by: 100.0 | default: 0.1 }};
+    --ph-banner-pattern-size: {{ section.settings.pattern_size }}px;
+    --banner-height-desktop: {{ section.settings.height_desktop }}px;
+    --banner-height-mobile: {{ section.settings.height_mobile }}px;
+    --banner-radius: {{ section.settings.border_radius }}px;
+    --title-size-desktop: {{ section.settings.title_size_desktop }}px;
+    --title-size-mobile: {{ section.settings.title_size_mobile }}px;
+    --subtitle-size-desktop: {{ section.settings.subtitle_size_desktop }}px;
+    --subtitle-size-mobile: {{ section.settings.subtitle_size_mobile }}px;
+  }
+
+  /* Section Wrapper */
+  #ph-banner-{{ section.id }}.ph-banner-section {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+  }
+
+  /* Main Container */
+  #ph-banner-{{ section.id }} .ph-banner-container {
+    max-width: {{ section.settings.max_width }}px;
+    width: 100%;
+    min-height: var(--banner-height-desktop);
+    border-radius: var(--banner-radius);
+    position: relative;
+    overflow: hidden; 
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+  }
+
+  /* 1. Gradient Layer */
+  #ph-banner-{{ section.id }} .ph-banner-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to right, var(--ph-banner-grad-1) 0%, var(--ph-banner-grad-2) 100%);
+  }
+
+  /* 2. Repeating Pattern Layer */
+  #ph-banner-{{ section.id }} .ph-banner-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: var(--ph-banner-pattern-opacity);
+    pointer-events: none;
+    background-repeat: repeat;
+    background-size: var(--ph-banner-pattern-size) var(--ph-banner-pattern-size);
+    {% if section.settings.invert_pattern %}
+      filter: invert(1);
+    {% endif %}
+  }
+
+  /* 3. Lottie Animation Wrapper */
+  #ph-banner-{{ section.id }} .ph-banner-lottie-wrap {
+    position: absolute;
+    bottom: -30px; 
+    left: 8%;
+    z-index: 3;
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+    opacity: 0.9;
+  }
+
+  #ph-banner-{{ section.id }} .ph-lottie-animation {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Interaction Hover Effect for Lottie Element */
+  #ph-banner-{{ section.id }} .ph-banner-container:hover .ph-banner-lottie-wrap {
+    transform: translateY(-25px);
+    opacity: 1;
+  }
+
+  /* 4. Content (Right Aligned) */
+  #ph-banner-{{ section.id }} .ph-banner-content {
+    position: relative;
+    z-index: 4;
+    width: 50%;
+    margin-left: auto; 
+    text-align: center; 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #ph-banner-{{ section.id }} .ph-banner-title {
+    color: var(--ph-banner-title-color);
+    font-size: var(--title-size-desktop);
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+
+  #ph-banner-{{ section.id }} .ph-banner-subtitle {
+    font-family: "Philosopher", sans-serif;
+    color: var(--ph-banner-subtitle-color);
+    font-size: var(--subtitle-size-desktop);
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+
+  /* Entrance Animation Logic */
+  #ph-banner-{{ section.id }} .ph-banner-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #ph-banner-{{ section.id }} .ph-banner-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive Layout Adjustments */
+  @media (max-width: 991px) {
+    #ph-banner-{{ section.id }} .ph-banner-lottie-wrap { max-width: 280px; left: 4%; }
+  }
+
+  @media (max-width: 767px) {
+    #ph-banner-{{ section.id }}.ph-banner-section { padding: 20px 15px; }
+    
+    #ph-banner-{{ section.id }} .ph-banner-container { 
+      aspect-ratio: 16 / 9;
+      min-height: auto; 
+      height: auto;
+      padding: 20px 25px;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #ph-banner-{{ section.id }} .ph-banner-content {
+      width: 100%;
+      margin-left: 0;
+      text-align: center;
+    }
+
+    #ph-banner-{{ section.id }} .ph-banner-lottie-wrap {
+      width: 180px;
+      left: -10px;
+      bottom: -20px;
+      opacity: 0.4; 
+    }
+
+    #ph-banner-{{ section.id }} .ph-banner-container:hover .ph-banner-lottie-wrap {
+      transform: translateY(-10px);
+    }
+    
+    #ph-banner-{{ section.id }} .ph-banner-title { font-size: var(--title-size-mobile); }
+    #ph-banner-{{ section.id }} .ph-banner-subtitle { font-size: var(--subtitle-size-mobile); }
+  }
+</style>
+
+<script>
+  (function() {
+    function initPhBanner_{{ section.id | replace: '-', '_' }}() {
+      const section = document.getElementById('ph-banner-{{ section.id }}');
+      if (!section) return;
+
+      const animatedElements = section.querySelectorAll('.ph-banner-animate');
+      const lottieContainer = document.getElementById('LottiePlayer-{{ section.id }}');
+      const containerWrapper = section.querySelector('.ph-banner-container');
+
+      // 1. Initialize Lottie Player Framework
+      let animation = null;
+      if (lottieContainer && typeof lottie !== 'undefined') {
+        animation = lottie.loadAnimation({
+          container: lottieContainer,
+          renderer: 'svg',
+          loop: false,      
+          autoplay: false, 
+          path: '{{ section.settings.lottie_url | default: "https://assets9.lottiefiles.com/packages/lf20_k7jyykm9.json" }}'
+        });
+      }
+
+      // Prevent Animation Bug inside Shopify Theme Editor viewports
+      if (window.Shopify && Shopify.designMode) {
+        animatedElements.forEach(el => {
+          el.style.transition = 'none';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          el.classList.add('is-visible');
+        });
+        if (animation) animation.play();
+        return;
+      }
+
+      // 2. Intersection Observer Viewport Triggers
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -15% 0px',
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            if (animation) animation.goToAndPlay(0, true);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      animatedElements.forEach(el => observer.observe(el));
+
+      // 3. Mouse Hover Interaction Reset Loop
+      if (containerWrapper && animation) {
+        containerWrapper.addEventListener('mouseenter', function() {
+          animation.goToAndPlay(0, true);
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPhBanner_{{ section.id | replace: '-', '_' }});
+    } else {
+      initPhBanner_{{ section.id | replace: '-', '_' }}();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === '{{ section.id }}') {
+        initPhBanner_{{ section.id | replace: '-', '_' }}();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Animated Lottie Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1600
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 150,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Banner Height (Desktop)",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Banner Height (Mobile)",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Lottie Graphics"
+    },
+    {
+      "type": "text",
+      "id": "lottie_url",
+      "label": "Lottie Asset JSON URL",
+      "default": "https://assets9.lottiefiles.com/packages/lf20_k7jyykm9.json",
+      "info": "Paste the complete Lottie JSON URL endpoint to animate."
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_pattern",
+      "label": "Repeating Pattern Image",
+      "info": "Upload the geometric pattern block here."
+    },
+    {
+      "type": "range",
+      "id": "pattern_size",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Pattern Size",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "pattern_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Pattern Opacity",
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "invert_pattern",
+      "label": "Invert Pattern Color (Black to White)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Gradient Colors"
+    },
+    {
+      "type": "color",
+      "id": "grad_1",
+      "label": "Color 1 (Left)",
+      "default": "#fcf3f1"
+    },
+    {
+      "type": "color",
+      "id": "grad_2",
+      "label": "Color 2 (Right)",
+      "default": "#f48d7d"
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "All Products"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sub-heading",
+      "default": "Shop"
+    },
+    {
+      "type": "header",
+      "content": "Text Styles"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading Color",
+      "default": "#ea5a41"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Sub-heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "min": 14,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub-heading Size (Desktop)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 18,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub-heading Size (Mobile)",
+      "default": 18
+    }
+  ],
+  "presets": [
+    {
+      "name": "Animated Lottie Banner",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,237 @@
+{{ 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js' | script_tag }}
+
+<div class="elementor-section-container standard-theme-{{ section.id }}">
+  <div class="elementor-section-wrapper" 
+       style="{% if section.settings.bg_image != blank %}background-image: url('{{ section.settings.bg_image | img_url: '1800x' }}');{% endif %}">
+    
+    <div class="elementor-background-overlay"></div>
+    
+    <div class="elementor-lottie-absolute-wrap">
+      <div id="LottiePlayer-{{ section.id }}" class="e-lottie__animation"></div>
+    </div>
+
+    <div class="elementor-container">
+      <div class="elementor-column-100">
+        <h1 class="elementor-heading-h1">{{ section.settings.heading_title }}</h1>
+        <h4 class="elementor-heading-h4">{{ section.settings.subtitle_title }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+  .elementor-section-container {
+    width: 100%;
+    max-width: {{ section.settings.section_width }}px; 
+    margin: 40px auto; 
+    padding: 0 20px; 
+    box-sizing: border-box;
+  }
+
+  .elementor-section-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 320px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #ff5e3a;
+    background-size: cover;
+    background-position: center;     
+    background-repeat: no-repeat;    
+    background-attachment: scroll;   
+    padding: 60px 40px;
+    box-sizing: border-box;
+    border-radius: 15px; 
+    cursor: pointer; 
+  }
+
+  .elementor-section-wrapper .elementor-background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 94, 58, 0.45) 0%, rgba(255, 94, 58, 0.85) 50%, rgba(255, 94, 58, 0.98) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .elementor-lottie-absolute-wrap {
+    position: absolute;
+    bottom: -15px;
+    right: 4%;
+    width: 100%;
+    max-width: 420px; 
+    height: auto;
+    z-index: 2; 
+    opacity: 0.85; 
+    pointer-events: none;
+  }
+
+  .elementor-container {
+    position: relative;
+    width: 100%;
+    max-width: 1770px;
+    margin: 0 auto;
+    z-index: 3;
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    animation: fadeInElementor 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation-delay: 200ms;
+  }
+
+  .elementor-column-100 {
+    width: auto;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: revert;
+    text-align: right;
+    gap: 12px;
+    padding-right: 5%;
+  }
+
+  .elementor-heading-h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400; 
+    letter-spacing: 3px;
+    margin: 0;
+    color: {{ section.settings.text_color }};
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .elementor-heading-h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2vw, 1.6rem);
+    font-weight: 400;
+    font-style: italic; 
+    letter-spacing: 0.5px;
+    margin: 0;
+    color: {{ section.settings.text_color }};
+    line-height: 1.2;
+    opacity: 0.95;
+  }
+
+  /* Responsive Fix for Mobile (Landscape handling) */
+  @media screen and (max-width: 767px) {
+    .elementor-section-container {
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    
+    .elementor-section-wrapper {
+      /* Uses aspect-ratio to force landscape proportion regardless of screen width */
+      aspect-ratio: 16 / 9;
+      min-height: auto; 
+      padding: 20px 25px;
+    }
+
+    .elementor-lottie-absolute-wrap {
+      max-width: 200px;
+      bottom: -10px;
+      right: 2%;
+    }
+
+    .elementor-column-100 {
+      max-width: 75%;
+      padding-right: 0;
+      gap: 6px;
+    }
+    
+    .elementor-section-wrapper .elementor-background-overlay {
+      /* Stronger overlay structure on mobile to retain text legibility over graphics */
+      background: linear-gradient(to right, rgba(255, 94, 58, 0.6) 0%, rgba(255, 94, 58, 0.9) 70%, rgba(255, 94, 58, 0.98) 100%);
+    }
+  }
+
+  @keyframes fadeInElementor {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const sectionWrapper = document.querySelector('.standard-theme-{{ section.id }} .elementor-section-wrapper');
+    const lottieContainer = document.getElementById('LottiePlayer-{{ section.id }}');
+    
+    if (lottieContainer && sectionWrapper) {
+      const animation = lottie.loadAnimation({
+        container: lottieContainer,
+        renderer: 'svg',
+        loop: false,      
+        autoplay: false, 
+        path: 'https://assets9.lottiefiles.com/packages/lf20_k7jyykm9.json'
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animation.goToAndPlay(0, true); 
+          } else {
+            animation.goToAndStop(0, true); 
+          }
+        });
+      }, { threshold: 0.15 });
+
+      observer.observe(lottieContainer);
+
+      sectionWrapper.addEventListener('mouseenter', function() {
+        animation.goToAndPlay(0, true); 
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Elementor About Hero",
+  "settings": [
+    {
+      "type": "range",
+      "id": "section_width",
+      "min": 800,
+      "max": 2000,
+      "step": 20,
+      "unit": "px",
+      "label": "Section Maximum Width",
+      "default": 1200
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading_title",
+      "label": "Heading Title",
+      "default": "ABOUT"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_title",
+      "label": "Subtitle Title",
+      "default": "Dedication and creativity is what we aim for."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Elementor About Hero"
+    }
+  ]
+}
+{% endschema %}

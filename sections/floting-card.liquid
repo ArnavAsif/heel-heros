@@ -1,0 +1,688 @@
+<div id="HeelHeroesAbout-{{ section.id }}" class="hh-about-section">
+  <div class="hh-about-container">
+    
+    <!-- Left Content (Text Section) - Animates from Left -->
+    <div class="hh-about-content hh-animate-element from-left">
+      {% if section.settings.kicker != blank %}
+        <span class="hh-about-kicker">{{ section.settings.kicker }}</span>
+      {% endif %}
+      
+      {% if section.settings.heading != blank %}
+        <h2 class="hh-about-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.text != blank %}
+        <div class="hh-about-text">{{ section.settings.text }}</div>
+      {% endif %}
+      
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="hh-btn">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Right Visuals -->
+    <div class="hh-about-visual">
+      <!-- Image - Animates from Right -->
+      <div class="hh-image-wrapper hh-animate-element from-right">
+        {% if section.settings.image %}
+          <img src="{{ section.settings.image | image_url: width: 1200 }}" 
+               alt="{{ section.settings.heading | escape }}" 
+               width="{{ section.settings.image.width }}" 
+               height="{{ section.settings.image.height }}" 
+               loading="lazy">
+        {% else %}
+          {{ 'collection-1' | placeholder_svg_tag: 'hh-placeholder' }}
+        {% endif %}
+      </div>
+
+      <!-- Floating Card - Animates from Left -->
+      {% if section.settings.show_floating_card %}
+        <div class="hh-floating-card hh-animate-element from-left delay-2">
+          <div class="hh-card-icon">
+            {% if section.settings.card_icon_image != blank %}
+              <img src="{{ section.settings.card_icon_image | image_url: width: 100 }}" alt="Icon" loading="lazy" width="50" height="50">
+            {% else %}
+              {{ section.settings.card_icon_svg }}
+            {% endif %}
+          </div>
+          {% if section.settings.card_title != blank %}
+            <h3 class="hh-card-title">{{ section.settings.card_title }}</h3>
+          {% endif %}
+          {% if section.settings.card_text != blank %}
+            <p class="hh-card-text">{{ section.settings.card_text }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  #HeelHeroesAbout-{{ section.id }} {
+    /* Colors */
+    --hh-brand-color: {{ section.settings.brand_color }};
+    --hh-brand-color-hover: {{ section.settings.brand_color | color_darken: 10 }};
+    --hh-heading-color: {{ section.settings.heading_color }};
+    --hh-text-color: {{ section.settings.text_color }};
+    --hh-bg-color: {{ section.settings.section_bg }};
+    --hh-card-bg: {{ section.settings.card_bg }};
+    --hh-transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+
+    /* Desktop Paddings */
+    --hh-pt-desk: {{ section.settings.pt_desk }}px;
+    --hh-pb-desk: {{ section.settings.pb_desk }}px;
+    --hh-px-desk: {{ section.settings.px_desk }}px;
+
+    /* Mobile Paddings */
+    --hh-pt-mob: {{ section.settings.pt_mob }}px;
+    --hh-pb-mob: {{ section.settings.pb_mob }}px;
+    --hh-px-mob: {{ section.settings.px_mob }}px;
+
+    /* Desktop Font Sizes */
+    --fs-kicker-desk: {{ section.settings.fs_kicker_desk }}px;
+    --fs-heading-desk: {{ section.settings.fs_heading_desk }}px;
+    --fs-text-desk: {{ section.settings.fs_text_desk }}px;
+    --fs-card-title-desk: {{ section.settings.fs_card_title_desk }}px;
+    --fs-card-text-desk: {{ section.settings.fs_card_text_desk }}px;
+
+    /* Mobile Font Sizes */
+    --fs-kicker-mob: {{ section.settings.fs_kicker_mob }}px;
+    --fs-heading-mob: {{ section.settings.fs_heading_mob }}px;
+    --fs-text-mob: {{ section.settings.fs_text_mob }}px;
+    --fs-card-title-mob: {{ section.settings.fs_card_title_mob }}px;
+    --fs-card-text-mob: {{ section.settings.fs_card_text_mob }}px;
+  }
+
+  .hh-about-section {
+    width: 100%;
+    background-color: var(--hh-bg-color);
+    padding: var(--hh-pt-desk) var(--hh-px-desk) var(--hh-pb-desk);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .hh-about-container {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  /* Typography & Left Content */
+  .hh-about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hh-about-kicker {
+    color: var(--hh-brand-color);
+    font-size: var(--fs-kicker-desk);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .hh-about-heading {
+    color: var(--hh-heading-color);
+    font-size: var(--fs-heading-desk);
+    line-height: 1.15;
+    margin: 0 0 25px 0;
+    font-weight: 600;
+  }
+
+  .hh-about-text {
+    color: var(--hh-text-color);
+    font-size: var(--fs-text-desk);
+    line-height: 1.7;
+    margin-bottom: 35px;
+  }
+
+  .hh-about-text p {
+    margin: 0 0 15px 0;
+  }
+
+  .hh-about-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Button */
+  .hh-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--hh-brand-color);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all var(--hh-transition);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(243, 102, 51, 0.2);
+  }
+
+  .hh-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .hh-btn:hover {
+    background: var(--hh-brand-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(243, 102, 51, 0.35);
+  }
+
+  .hh-btn:hover::before {
+    left: 100%;
+  }
+
+  /* Right Visuals */
+  .hh-about-visual {
+    position: relative;
+    width: 100%;
+    padding-bottom: 30px;
+  }
+
+  .hh-image-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+    aspect-ratio: 16/9;
+  }
+
+  .hh-image-wrapper img,
+  .hh-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.5s ease;
+  }
+
+  .hh-about-visual:hover .hh-image-wrapper img {
+    transform: scale(1.03);
+  }
+
+  /* Floating Card */
+  .hh-floating-card {
+    position: absolute;
+    bottom: -10px;
+    left: -60px;
+    background: var(--hh-card-bg);
+    padding: 35px 30px;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    width: 350px;
+    text-align: center;
+    z-index: 2;
+    transition: box-shadow var(--hh-transition);
+  }
+
+  .hh-floating-card:hover {
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+  }
+
+  .hh-card-icon {
+    margin-bottom: 15px;
+    color: var(--hh-brand-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hh-card-icon svg {
+    width: 44px;
+    height: 44px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .hh-card-icon img {
+    max-width: 44px;
+    height: auto;
+  }
+
+  .hh-card-title {
+    color: var(--hh-heading-color);
+    font-size: var(--fs-card-title-desk);
+    margin: 0 0 12px 0;
+    font-weight: 600;
+  }
+
+  .hh-card-text {
+    color: var(--hh-text-color);
+    font-size: var(--fs-card-text-desk);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Animations */
+  .hh-animate-element {
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .from-right {
+    transform: translateX(80px);
+  }
+
+  .from-left {
+    transform: translateX(-80px);
+  }
+
+  .hh-animate-element.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .delay-1 { transition-delay: 0.2s; }
+  .delay-2 { transition-delay: 0.4s; }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .hh-about-container { gap: 50px; }
+    .hh-floating-card { left: -30px; width: 280px; padding: 25px; }
+  }
+
+  @media (max-width: 992px) {
+    .hh-about-container { grid-template-columns: 1fr; gap: 60px; }
+    .hh-about-content { align-items: center; text-align: center; max-width: 700px; margin: 0 auto; }
+    
+    .hh-about-visual { max-width: 700px; margin: 0 auto; padding-bottom: 0; }
+    .hh-image-wrapper { aspect-ratio: 16/9; }
+    
+    .hh-floating-card {
+      position: relative;
+      bottom: auto;
+      left: auto;
+      margin: -60px auto 0;
+      width: 90%;
+      max-width: 400px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hh-about-section { 
+      padding: var(--hh-pt-mob) var(--hh-px-mob) var(--hh-pb-mob); 
+    }
+    
+    .hh-about-kicker { font-size: var(--fs-kicker-mob); }
+    .hh-about-heading { font-size: var(--fs-heading-mob); }
+    .hh-about-text { font-size: var(--fs-text-mob); }
+    .hh-card-title { font-size: var(--fs-card-title-mob); }
+    .hh-card-text { font-size: var(--fs-card-text-mob); }
+
+    .hh-image-wrapper { aspect-ratio: 4/3; }
+    
+    .hh-floating-card {
+      margin-top: -40px;
+      padding: 25px 20px;
+      width: 92%;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('HeelHeroesAbout-{{ section.id }}');
+    if (!section) return;
+
+    const animatedElements = section.querySelectorAll('.hh-animate-element');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    animatedElements.forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Image with Floating Card",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 2000,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1800
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Padding Settings (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "pt_desk",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "pb_desk",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "px_desk",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Left/Right Padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Padding Settings (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "pt_mob",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "pb_mob",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "px_mob",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Left/Right Padding",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker (Subtitle)",
+      "default": "WHO WE ARE"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Born From the Salon. Perfected for Everyday Care."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description text",
+      "default": "<p>Heel Heroes was created by lifelong salon professionals who saw the same problem again and again—clients leaving pedicures without a true aftercare solution.</p><p>After years in the industry, we developed a foot cream that delivers professional results at home, helping heels stay smooth, healthy, and comfortable between treatments.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Discover more"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "fs_kicker_desk",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Kicker Font Size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "fs_heading_desk",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "fs_text_desk",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Body Text Font Size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "fs_kicker_mob",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Kicker Font Size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "fs_heading_mob",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "fs_text_mob",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body Text Font Size",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Image Element"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Right Image"
+    },
+    {
+      "type": "header",
+      "content": "Floating Card Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_floating_card",
+      "label": "Show Floating Card",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_icon_image",
+      "label": "Card Icon Image (Overrides SVG)"
+    },
+    {
+      "type": "html",
+      "id": "card_icon_svg",
+      "label": "Card Icon SVG",
+      "default": "<svg viewBox='0 0 24 24'><circle cx='9' cy='12' r='4'/><circle cx='15' cy='12' r='4'/><path d='M7 9l-1-1m9 1l1-1' stroke-linecap='round'/></svg>"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Card Title",
+      "default": "Salon-Approved Foot Care"
+    },
+    {
+      "type": "textarea",
+      "id": "card_text",
+      "label": "Card Description",
+      "default": "Heel Heroes is a premium foot cream developed by salon professionals to repair and hydrate dry, cracked heels. Designed to keep your feet smooth and comfortable between treatments."
+    },
+    {
+      "type": "header",
+      "content": "Floating Card Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "fs_card_title_desk",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size (Desktop)",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "fs_card_text_desk",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Font Size (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "fs_card_title_mob",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "fs_card_text_mob",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Font Size (Mobile)",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand Color (Buttons, Kicker, Icons)",
+      "default": "#F36633"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#8B7E76"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#7A7A7A"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with Floating Card",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

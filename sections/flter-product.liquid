@@ -1,0 +1,513 @@
+<div id="ph-section-{{ section.id }}" class="ph-section-wrapper">
+  <div class="ph-inner-box">
+    
+    {% assign collection = collections[section.settings.collection] %}
+    {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+    <!-- ─── TOP TOOLBAR (Sorting Filter) ─── -->
+    <div class="ph-toolbar ph-animate-up">
+      <div class="ph-sort-wrapper">
+        <select id="ph-sort-{{ section.id }}" class="ph-sort-select">
+          <option value="manual" {% if sort_by == 'manual' %}selected="selected"{% endif %}>Default sorting</option>
+          <option value="best-selling" {% if sort_by == 'best-selling' %}selected="selected"{% endif %}>Best selling</option>
+          <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected="selected"{% endif %}>Alphabetically, A-Z</option>
+          <option value="title-descending" {% if sort_by == 'title-descending' %}selected="selected"{% endif %}>Alphabetically, Z-A</option>
+          <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected="selected"{% endif %}>Price, low to high</option>
+          <option value="price-descending" {% if sort_by == 'price-descending' %}selected="selected"{% endif %}>Price, high to low</option>
+          <option value="created-descending" {% if sort_by == 'created-descending' %}selected="selected"{% endif %}>Date, new to old</option>
+          <option value="created-ascending" {% if sort_by == 'created-ascending' %}selected="selected"{% endif %}>Date, old to new</option>
+        </select>
+        <!-- Custom dropdown arrow -->
+        <svg class="ph-sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+    </div>
+
+    <!-- ─── PRODUCT CARDS GRID ─── -->
+    <div class="ph-products-area ph-animate-up delay-1">
+      <div class="ph-slider-container" id="ph-slider-{{ section.id }}">
+        <div class="ph-products-grid">
+          
+          {% assign product_limit = section.settings.product_limit %}
+          
+          {% if collection != blank and collection.products_count > 0 %}
+            {% for product in collection.products limit: product_limit %}
+              <div class="ph-product-card">
+                <a href="{{ product.url }}" class="ph-product-img-link">
+                  <div class="ph-product-img-wrapper">
+                    {%- comment -%} Sale Badge {%- endcomment -%}
+                    {% if product.compare_at_price > product.price %}
+                      <span class="ph-badge-sale">Sale!</span>
+                    {% endif %}
+                    
+                    <img src="{{ product.featured_image | image_url: width: 600 }}" 
+                         alt="{{ product.title | escape }}"
+                         loading="lazy"
+                         width="{{ product.featured_image.width }}"
+                         height="{{ product.featured_image.height }}">
+                  </div>
+                </a>
+                <div class="ph-product-info">
+                  <h4 class="ph-product-title">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h4>
+                  <div class="ph-product-stars">
+                    {% for i in (1..5) %}
+                      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% endfor %}
+                  </div>
+                  
+                  <div class="ph-product-price">
+                    {% if product.compare_at_price > product.price %}
+                      <span class="ph-price-compare">{{ product.compare_at_price | money }}</span>
+                    {% endif %}
+                    <span class="ph-price-current">{{ product.price | money }}</span>
+                  </div>
+
+                  <form method="post" action="/cart/add" class="ph-add-to-cart-form">
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    <button type="submit" class="ph-add-btn" {% if product.available == false %}disabled{% endif %}>
+                      {% if product.available %}Add to cart{% else %}Sold Out{% endif %}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <!-- Placeholder if no collection is selected -->
+            {% for i in (1..4) %}
+              <div class="ph-product-card">
+                <a href="#" class="ph-product-img-link">
+                  <div class="ph-product-img-wrapper">
+                    <span class="ph-badge-sale">Sale!</span>
+                    {{ 'product-' | append: i | placeholder_svg_tag }}
+                  </div>
+                </a>
+                <div class="ph-product-info">
+                  <h4 class="ph-product-title"><a href="#">HEEL HEROES INTENSIVE REPAIR CREAM</a></h4>
+                  <div class="ph-product-stars">
+                    {% for j in (1..5) %}
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% endfor %}
+                  </div>
+                  <div class="ph-product-price">
+                    <span class="ph-price-compare">$22.99</span>
+                    <span class="ph-price-current">$13.79</span>
+                  </div>
+                  <button class="ph-add-btn" disabled>Add to cart</button>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<style>
+  #ph-section-{{ section.id }} {
+    --ph-accent-color: {{ section.settings.accent_color }};
+    --ph-box-bg: {{ section.settings.box_bg }};
+    --ph-card-bg: transparent; 
+    --ph-transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Full width outer wrapper for spacing */
+  .ph-section-wrapper {
+    width: 100%;
+    padding: 60px 20px;
+    background: transparent; /* Outer background */
+    box-sizing: border-box;
+  }
+
+  /* The actual colored box with border radius (NOT full width) */
+  .ph-inner-box {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    background: var(--ph-box-bg);
+    border-radius: {{ section.settings.box_radius }}px;
+    padding: 40px 50px; /* Spacing inside the box */
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); /* Subtle shadow for depth */
+  }
+
+  /* ─── TOOLBAR & SORTING ─── */
+  .ph-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 40px;
+  }
+
+  .ph-sort-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .ph-sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    padding: 8px 36px 8px 12px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    min-width: 180px;
+    font-family: inherit;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  }
+
+  .ph-sort-select:focus {
+    border-color: var(--ph-accent-color);
+  }
+
+  .ph-sort-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    color: #333;
+  }
+
+  /* ─── PRODUCTS GRID ─── */
+  .ph-products-area {
+    position: relative;
+    width: 100%;
+  }
+
+  .ph-slider-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ph-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 40px 30px;
+    width: 100%;
+  }
+
+  .ph-product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--ph-card-bg);
+  }
+
+  .ph-product-img-link {
+    width: 100%;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .ph-product-img-wrapper {
+    width: 100%;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #f0f0f0; 
+  }
+
+  .ph-product-img-wrapper img,
+  .ph-product-img-wrapper svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .ph-product-img-link:hover .ph-product-img-wrapper img { 
+    transform: scale(1.05); 
+  }
+
+  /* ─── SALE BADGE ─── */
+  .ph-badge-sale {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--ph-accent-color);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+  /* ─── CARD INFO ─── */
+  .ph-product-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ph-product-title {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+  }
+
+  .ph-product-title a {
+    color: var(--ph-accent-color);
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .ph-product-title a:hover { opacity: 0.7; }
+
+  .ph-product-stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 10px;
+  }
+
+  .ph-product-stars svg {
+    width: 14px;
+    height: 14px;
+    color: #333333;
+  }
+
+  .ph-product-price {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ph-price-compare {
+    color: #a0a0a0;
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+
+  .ph-price-current {
+    color: var(--ph-accent-color);
+  }
+
+  .ph-add-to-cart-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ph-add-btn {
+    background: var(--ph-accent-color);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--ph-transition);
+  }
+
+  .ph-add-btn:hover:not([disabled]) {
+    background: #c23e2a; 
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(222, 65, 43, 0.3);
+  }
+
+  .ph-add-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .ph-animate-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .ph-animate-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .delay-1 { transition-delay: 0.1s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 991px) {
+    .ph-products-grid { grid-template-columns: repeat(3, 1fr); gap: 30px 20px; }
+  }
+
+  @media (max-width: 767px) {
+    .ph-section-wrapper { padding: 40px 15px; }
+    .ph-inner-box { padding: 30px 20px; border-radius: 16px; }
+    .ph-toolbar { justify-content: flex-start; margin-bottom: 25px; }
+    .ph-products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ph-products-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('ph-section-{{ section.id }}');
+    if (!section) return;
+
+    // ─── SORTING LOGIC ──────────────────────────────────────────────────────
+    const sortDropdown = section.querySelector('.ph-sort-select');
+    if (sortDropdown) {
+      sortDropdown.addEventListener('change', function(e) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_by', e.target.value);
+        window.location.href = url.href;
+      });
+    }
+
+    // ─── ENTRANCE ANIMATIONS ──────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+    section.querySelectorAll('.ph-animate-up').forEach(el => observer.observe(el));
+
+    // ─── AJAX ADD TO CART & OPEN DRAWER ───────────────────────────────────
+    const addToCartForms = section.querySelectorAll('.ph-add-to-cart-form');
+    
+    addToCartForms.forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault(); 
+        
+        const submitBtn = form.querySelector('.ph-add-btn');
+        if (!submitBtn || submitBtn.disabled) return;
+        
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Adding...'; 
+        submitBtn.disabled = true;
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (response.ok) {
+            const cartDrawerBtn = document.querySelector('.hhN__cart-btn');
+            if (cartDrawerBtn) {
+              cartDrawerBtn.click();
+            } else {
+              window.location.href = '/cart'; 
+            }
+          } else {
+            console.error('Failed to add to cart');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        } finally {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      });
+    });
+
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collection w/ Filter",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 2000,
+      "step": 20,
+      "unit": "px",
+      "label": "Box Maximum Width",
+      "default": 1900
+    },
+    {
+      "type": "range",
+      "id": "box_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Box Border Radius",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "box_bg",
+      "label": "Inner Box Background Color",
+      "default": "#faece8" 
+    },
+    {
+      "type": "header",
+      "content": "Collection Content"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "label": "Maximum Products to Show",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Title, Price, Button, Badge)",
+      "default": "#de412b"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Boxed Collection w/ Filter",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

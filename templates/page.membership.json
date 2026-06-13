@@ -1,0 +1,261 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "Title",
+          "settings": {
+            "text": "<h1>{{ closest.page.title }}</h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "page-content": {
+          "type": "page-content",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "hero_banner_v2_kpztwM": {
+      "type": "hero-banner-v2",
+      "blocks": {
+        "slide_CL7Waz": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/CF4CDEFE-1EB2-4E60-A466-59E84B703A89_ff523e53-dca7-4873-ab1e-9d45d5931602.png",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        },
+        "slide_8TDynr": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/2C66160E-361E-4F77-A6FF-63CD6A438438_e10ccb9b-174d-496b-af02-997dcc977949.jpg",
+            "subtitle": "Welcome to Heel Heroes",
+            "heading": "Luxury Foot Care Your Heels Have Always Deserved",
+            "text": "Heel Heroes Intensive Repair Cream is a professional-grade foot treatment designed to deeply repair dry, cracked heels while delivering long-lasting softness.",
+            "btn_label": "Shop Now",
+            "btn_link": ""
+          }
+        },
+        "feature_card_TrEe8e": {
+          "type": "feature_card",
+          "disabled": true,
+          "settings": {
+            "highlight": true,
+            "custom_icon": "shopify://shop_images/store.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z\"></path></svg>",
+            "title": "Deep Heel Repair",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_pfbzTz": {
+          "type": "feature_card",
+          "disabled": true,
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/ornament.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 16v-4M12 8h.01\"></path></svg>",
+            "title": "Non-Greasy Formula",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_E9xUaq": {
+          "type": "feature_card",
+          "disabled": true,
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/customer-support.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6\"></path></svg>",
+            "title": "Clean Ingredients",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        },
+        "feature_card_BqzVkj": {
+          "type": "feature_card",
+          "disabled": true,
+          "settings": {
+            "highlight": false,
+            "custom_icon": "shopify://shop_images/value.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"></polygon></svg>",
+            "title": "Professional Grade",
+            "description": "Targets dry, cracked, and calloused heels for visible improvement."
+          }
+        }
+      },
+      "block_order": [
+        "slide_CL7Waz",
+        "slide_8TDynr",
+        "feature_card_TrEe8e",
+        "feature_card_pfbzTz",
+        "feature_card_E9xUaq",
+        "feature_card_BqzVkj"
+      ],
+      "name": "HH – Hero Section v2",
+      "settings": {
+        "max_width": 1900,
+        "section_bg": "#ffffff",
+        "brand_color": "#f36633",
+        "dark_card_color": "#54463f",
+        "light_card_color": "#faf8f5",
+        "autoplay_speed": 6,
+        "overlay_opacity": 40
+      }
+    },
+    "membership_WGAgUq": {
+      "type": "membership",
+      "name": "Custom Membership Plan",
+      "settings": {
+        "container_width": "1570px",
+        "membership_product": "premium-membership-plan",
+        "sub_title": "WHY WE BEST",
+        "title": "Heel Heroes Premium Membership",
+        "description": "<p>Unlock exclusive benefits, discounts, and professional-grade foot care with our Premium Membership.</p>",
+        "feat_1": "Exclusive Price: Get Heel Heroes Intensive Repair Cream for $18.00 (Regular Price: $22.99) every 4 months.",
+        "feat_2": "Priority Customer Support: Receive fast responses and priority assistance for any inquiries.",
+        "feat_3": "Early Access: Get exclusive access to new products and promotions.",
+        "feat_4": "Special Discounts & Offers: Enjoy members-only promotions on other products.",
+        "btn_label": "Join Premium Now",
+        "btn_url": "",
+        "card_title": "Premium Membership Plan",
+        "card_sub": "Unlock exclusive benefits, discounts, and professional-grade foot care with our Premium Membership.",
+        "card_point_1": "Exclusive Member Discount: Save $4 on every purchase.",
+        "card_point_2": "Priority Access: Enjoy exclusive early access to product launches.",
+        "card_point_3": "4-Month Auto Delivery: Your foot cream will be shipped automatically every 4 months.",
+        "card_btn_label": "Get Premium",
+        "bg_color": "#fdf1eb",
+        "accent_color": "#f25c27",
+        "title_color": "#786b68",
+        "text_color": "#2c2c2c",
+        "btn_bg_color": "#f25c27",
+        "btn_text_color": "#ffffff",
+        "padding_top_dt": 60,
+        "padding_bottom_dt": 60,
+        "padding_top_mb": 40,
+        "padding_bottom_mb": 40
+      }
+    },
+    "why_choose_HixxKg": {
+      "type": "why-choose",
+      "blocks": {
+        "feature_Fd793K": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/call.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Need assistance? We’re here to help!",
+            "description": "If you have any questions or need support, feel free to reach out. We’re just a click away and ready to assist you with any product or order inquiries.",
+            "card_btn_label": "Contact now",
+            "card_btn_link": "#"
+          }
+        },
+        "feature_fH7P3b": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/email.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Have an issue or inquiry?",
+            "description": "For any issues or more detailed inquiries, please fill out the form below and our support team will get back to you as soon as possible.",
+            "card_btn_label": "Contact now",
+            "card_btn_link": "#"
+          }
+        },
+        "feature_qD8jTq": {
+          "type": "feature",
+          "settings": {
+            "icon_img": "shopify://shop_images/open-book.png",
+            "icon_svg": "<svg viewbox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 3h12l4 6-10 12L2 9l4-6z\"></path><path d=\"M12 21V9\"></path><path d=\"M2 9h20\"></path><path d=\"M6 3l6 6 6-6\"></path></svg>",
+            "title": "Stay Updated with Heel Heroes",
+            "description": "We’re working on new updates and features for our loyal customers. Stay tuned for future announcements and exciting additions to Heel Heroes.",
+            "card_btn_label": "Read Now",
+            "card_btn_link": "#"
+          }
+        }
+      },
+      "block_order": [
+        "feature_Fd793K",
+        "feature_fH7P3b",
+        "feature_qD8jTq"
+      ],
+      "custom_css": [
+        ".hh-wc-section {padding: 0 20px 20px;}"
+      ],
+      "name": "Why Choose Heel Heroes",
+      "settings": {
+        "padding_top_desktop": 100,
+        "padding_bottom_desktop": 120,
+        "heading_size_desktop": 48,
+        "desc_size_desktop": 18,
+        "card_title_size_desktop": 24,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 60,
+        "heading_size_mobile": 32,
+        "desc_size_mobile": 16,
+        "card_title_size_mobile": 20,
+        "max_width": 1900,
+        "section_bg": "#fdf4ee",
+        "card_bg": "#fafafa",
+        "bg_pattern": "shopify://shop_images/bg_img.webp",
+        "pattern_opacity": 95,
+        "kicker": "",
+        "heading": "Wholesale Program for Salon Professionals",
+        "text": "<p>Offer your clients a professional aftercare solution they’ll trust. Heel Heroes is available through our wholesale program for licensed salon owners.</p>",
+        "btn_label": "Apply for Wholesale Access",
+        "btn_link": "#",
+        "brand_color": "#fe5923",
+        "heading_color": "#8b7e76",
+        "text_color": "#7a7a7a"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "hero_banner_v2_kpztwM",
+    "membership_WGAgUq",
+    "why_choose_HixxKg"
+  ]
+}
